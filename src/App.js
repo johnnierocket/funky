@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { initializeAndLogin } from './actions/FirebaseActions';
 
 const Root = styled.div`
 	color: #cc0000;
@@ -13,8 +12,6 @@ const Root = styled.div`
 `;
 
 class App extends Component {
-	componentWillMount = initializeAndLogin();
-
 	render() {
 		return <Root>HELLO FUNKY</Root>;
 	}
