@@ -7,9 +7,9 @@ const exercises = [
       const greet = greeting => name => {
         console.log(greeting + name);
       }
-      
+
       const hello = greet(__INPUT__)
-      
+
       hello("Omar"); // "Hello Omar"
     `,
 		givens: {
@@ -43,11 +43,11 @@ const exercises = [
 		display: `
       const getField = __INPUT__;
 
-      [{ 
-        id: 1, 
+      [{
+        id: 1,
         name: 'Johnnie'
-      }, { 
-        id: 2, 
+      }, {
+        id: 2,
         name: 'Omar'
       }, {
         id: 3,
