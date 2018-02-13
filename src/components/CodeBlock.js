@@ -5,13 +5,16 @@ import { createElement } from 'react-syntax-highlighter';
 
 const customRenderer = ({ rows, stylesheet, useInlineStyles }) => {
 	return rows.map((row, idx) => {
-		console.log(row, idx);
-		// if __INPUT__, return an <input> tag, else:
-		return createElement({
-			node: rows[idx],
-			stylesheet,
-			useInlineStyles,
-			key: idx,
+		return row.children.map((item, idx) => {
+			if (item.children && item.children[0].value === '__INPUT__') {
+				return <input key={idx} type="text" value="blah" />;
+			}
+			return createElement({
+				node: item,
+				stylesheet,
+				useInlineStyles,
+				key: idx,
+			});
 		});
 	});
 };
