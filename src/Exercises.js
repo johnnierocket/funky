@@ -1,15 +1,15 @@
 const exercises = [
 	{
+		id: 1,
 		title: '',
 		points: 10,
 		display: `
-      Given
       const greet = greeting => name => {
         console.log(greeting + name);
       }
-      
+
       const hello = greet(__INPUT__)
-      
+
       hello("Omar"); // "Hello Omar"
     `,
 		givens: {
