@@ -3,15 +3,13 @@ const exercises = [
 		id: 1,
 		title: 'Using a function returned from another function',
 		points: 10,
-		display: `
-      const greet = greeting => name => {
-        console.log(greeting + name);
-      }
+		display: `const greet = greeting => name => {
+	console.log(greeting + name);
+}
 
-      const hello = greet(__INPUT__)
+const hello = greet(__INPUT__)
 
-      hello("Omar"); // "Hello Omar"
-    `,
+hello("Omar"); // "Hello Omar"`,
 		givens: {
 			greet: greeting => name => {
 				return greeting + name;
@@ -24,13 +22,10 @@ const exercises = [
 		id: 2,
 		title: 'Calling a function returned from another function',
 		points: 20,
-		display: `
-      const add = x => y => x + y;
+		display: `const add = x => y => x + y;
+const add1 = __INPUT__;
 
-      const add1 = __INPUT__;
-
-      [1, 2, 3].map(add1) // [2, 3, 4]
-    `,
+[1, 2, 3].map(add1) // [2, 3, 4]`,
 		givens: {
 			add: x => y => x + y,
 		},

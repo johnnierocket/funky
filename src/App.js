@@ -21,12 +21,12 @@ const Root = styled.div`
 class App extends Component {
 	render() {
 		const { questionId, actions } = this.props;
-		const exercise1 = exercises.find(ex => ex.id === questionId);
+		const exercise = exercises.find(ex => ex.id === questionId);
+		const instructions = `#${questionId} ${exercise.title}`;
 		return (
 			<Root>
-				<h1>You are on Question {questionId}</h1>
-				<Instructions text={exercise1.title} />
-				<CodeBlock code={exercise1.display} />
+				<Instructions text={instructions} />
+				<CodeBlock code={exercise.display} />
 				<button onClick={actions.previousQuestion}>Prev</button>
 				<button onClick={actions.nextQuestion}>Next</button>
 			</Root>
