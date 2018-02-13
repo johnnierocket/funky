@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 
 const Root = styled.div`
 	color: #cc0000;
-	font-size: 3rem;
 	font-family: Lato, sans-serif;
 	position: absolute;
 	top: 50%;
@@ -22,11 +21,12 @@ class App extends Component {
 	render() {
 		const { questionId, actions } = this.props;
 		const question = exercises.find(ex => ex.id === questionId);
-		// debugger;
 		return (
 			<Root>
 				<h1>You are on Question {questionId}</h1>
 				<div>{question.display}</div>
+				<button onClick={actions.previousQuestion}>Prev</button>
+				<button onClick={actions.nextQuestion}>Next</button>
 			</Root>
 		);
 	}
