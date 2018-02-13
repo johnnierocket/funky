@@ -1,23 +1,22 @@
-import React, { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React, { Component } from 'react';
+import styled from 'styled-components';
 import { initializeAndLogin } from './actions/FirebaseActions';
+
+const Root = styled.div`
+	color: #cc0000;
+	font-size: 3rem;
+	font-family: Lato, sans-serif;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+`;
 
 class App extends Component {
 	componentWillMount = initializeAndLogin();
 
 	render() {
-		return (
-			<div className="App">
-				<header className="App-header">
-					<img src={logo} className="App-logo" alt="logo" />
-					<h1 className="App-title">Welcome to React</h1>
-				</header>
-				<p className="App-intro">
-					To get started, edit <code>src/App.js</code> and save to reload.
-				</p>
-			</div>
-		);
+		return <Root>HELLO FUNKY</Root>;
 	}
 }
 
