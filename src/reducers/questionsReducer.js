@@ -24,7 +24,6 @@ export default function questionsReducer(state = initialState, action) {
 			};
 		case NEXT_QUESTION:
 			// Next question is fired if a user goes back to a previously answered question, then clicks Next
-			debugger;
 			return {
 				...state,
 				questionId: state.questionId + 1,
