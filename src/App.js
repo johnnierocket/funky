@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import { initializeAndLogin } from './actions/FirebaseActions';
 
 class App extends Component {
+	componentWillMount = initializeAndLogin();
+
 	render() {
 		return (
 			<div className="App">
