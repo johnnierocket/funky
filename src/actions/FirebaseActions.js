@@ -1,7 +1,5 @@
 import * as firebase from 'firebase';
 
-window.Firebase = firebase;
-
 var config = {
 	apiKey: 'AIzaSyBZuI63DFvccYpQtrfr2IX6gbAt-KlVd_A',
 	authDomain: 'funky-d49ba.firebaseapp.com',
@@ -20,7 +18,6 @@ export const login = () => async dispatch => {
 	return dispatch({ type: 'LOGIN', payload: { credential, user } });
 };
 export const initializeAndLogin = () => () => {
-	console.log('initializeAndLogin');
 	initializeFirebase();
-	login()(action => console.log(action));
+	login()(action => console.log(action))
 };
