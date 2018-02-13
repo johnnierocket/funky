@@ -14,7 +14,7 @@ const initialState = {
 };
 
 export default function questionsReducer(state = initialState, action) {
-	switch (action) {
+	switch (action.type) {
 		case SUBMIT_CORRECT_RESPONSE:
 			return {
 				...state,
@@ -24,15 +24,16 @@ export default function questionsReducer(state = initialState, action) {
 			};
 		case NEXT_QUESTION:
 			// Next question is fired if a user goes back to a previously answered question, then clicks Next
+			debugger;
 			return {
 				...state,
-				questionId: state.questionId++,
+				questionId: state.questionId + 1,
 			};
 		case PREVIOUS_QUESTION:
 			// remember to disable previous button on Question 0
 			return {
 				...state,
-				questionId: state.questionId--,
+				questionId: state.questionId - 1,
 			};
 		case USE_HINT:
 			return {
