@@ -83,7 +83,6 @@ class App extends Component {
 				this.setState({
 					error: niceFormatJestError(error),
 				});
-				actions.submitIncorrectResponse();
 			}
 		}
 	};
