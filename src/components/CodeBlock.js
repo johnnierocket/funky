@@ -30,16 +30,6 @@ export default class CustomSyntaxHighlighter extends Component {
 		input: string,
 	};
 
-	state = {
-		input: '',
-	};
-
-	componentDidMount = () => this.setState({ input: this.props.input });
-
-	handleInput = e => {
-		this.props.onChange(e.target.value);
-	};
-
 	customRenderer = ({ rows, stylesheet, useInlineStyles }) => {
 		return rows.map((row, idx) => {
 			return row.children.map((item, idx) => {
@@ -49,7 +39,7 @@ export default class CustomSyntaxHighlighter extends Component {
 							autoFocus
 							key={idx}
 							type="text"
-							onChange={this.handleInput}
+							onChange={this.props.onChange}
 							value={this.props.input}
 						/>
 					);

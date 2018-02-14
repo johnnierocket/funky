@@ -31,6 +31,7 @@ class App extends Component {
 	state = {
 		correctSubmissiion: false,
 		incorrectSubmission: false,
+		input: '',
 	};
 
 	componentWillReceiveProps(nextProps) {
@@ -42,8 +43,8 @@ class App extends Component {
 		}
 	}
 
-	onInputChange = input => {
-		this.setState({ input });
+	onInputChange = e => {
+		this.setState({ input: e.target.value });
 	};
 
 	validateResponse = () => {
@@ -57,6 +58,7 @@ class App extends Component {
 				correctSubmission: true,
 				incorrectSubmission: false,
 				error: '',
+				input: '',
 			});
 			actions.submitCorrectResponse(points);
 		} catch (error) {
