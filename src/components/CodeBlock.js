@@ -43,7 +43,7 @@ export default class CustomSyntaxHighlighter extends Component {
 	customRenderer = ({ rows, stylesheet, useInlineStyles }) => {
 		return rows.map((row, idx) => {
 			return row.children.map((item, idx) => {
-				if (item.children && item.children[0].value === '__INPUT__') {
+				if (item.children && item.children[0].value.trim() === '__INPUT__') {
 					return (
 						<StyledAutosizeInput
 							autoFocus
