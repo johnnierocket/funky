@@ -56,6 +56,7 @@ class App extends Component {
 			assert({ ...givens, input });
 			this.setState({
 				correctSubmission: true,
+				incorrectSubmission: false,
 				error: '',
 				input: '',
 			});
