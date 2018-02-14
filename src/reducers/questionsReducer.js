@@ -7,7 +7,7 @@ import {
 
 const initialState = {
 	questionId: 1,
-	questionsCompleted: 0,
+	questionsCompleted: [],
 	failedAttemptsCounter: 0,
 	hintsUsedCounter: 0,
 	totalPoints: 0,
@@ -18,8 +18,7 @@ export default function questionsReducer(state = initialState, action) {
 		case SUBMIT_CORRECT_RESPONSE:
 			return {
 				...state,
-				questionId: state.questionId++,
-				questionsCompleted: state.questionsCompleted++,
+				questionsCompleted: [...state.questionsCompleted, state.questionId],
 				totalPoints: state.totalPoints + action.payload.pointValue,
 			};
 		case NEXT_QUESTION:
