@@ -6,6 +6,14 @@ import join from 'lodash/fp/join';
 import expect from 'expect';
 import toUpper from 'lodash/fp/toUpper';
 
+const greet = greeting => name => {
+	return greeting + ' ' + name;
+};
+const add = x => y => x + y;
+const div = inner => `<div>${inner}</div>`;
+const ul = inner => `<ul>${inner}</ul>`;
+const li = inner => `<li>${inner}</li>`;
+
 const exercises = {
 	'1': {
 		id: '1',
@@ -16,11 +24,7 @@ const exercises = {
 const hello = greet(__INPUT__)
 
 hello("Omar"); // "Hello Omar"`,
-		givens: {
-			greet: greeting => name => {
-				return greeting + ' ' + name;
-			},
-		},
+		givens: { greet },
 		assert: ({ greet, input }) => expect(greet(eval(input))('Omar')).toEqual('Hello Omar'),
 	},
 	'2': {
@@ -31,9 +35,7 @@ hello("Omar"); // "Hello Omar"`,
 const add1 = __INPUT__;
 
 [1, 2, 3].map(add1) // [2, 3, 4]`,
-		givens: {
-			add: x => y => x + y,
-		},
+		givens: { add },
 		assert: ({ add, input }) => expect([1, 2, 3].map(eval(input))).toEqual([2, 3, 4]),
 	},
 	'3': {
@@ -80,9 +82,7 @@ const add1 = __INPUT__;
 const h1 = __INPUT__
 
 div(h1('Big Text!')); // <div><h1>Big Text!</h1></div>`,
-		givens: {
-			div: inner => `<div>${inner}</div>`,
-		},
+		givens: { div },
 		assert: ({ div, input }) => expect(div(eval(input)('Big Text!'))).toEqual('<div><h1>Big Text!</h1></div>'),
 	},
 	'5': {
@@ -103,12 +103,12 @@ arrayToUpper(['item1','item2','item3']); // ['ITEM1', 'ITEM2', 'ITEM3']`,
 			expect(map(eval(input))(['item1', 'item2', 'item3'])).toEqual(['ITEM1', 'ITEM2', 'ITEM3']),
 	},
 	'6': {
-		id: '5',
+		id: '6',
 		title: 'Mapping function returns into other functions manually',
 		points: 30,
 		givens: {
-			ul: inner => `<ul>${inner}</ul>`,
-			li: inner => `<li>${inner}</li>`,
+			ul,
+			li,
 		},
 		display: `import map from 'lodash/fp/map';
 import join from 'lodash/fp/join';
@@ -126,12 +126,39 @@ buildUl(['item1', 'item2', 'item3']) // <ul><li>item1</li><li>item2</li><li>item
 			),
 	},
 	'7': {
-		id: '6',
+		id: '7',
+		title: 'Introducing compose to put our items into <li>',
+		points: 20,
+		givens: {
+			map,
+			compose,
+			join,
+			li,
+		},
+		display: `import map from 'lodash/fp/map';
+import compose from 'lodash/fp/compose';
+import join from 'lodash/fp/join';
+
+const li = inner => \`<li>\${inner}</li>\`;
+
+// compose will pass the args into the right-most function first, 
+// execute it, and then pass the return value into the next function 
+// and so on moving right to left
+const buildList = compose(join(''), __INPUT__);
+		
+buildList(['item1','item2','item3']); // '<li>item1</li><li>item2</li><li>item3</li>'`,
+		assert: ({ compose, li, map, input }) =>
+			expect(compose(join(''), eval(input))(['item1', 'item2', 'item3'])).toEqual(
+				'<li>item1</li><li>item2</li><li>item3</li>'
+			),
+	},
+	'8': {
+		id: '8',
 		title: 'Mapping function returns through compose (right to left)',
 		points: 40,
 		givens: {
-			ul: inner => `<ul>${inner}</ul>`,
-			li: inner => `<li>${inner}</li>`,
+			ul,
+			li,
 			compose,
 			join,
 			map,
