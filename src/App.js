@@ -25,6 +25,9 @@ import lose2 from './sounds/lose2.mp3';
 import lose5 from './sounds/lose5.mp3';
 import lose6 from './sounds/lose6.mp3';
 
+import track1 from './sounds/track1-downtown.mp3';
+import track2 from './sounds/track2-retrosoul.mp3';
+
 const Root = styled.div`
 	width: 50%;
 	min-width: 800px;
@@ -115,10 +118,14 @@ class App extends Component {
 		const instructions = `#${questionId} ${exercise.title}`;
 		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
 		const progressPercent = questionsCompleted.length / Object.keys(exercises).length * 100;
+		const vinylTrackArray = [track1, track2];
 		const winSoundsArray = [win1, win2, win3];
 		const loseSoundsArray = [lose2, lose5, lose6];
+		const randTrack = vinylTrackArray[Math.floor(Math.random() * vinylTrackArray.length)];
 		const randWin = winSoundsArray[Math.floor(Math.random() * winSoundsArray.length)];
 		const randLose = loseSoundsArray[Math.floor(Math.random() * loseSoundsArray.length)];
+		console.log('points', exercise.points);
+
 		return (
 			<Root>
 				{loggedIn ? (
@@ -136,7 +143,8 @@ class App extends Component {
 					onKeyPress={this.handleKeyPress}
 					showLineNumbers={true}
 				/>
-				<SpinningVinyl labelColor="green" textColor="yellow" />
+				<SpinningVinyl isSpinning={!error} points={exercise.points} />
+				{!error && <PlaySound src={randTrack} />}
 				{error && (
 					<div>
 						<h1>Hmm... not quite.</h1>

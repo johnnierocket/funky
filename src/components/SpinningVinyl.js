@@ -9,7 +9,7 @@ const VinylRecord = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	animation: spin 2s infinite linear;
+	animation: ${props => props.isSpinning} 2s infinite linear;
 
 	@keyframes spin {
 		0% {
@@ -26,10 +26,44 @@ const RecordLabel = styled.div`
 	position: relative;
 	height: 100px;
 	width: 100px;
-	background-color: ${props => props.labelColor};
+	background: linear-gradient(${props => props.labelColor}, blue);
 	border-radius: 50%;
 	color: ${props => props.textColor};
 	font-variant: bold;
+`;
+
+const CircleArcs1 = styled.div`
+	border: 2px solid #fff;
+	display: inline-block;
+	min-width: 11em;
+	padding: 0.5em;
+	border-radius: 100%;
+	border-left-color: transparent;
+	border-right-color: transparent;
+	margin: -3.85rem -3rem;
+	opacity: 1;
+`;
+
+const CircleArcs2 = styled.div`
+	border: 2px solid #fff;
+	display: inline-block;
+	min-width: 6.5em;
+	min-height: 9em;
+	padding: 0.5em;
+	border-radius: 40%;
+	border-left-color: transparent;
+	border-right-color: transparent;
+	margin: -2.5rem -7rem;
+	opacity: 0.75;
+`;
+
+const CircleArcs3 = styled.div`
+	border: 2px solid #fff;
+	display: inline-block;
+	min-width: 6em;
+	min-height: 6em;
+	border-radius: 100%;
+	opacity: 1;
 `;
 
 const RecordLabelChar = styled.div`
@@ -72,17 +106,47 @@ const RecordHole = styled.div`
 	background-color: black;
 `;
 
-export default ({ labelColor, textColor }) => {
-	return (
-		<VinylRecord>
-			<RecordLabel labelColor={labelColor} textColor={textColor}>
-				<LabelChar1>f</LabelChar1>
-				<LabelChar2>u</LabelChar2>
-				<LabelChar3>n</LabelChar3>
-				<LabelChar4>k</LabelChar4>
-				<LabelChar5>y</LabelChar5>
-				<RecordHole />
-			</RecordLabel>
-		</VinylRecord>
-	);
-};
+export default class SpinningVinyl extends React.Component {
+	constructor(props) {
+		super(props);
+		this.backgroundColors = ['#6cc93d', '#6abcfb', '#f7f7f7', '#e84733', '#000'];
+		this.textColors = ['#ffd33f', '#fff', '#000', '#ffd33f', '#6abcfb', '#e84733'];
+
+		this.state = {
+			backgroundColor: '#6cc93d',
+			textColor: '#ffd33f',
+		};
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (this.props.points !== nextProps.points) {
+			this.difficultyLevel = Math.floor(nextProps.points / 10); // 10-50 point values, 1-5 difficulty
+			debugger;
+			this.setState({
+				backgroundColor: this.backgroundColors[this.difficultyLevel],
+				textColor: this.textColors[this.difficultyLevel],
+			});
+		}
+	}
+	render() {
+		const { isSpinning } = this.props;
+		const { backgroundColor, textColor } = this.state;
+		const startSpin = isSpinning ? 'spin' : 'unset';
+
+		return (
+			<VinylRecord isSpinning={startSpin}>
+				<RecordLabel labelColor={backgroundColor} textColor={textColor}>
+					<CircleArcs1 />
+					<CircleArcs2 />
+					<CircleArcs3 />
+					<LabelChar1>f</LabelChar1>
+					<LabelChar2>u</LabelChar2>
+					<LabelChar3>n</LabelChar3>
+					<LabelChar4>k</LabelChar4>
+					<LabelChar5>y</LabelChar5>
+					<RecordHole />
+				</RecordLabel>
+			</VinylRecord>
+		);
+	}
+}
