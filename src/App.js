@@ -23,12 +23,14 @@ const Root = styled.div`
 class App extends Component {
 	state = {
 		correctSubmissiion: false,
+		incorrectSubmission: false
 	};
 
 	componentWillReceiveProps(nextProps) {
 		if (this.props.questionId !== nextProps.questionId) {
 			this.setState({
 				correctSubmission: false,
+				incorrectSubmission: false
 			});
 		}
 	}
@@ -36,24 +38,28 @@ class App extends Component {
 	validateResponse = () => {
 		const { questionId, actions } = this.props;
 		const exercise = exercises[questionId];
-		if (exercise.assert) {
+		// This if condition is wrong. Just a placeholder
+		if (questionId !== Object.keys(exercises).length) {
 			this.setState({
 				correctSubmission: true,
 			});
-		}
 		actions.submitCorrectResponse(exercise.points);
-		// debugger;
+		} else {
+			this.setState({
+				incorrectSubmission: true,
+			});
+		actions.submitIncorrectResponse();
+		}
 		return exercise.assert;
 	};
 
 	render() {
 		const { questionId, questionsCompleted, totalPoints, actions } = this.props;
-		const { correctSubmission } = this.state;
+		const { correctSubmission, incorrectSubmission } = this.state;
 		const exercise = exercises[questionId];
 		const instructions = `#${questionId} ${exercise.title}`;
 		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
 		const progressPercent = (questionsCompleted.length / Object.keys(exercises).length) * 100;
-		// debugger;
 		return (
 			<Root>
 				<ProgressBar progress={progressPercent} />
@@ -64,7 +70,7 @@ class App extends Component {
 				<button onClick={actions.previousQuestion} disabled={!(questionId - 1)}>
 					Prev
 				</button>
-				<button onClick={this.validateResponse}>Attempt Answer</button>
+				<button onClick={this.validateResponse} disabled={questionPreviouslyAnswered}>Attempt Answer</button>
 				<button
 					onClick={actions.nextQuestion}
 					disabled={!questionPreviouslyAnswered || questionId === exercises.length}
@@ -72,6 +78,7 @@ class App extends Component {
 					Next
 				</button>
 				{correctSubmission && <h1>Correct!</h1>}
+				{incorrectSubmission && <h1>Wrong, sir. You lose points.</h1>}
 			</Root>
 		);
 	}

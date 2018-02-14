@@ -1,5 +1,6 @@
 import {
 	SUBMIT_CORRECT_RESPONSE,
+	SUBMIT_INCORRECT_RESPONSE,
 	NEXT_QUESTION,
 	PREVIOUS_QUESTION,
 	USE_HINT,
@@ -21,6 +22,11 @@ export default function questionsReducer(state = initialState, action) {
 				questionsCompleted: [...state.questionsCompleted, state.questionId],
 				totalPoints: state.totalPoints + action.payload.pointValue,
 			};
+		case SUBMIT_INCORRECT_RESPONSE:
+			return {
+				...state,
+				totalPoints: Math.max(0, state.totalPoints - 5),
+		}
 		case NEXT_QUESTION:
 			// Next question is fired if a user goes back to a previously answered question, then clicks Next
 			return {
@@ -37,7 +43,7 @@ export default function questionsReducer(state = initialState, action) {
 			return {
 				...state,
 				hintsUsedCounter: state.hintsUsedCounter++,
-				totalPoints: state.totalPoints - 10,
+				totalPoints: Math.max(0, state.totalPoints - 5),
 			};
 		default:
 			return state;
