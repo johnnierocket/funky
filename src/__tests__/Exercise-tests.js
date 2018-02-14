@@ -2,7 +2,7 @@ import exercises from '../Exercises';
 
 it('1 Using a function returned from another function', () => {
 	const exercise = exercises['1'];
-	exercise.assert({ ...exercise.givens, input: '"Hello "' });
+	exercise.assert({ ...exercise.givens, input: '"Hello"' });
 });
 
 it('2 Calling a function returned from another function', () => {
