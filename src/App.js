@@ -44,6 +44,7 @@ class App extends Component {
 			this.setState({
 				correctSubmission: false,
 				incorrectSubmission: false,
+				input: nextProps.questionsInputs[nextProps.questionId] || '',
 			});
 		}
 	}
@@ -85,7 +86,7 @@ class App extends Component {
 		this.setState({
 			input: '',
 		});
-		this.props.actions.nextQuestion();
+		this.props.actions.nextQuestion(this.state.input);
 	};
 
 	render() {
@@ -133,6 +134,7 @@ function mapStateToProps(state) {
 	return {
 		questionId: state.questionsReducer.questionId,
 		questionsCompleted: state.questionsReducer.questionsCompleted,
+		questionsInputs: state.questionsReducer.questionsInputs,
 		totalPoints: state.questionsReducer.totalPoints,
 	};
 }
