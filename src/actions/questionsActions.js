@@ -1,9 +1,4 @@
-import {
-	SUBMIT_CORRECT_RESPONSE,
-	NEXT_QUESTION,
-	PREVIOUS_QUESTION,
-	USE_HINT,
-} from '../constants/actionTypes';
+import { SUBMIT_CORRECT_RESPONSE, NEXT_QUESTION, PREVIOUS_QUESTION, USE_HINT } from '../constants/actionTypes';
 
 export const submitCorrectResponse = pointValue => ({
 	type: SUBMIT_CORRECT_RESPONSE,

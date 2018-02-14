@@ -21,7 +21,7 @@ const Root = styled.div`
 class App extends Component {
 	render() {
 		const { questionId, actions } = this.props;
-		const exercise = exercises.find(ex => ex.id === questionId);
+		const exercise = exercises[questionId];
 		const instructions = `#${questionId} ${exercise.title}`;
 		return (
 			<Root>
