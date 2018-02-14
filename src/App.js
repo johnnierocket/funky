@@ -25,7 +25,7 @@ const Root = styled.div`
 
 const StyledLinearProgress = styled(LinearProgress)`
 	margin-bottom: 40px !important;
-	background-color: #fafafa !important;
+	background-color: #ffffff !important;
 `;
 
 const style = {
@@ -97,7 +97,7 @@ class App extends Component {
 		const progressPercent = questionsCompleted.length / Object.keys(exercises).length * 100;
 		return (
 			<Root>
-				<StyledLinearProgress mode="determinate" value={progressPercent} />
+				<StyledLinearProgress mode="determinate" value={progressPercent} color="#ff4081" />
 				<PointCounter points={totalPoints} />
 				<Instructions text={instructions} />
 				<CodeBlock code={exercise.display} input={input} onChange={this.onInputChange} />
@@ -110,7 +110,8 @@ class App extends Component {
 				<RaisedButton
 					label="Attempt Answer"
 					style={style}
-					primary={true}
+					backgroundColor="#ffa500"
+					labelColor="#ffffff"
 					onClick={this.validateResponse}
 					disabled={questionPreviouslyAnswered}
 				/>
