@@ -35,7 +35,7 @@ class App extends Component {
 
 	validateResponse = () => {
 		const { questionId, actions } = this.props;
-		const exercise = exercises.find(ex => ex.id === questionId);
+		const exercise = exercises[questionId];
 		if (exercise.assert) {
 			this.setState({
 				correctSubmission: true,
@@ -49,7 +49,7 @@ class App extends Component {
 	render() {
 		const { questionId, questionsCompleted, totalPoints, actions } = this.props;
 		const { correctSubmission } = this.state;
-		const exercise = exercises.find(ex => ex.id === questionId);
+		const exercise = exercises[questionId];
 		const instructions = `#${questionId} ${exercise.title}`;
 		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
 		return (
@@ -59,18 +59,13 @@ class App extends Component {
 				<h1>You are on Question {questionId}</h1>
 				<Instructions text={instructions} />
 				<CodeBlock code={exercise.display} />
-				<button
-					onClick={actions.previousQuestion}
-					disabled={!(questionId - 1)}
-				>
+				<button onClick={actions.previousQuestion} disabled={!(questionId - 1)}>
 					Prev
 				</button>
 				<button onClick={this.validateResponse}>Attempt Answer</button>
 				<button
 					onClick={actions.nextQuestion}
-					disabled={
-						!questionPreviouslyAnswered || questionId === exercises.length
-					}
+					disabled={!questionPreviouslyAnswered || questionId === exercises.length}
 				>
 					Next
 				</button>
@@ -84,7 +79,7 @@ function mapStateToProps(state) {
 	return {
 		questionId: state.questionsReducer.questionId,
 		questionsCompleted: state.questionsReducer.questionsCompleted,
-		totalPoints: state.questionsReducer.totalPoints
+		totalPoints: state.questionsReducer.totalPoints,
 	};
 }
 
