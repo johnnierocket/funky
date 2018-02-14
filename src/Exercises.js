@@ -1,3 +1,5 @@
+/* eslint-disable no-eval */
+
 import compose from 'lodash/fp/compose';
 import map from 'lodash/fp/map';
 import join from 'lodash/fp/join';
