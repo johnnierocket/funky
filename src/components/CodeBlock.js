@@ -18,6 +18,7 @@ const StyledAutosizeInput = styled(AutosizeInput)`
 		color: white;
 		font-family: 'Fira Code';
 		text-align: center;
+		min-width: 30px;
 	}
 `;
 
