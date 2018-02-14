@@ -1,6 +1,12 @@
 {
   "main.css": "static/css/main.5f1c7771.css",
   "main.css.map": "static/css/main.5f1c7771.css.map",
-  "main.js": "static/js/main.8344dfc2.js",
-  "main.js.map": "static/js/main.8344dfc2.js.map"
+  "main.js": "static/js/main.7ae997bc.js",
+  "main.js.map": "static/js/main.7ae997bc.js.map",
+  "static/media/lose2.mp3": "static/media/lose2.df6b0557.mp3",
+  "static/media/lose5.mp3": "static/media/lose5.97011cf5.mp3",
+  "static/media/lose6.mp3": "static/media/lose6.5268a303.mp3",
+  "static/media/win1.mp3": "static/media/win1.ce28e57a.mp3",
+  "static/media/win2.mp3": "static/media/win2.8dbd97e0.mp3",
+  "static/media/win3.mp3": "static/media/win3.c0919745.mp3"
 }
