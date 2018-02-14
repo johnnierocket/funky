@@ -28,13 +28,11 @@ export default function questionsReducer(state = initialState, action) {
 				totalPoints: Math.max(0, state.totalPoints - 5),
 		}
 		case NEXT_QUESTION:
-			// Next question is fired if a user goes back to a previously answered question, then clicks Next
 			return {
 				...state,
 				questionId: state.questionId + 1,
 			};
 		case PREVIOUS_QUESTION:
-			// remember to disable previous button on Question 0
 			return {
 				...state,
 				questionId: state.questionId - 1,
@@ -43,7 +41,7 @@ export default function questionsReducer(state = initialState, action) {
 			return {
 				...state,
 				hintsUsedCounter: state.hintsUsedCounter++,
-				totalPoints: Math.max(0, state.totalPoints - 5),
+				totalPoints: Math.max(0, state.totalPoints - 2),
 			};
 		default:
 			return state;
