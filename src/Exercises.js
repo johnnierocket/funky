@@ -4,6 +4,7 @@ import compose from 'lodash/fp/compose';
 import map from 'lodash/fp/map';
 import join from 'lodash/fp/join';
 import expect from 'expect';
+import toUpper from 'lodash/fp/toUpper';
 
 const exercises = {
 	'1': {
@@ -86,13 +87,32 @@ div(h1('Big Text!')); // <div><h1>Big Text!</h1></div>`,
 	},
 	'5': {
 		id: '5',
-		title: 'Mapping function returns into other functions manually',
+		title: 'Currying map creates an interesting helper function',
 		points: 20,
+		givens: {
+			toUpper,
+			map,
+		},
+		display: `import map from 'lodash/fp/map';
+import toUpper from 'lodash/fp/toUpper';
+
+const arrayToUpper = map(__INPUT__);
+
+arrayToUpper(['item1','item2','item3']); // ['ITEM1', 'ITEM2', 'ITEM3']`,
+		assert: ({ toUpper, map, input }) =>
+			expect(map(eval(input))(['item1', 'item2', 'item3'])).toEqual(['ITEM1', 'ITEM2', 'ITEM3']),
+	},
+	'6': {
+		id: '5',
+		title: 'Mapping function returns into other functions manually',
+		points: 30,
 		givens: {
 			ul: inner => `<ul>${inner}</ul>`,
 			li: inner => `<li>${inner}</li>`,
 		},
 		display: `import map from 'lodash/fp/map';
+import join from 'lodash/fp/join';
+
 const ul = inner => \`<ul>\${inner}</ul>\`;
 const li = inner => \`<li>\${inner}</li>\`;
 
@@ -105,40 +125,35 @@ buildUl(['item1', 'item2', 'item3']) // <ul><li>item1</li><li>item2</li><li>item
 				'<ul><li>item1</li><li>item2</li><li>item3</li></ul>'
 			),
 	},
-	'6': {
+	'7': {
 		id: '6',
 		title: 'Mapping function returns through compose (right to left)',
-		points: 30,
+		points: 40,
 		givens: {
 			ul: inner => `<ul>${inner}</ul>`,
 			li: inner => `<li>${inner}</li>`,
+			compose,
+			join,
+			map,
 		},
 		display: `import map from 'lodash/fp/map';
 import compose from 'lodash/fp/compose';
+import join from 'lodash/fp/join';
+
 const ul = inner => \`<ul>\${inner}</ul>\`;
 const li = inner => \`<li>\${inner}</li>\`;
 
-// ahh much better - args are passed into the right-most function first and returned to the next function
-const buildUl = compose(ul, join(''), map(__INPUT__));
+// compose will pass the args into the right-most function first, 
+// execute it, and then pass the return value into the next function 
+// and so on moving right to left
+const buildUl = compose(__INPUT__);
 
 buildUl(['item1', 'item2', 'item3']) // <ul><li>item1</li><li>item2</li><li>item3</li></ul>`,
-		assert: ({ ul, li, buildUL, input }) =>
-			expect(compose(ul, join(''), map(eval(input)))(['item1', 'item2', 'item3'])).toEqual(
+		assert: ({ ul, li, compose, join, map, input }) =>
+			expect(eval(`compose(${input})`)(['item1', 'item2', 'item3'])).toEqual(
 				'<ul><li>item1</li><li>item2</li><li>item3</li></ul>'
 			),
 	},
 };
 
 export default exercises;
-
-/*
-  Usage
-
-  const validate = exercise => input => {
-    return exercise.assert({ ...exercise.givens, input });
-  }
-
-  const Question = ({ exercise }) => {
-    return (<pre>{exercise.display}</pre>);
-  }
-*/

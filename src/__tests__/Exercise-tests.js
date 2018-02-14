@@ -26,18 +26,26 @@ it('4 Calling one function with the return value from another', () => {
 	});
 });
 
-it('5 Mapping function returns into other functions manually', () => {
+it('5 Currying map creates an interesting helpful function', () => {
 	const exercise = exercises['5'];
+	exercise.assert({
+		...exercise.givens,
+		input: 'toUpper',
+	});
+});
+
+it('6 Mapping function returns into other functions manually', () => {
+	const exercise = exercises['6'];
 	exercise.assert({
 		...exercise.givens,
 		input: 'li',
 	});
 });
 
-it('6 Mapping function returns through compose (right to left)', () => {
-	const exercise = exercises['6'];
+it('7 Mapping function returns through compose (right to left)', () => {
+	const exercise = exercises['7'];
 	exercise.assert({
 		...exercise.givens,
-		input: 'li',
+		input: "ul, join(''), map(li)",
 	});
 });
