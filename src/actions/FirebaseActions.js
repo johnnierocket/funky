@@ -17,7 +17,7 @@ export const login = () => async dispatch => {
 		.signInWithPopup(githubProvider);
 	return dispatch({ type: 'LOGIN', payload: { credential, user } });
 };
-export const initializeAndLogin = () => () => {
+export const initializeAndLogin = () => dispatch => {
 	initializeFirebase();
-	login()(action => console.log(action))
+	return dispatch(login());
 };

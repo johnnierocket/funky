@@ -5,13 +5,12 @@ import CodeBlock from './components/CodeBlock';
 import Instructions from './components/Instructions';
 import LinearProgress from 'material-ui/LinearProgress';
 import PointCounter from './components/PointCounter';
+import UserInfo from './components/UserInfo';
 import * as QuestionActions from './actions/QuestionsActions';
 import RaisedButton from 'material-ui/RaisedButton';
-
-// import { initializeAndLogin } from './actions/FirebaseActions';
-
+import { loggedIn, userName, userAvatarUrl } from './reducers/index';
+import { initializeAndLogin } from './actions/FirebaseActions';
 import { niceFormatJestError } from './helpers/JestHelpers';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 const Root = styled.div`
@@ -60,7 +59,7 @@ class App extends Component {
 	};
 
 	validateResponse = () => {
-		const { questionId, actions } = this.props;
+		const { questionId, submitCorrectResponse, submitIncorrectResponse } = this.props;
 		const { input } = this.state;
 		const { assert, givens, points } = exercises[questionId];
 
@@ -70,12 +69,12 @@ class App extends Component {
 				correctSubmission: true,
 				error: '',
 			});
-			actions.submitCorrectResponse(points);
+			submitCorrectResponse(points);
 		} catch (error) {
 			this.setState({
 				error: niceFormatJestError(error),
 			});
-			actions.submitIncorrectResponse();
+			submitIncorrectResponse();
 		}
 	};
 
@@ -83,18 +82,18 @@ class App extends Component {
 		this.setState({
 			input: '',
 		});
-		this.props.actions.previousQuestion();
+		this.props.previousQuestion();
 	};
 
 	nextQuestion = () => {
 		this.setState({
 			input: '',
 		});
-		this.props.actions.nextQuestion(this.state.input);
+		this.props.nextQuestion(this.state.input);
 	};
 
 	render() {
-		const { questionId, questionsCompleted, totalPoints } = this.props;
+		const { loggedIn, questionId, questionsCompleted, totalPoints } = this.props;
 		const { correctSubmission, input, error } = this.state;
 		const exercise = exercises[questionId];
 		const instructions = `#${questionId} ${exercise.title}`;
@@ -102,6 +101,11 @@ class App extends Component {
 		const progressPercent = questionsCompleted.length / Object.keys(exercises).length * 100;
 		return (
 			<Root>
+				{loggedIn ? (
+					<UserInfo name={this.props.userName} avatarUrl={this.props.avatarUrl} />
+				) : (
+					<RaisedButton label="Login with GitHub" onClick={this.props.login} />
+				)}
 				<StyledLinearProgress mode="determinate" value={progressPercent} color="#ff4081" />
 				<PointCounter points={totalPoints} />
 				<Instructions text={instructions} />
@@ -147,6 +151,9 @@ class App extends Component {
 
 function mapStateToProps(state) {
 	return {
+		loggedIn: loggedIn(state),
+		userName: userName(state),
+		avatarUrl: userAvatarUrl(state),
 		questionId: state.questionsReducer.questionId,
 		questionsCompleted: state.questionsReducer.questionsCompleted,
 		questionsInputs: state.questionsReducer.questionsInputs,
@@ -154,10 +161,7 @@ function mapStateToProps(state) {
 	};
 }
 
-function mapDispatchToProps(dispatch) {
-	return {
-		actions: bindActionCreators(QuestionActions, dispatch),
-	};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, {
+	...QuestionActions,
+	login: initializeAndLogin,
+})(App);
