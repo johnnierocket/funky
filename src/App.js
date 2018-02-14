@@ -13,19 +13,25 @@ import { initializeAndLogin } from './actions/FirebaseActions';
 import { showLeaderboard } from './actions/LeaderboardActions';
 import PlaySound from './components/PlaySound';
 import SpinningVinyl from './components/SpinningVinyl';
+import NextVinyls from './components/NextVinyls';
 import Leaderboard from './components/Leaderboard';
-
-// import { initializeAndLogin } from './actions/FirebaseActions';
-
 import { niceFormatJestError } from './helpers/JestHelpers';
 import { connect } from 'react-redux';
 
-import win1 from './sounds/win1.mp3';
-import win2 from './sounds/win2.mp3';
-import win3 from './sounds/win3.mp3';
+// import win1 from './sounds/win1.mp3';
+// import win2 from './sounds/win2.mp3';
+// import win3 from './sounds/win3.mp3';
 import lose2 from './sounds/lose2.mp3';
 import lose5 from './sounds/lose5.mp3';
 import lose6 from './sounds/lose6.mp3';
+
+import next1 from './sounds/next1_50cent_2.mp3';
+import next2 from './sounds/next2_jayz_woo.mp3';
+import next3 from './sounds/next3_khaled-anotherone.mp3';
+import next4 from './sounds/next4_liljon_2.mp3';
+
+import track1 from './sounds/track1-downtown.mp3';
+import track2 from './sounds/track2-retrosoul.mp3';
 
 const Root = styled.div`
 	display: flex;
@@ -69,11 +75,12 @@ const ContentContainer = styled.div`
 `;
 
 const SideContainer = styled.div`
-	width: 20%;
+	margin: 1em;
 `;
 
 const CenterContainer = styled.div`
-	width: 55%;
+	width: 60%;
+	margin: 1em;
 `;
 
 const style = {
@@ -85,6 +92,7 @@ class App extends Component {
 		correctSubmissiion: false,
 		input: '',
 		error: '',
+		next: false,
 	};
 
 	componentWillReceiveProps(nextProps) {
@@ -92,6 +100,7 @@ class App extends Component {
 			this.setState({
 				correctSubmission: false,
 				input: nextProps.questionsInputs[nextProps.questionId] || '',
+				next: true,
 			});
 		}
 	}
@@ -117,12 +126,14 @@ class App extends Component {
 				this.setState({
 					correctSubmission: true,
 					error: '',
+					next: false,
 				});
 				submitCorrectResponse(points);
 			} catch (error) {
 				this.setState({
 					correctSubmission: false,
 					error: niceFormatJestError(error),
+					next: false,
 				});
 				submitIncorrectResponse(points);
 			}
@@ -133,6 +144,7 @@ class App extends Component {
 		this.setState({
 			input: '',
 			error: '',
+			next: false,
 		});
 		this.props.previousQuestion();
 	};
@@ -141,20 +153,26 @@ class App extends Component {
 		this.setState({
 			input: '',
 			error: '',
+			next: true,
 		});
 		this.props.nextQuestion(this.state.input);
 	};
 
 	render() {
 		const { loggedIn, questionId, questionsCompleted, totalPoints } = this.props;
-		const { correctSubmission, input, error } = this.state;
+		const { correctSubmission, input, error, next } = this.state;
 		const exercise = exercises[questionId];
 		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
 		const progressPercent = questionsCompleted.length / Object.keys(exercises).length * 100;
-		const winSoundsArray = [win1, win2, win3];
+		const vinylTrackArray = [track1, track2];
+		// const winSoundsArray = [win1, win2, win3];
+		const nextSoundArray = [next1, next2, next3, next4];
 		const loseSoundsArray = [lose2, lose5, lose6];
-		const randWin = winSoundsArray[Math.floor(Math.random() * winSoundsArray.length)];
+		const randTrack = vinylTrackArray[Math.floor(Math.random() * vinylTrackArray.length)];
+		// const randWin = winSoundsArray[Math.floor(Math.random() * winSoundsArray.length)];
 		const randLose = loseSoundsArray[Math.floor(Math.random() * loseSoundsArray.length)];
+		const randNext = nextSoundArray[Math.floor(Math.random() * nextSoundArray.length)];
+
 		return (
 			<Root>
 				<Header>
@@ -162,16 +180,14 @@ class App extends Component {
 					<YellowAccentBar />
 					<RedAccentBar />
 				</Header>
-
 				<StyledLinearProgress mode="determinate" value={progressPercent} color="#6cc93d" />
 				{/* <PointCounter points={totalPoints} /> */}
 				{loggedIn ? (
 					<UserInfo name={this.props.userName} avatarUrl={this.props.avatarUrl} />
 				) : (
-					<StyledRaisedButton label="Login with GitHub" onClick={this.props.login} />
+					<RaisedButton label="Login with GitHub" onClick={this.props.login} />
 				)}
 				<ContentContainer>
-					<SideContainer />
 					<CenterContainer>
 						<Instructions questionId={questionId} text={exercise.title} />
 						<CodeBlock
@@ -181,7 +197,7 @@ class App extends Component {
 							onKeyPress={this.handleKeyPress}
 							showLineNumbers={true}
 						/>
-						<SpinningVinyl labelColor="green" textColor="yellow" />
+						{!error && <PlaySound src={randTrack} />}
 						{error && (
 							<div>
 								<h1>Hmm... not quite.</h1>
@@ -209,20 +225,17 @@ class App extends Component {
 							onClick={this.nextQuestion}
 							disabled={!questionPreviouslyAnswered || questionId === exercises.length}
 						/>
-						<RaisedButton
-							label="Show Leaderboard"
-							style={style}
-							secondary={true}
-							onClick={this.props.showLeaderboard}
-						/>
 						{correctSubmission && <h1>Correct!</h1>}
-						{correctSubmission && <PlaySound src={randWin} />}
+						{/* correctSubmission && <PlaySound src={randWin} /> */}
+						{next && <PlaySound src={randNext} />}
 						{error && <PlaySound src={randLose} />}
 						<Leaderboard />
 					</CenterContainer>
-					<SideContainer />
+					<SideContainer>
+						<SpinningVinyl isSpinning={!error} points={exercise.points} />
+						<NextVinyls questionId={questionId} />
+					</SideContainer>
 				</ContentContainer>
-				<SideContainer />
 			</Root>
 		);
 	}
