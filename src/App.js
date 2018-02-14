@@ -53,6 +53,12 @@ class App extends Component {
 		this.setState({ input: e.target.value });
 	};
 
+	handleKeyPress = event => {
+		if (event.key === 'Enter') {
+			this.validateResponse();
+		}
+	};
+
 	validateResponse = () => {
 		const { questionId, actions } = this.props;
 		const { input } = this.state;
@@ -99,7 +105,13 @@ class App extends Component {
 				<StyledLinearProgress mode="determinate" value={progressPercent} color="#ff4081" />
 				<PointCounter points={totalPoints} />
 				<Instructions text={instructions} />
-				<CodeBlock code={exercise.display} input={input} onChange={this.onInputChange} showLineNumbers={true} />
+				<CodeBlock
+					code={exercise.display}
+					input={input}
+					onChange={this.onInputChange}
+					onKeyPress={this.handleKeyPress}
+					showLineNumbers={true}
+				/>
 				{error && (
 					<div>
 						<h1>Hmm... not quite.</h1>

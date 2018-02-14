@@ -28,6 +28,7 @@ export default class CustomSyntaxHighlighter extends Component {
 	static propTypes = {
 		code: string,
 		onChange: func,
+		onKeyPress: func,
 		input: string,
 		showLineNumbers: bool,
 		children: string,
@@ -43,6 +44,7 @@ export default class CustomSyntaxHighlighter extends Component {
 							key={idx}
 							type="text"
 							onChange={this.props.onChange}
+							onKeyPress={this.props.onKeyPress}
 							value={this.props.input}
 							placeholder="..."
 						/>
