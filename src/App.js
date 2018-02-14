@@ -62,7 +62,6 @@ class App extends Component {
 				correctSubmission: true,
 				incorrectSubmission: false,
 				error: '',
-				input: '',
 			});
 			actions.submitCorrectResponse(points);
 		} catch (error) {
@@ -72,6 +71,13 @@ class App extends Component {
 			});
 			actions.submitIncorrectResponse();
 		}
+	};
+
+	nextQuestion = () => {
+		this.setState({
+			input: '',
+		});
+		this.props.actions.nextQuestion();
 	};
 
 	render() {
@@ -104,7 +110,7 @@ class App extends Component {
 					label="Next Question"
 					style={style}
 					secondary={true}
-					onClick={actions.nextQuestion}
+					onClick={this.nextQuestion}
 					disabled={!questionPreviouslyAnswered || questionId === exercises.length}
 				/>
 				{correctSubmission && <h1>Correct!</h1>}
