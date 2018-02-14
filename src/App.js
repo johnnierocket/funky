@@ -10,6 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 // import { initializeAndLogin } from './actions/FirebaseActions';
 
+import { niceFormatJestError } from './helpers/JestHelpers';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -23,64 +24,83 @@ const Root = styled.div`
 `;
 
 const style = {
-  margin: 12,
+	margin: 12,
 };
 
 class App extends Component {
 	state = {
 		correctSubmissiion: false,
-		incorrectSubmission: false
+		incorrectSubmission: false,
 	};
 
 	componentWillReceiveProps(nextProps) {
 		if (this.props.questionId !== nextProps.questionId) {
 			this.setState({
 				correctSubmission: false,
-				incorrectSubmission: false
+				incorrectSubmission: false,
 			});
 		}
 	}
 
+	onInputChange = input => {
+		this.setState({ input });
+	};
+
 	validateResponse = () => {
 		const { questionId, actions } = this.props;
-		const exercise = exercises[questionId];
-		// This if condition is wrong. Just a placeholder
-		if (questionId !== Object.keys(exercises).length) {
+		const { input } = this.state;
+		const { assert, givens, points } = exercises[questionId];
+
+		try {
+			assert({ ...givens, input });
 			this.setState({
 				correctSubmission: true,
+				error: '',
 			});
-		actions.submitCorrectResponse(exercise.points);
-		} else {
+			actions.submitCorrectResponse(points);
+		} catch (error) {
 			this.setState({
-				incorrectSubmission: true,
+				correctSubmission: false,
+				error: niceFormatJestError(error),
 			});
-		actions.submitIncorrectResponse();
+			actions.submitIncorrectResponse();
 		}
-		return exercise.assert;
 	};
 
 	render() {
 		const { questionId, questionsCompleted, totalPoints, actions } = this.props;
-		const { correctSubmission, incorrectSubmission } = this.state;
+		const { correctSubmission, incorrectSubmission, input } = this.state;
 		const exercise = exercises[questionId];
 		const instructions = `#${questionId} ${exercise.title}`;
 		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
-		const progressPercent = (questionsCompleted.length / Object.keys(exercises).length) * 100;
+		const progressPercent = questionsCompleted.length / Object.keys(exercises).length * 100;
 		return (
 			<Root>
-			<LinearProgress mode="determinate" value={progressPercent} />
+				<LinearProgress mode="determinate" value={progressPercent} />
 				<PointCounter points={totalPoints} />
 				<h1>You are on Question {questionId}</h1>
 				<Instructions text={instructions} />
-				<CodeBlock code={exercise.display} />
-				<RaisedButton label="Go Back" style={style} onClick={actions.previousQuestion} disabled={!(questionId - 1)} />
-				<RaisedButton label="Attempt Answer" style={style} primary={true} onClick={this.validateResponse} disabled={questionPreviouslyAnswered} />
+				<CodeBlock code={exercise.display} input={input} onChange={this.onInputChange} />
+				<RaisedButton
+					label="Go Back"
+					style={style}
+					onClick={actions.previousQuestion}
+					disabled={!(questionId - 1)}
+				/>
+				<RaisedButton
+					label="Attempt Answer"
+					style={style}
+					primary={true}
+					onClick={this.validateResponse}
+					disabled={questionPreviouslyAnswered}
+				/>
 				<RaisedButton
 					label="Next Question"
 					style={style}
 					secondary={true}
 					onClick={actions.nextQuestion}
-					disabled={!questionPreviouslyAnswered || questionId === exercises.length} />
+					disabled={!questionPreviouslyAnswered || questionId === exercises.length}
+				/>
 				{correctSubmission && <h1>Correct!</h1>}
 				{incorrectSubmission && <h1>Wrong, sir. You lose points.</h1>}
 			</Root>

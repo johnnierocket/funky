@@ -4,6 +4,7 @@ import { atomDark } from 'react-syntax-highlighter/styles/prism';
 import { createElement } from 'react-syntax-highlighter';
 import styled from 'styled-components';
 import AutosizeInput from 'react-input-autosize';
+import { string, func } from 'prop-types';
 
 const StyledAutosizeInput = styled(AutosizeInput)`
 	input {
@@ -21,14 +22,22 @@ const StyledAutosizeInput = styled(AutosizeInput)`
 `;
 
 export default class CustomSyntaxHighlighter extends Component {
+	static displayName = 'CustomSyntaxHighlighter';
+
+	static propTypes = {
+		code: string,
+		onChange: func,
+		input: string,
+	};
+
 	state = {
 		input: '',
 	};
 
+	componentDidMount = () => this.setState({ input: this.props.input });
+
 	handleInput = e => {
-		this.setState({
-			input: e.target.value,
-		});
+		this.props.onChange(e.target.value);
 	};
 
 	customRenderer = ({ rows, stylesheet, useInlineStyles }) => {
@@ -41,7 +50,7 @@ export default class CustomSyntaxHighlighter extends Component {
 							key={idx}
 							type="text"
 							onChange={this.handleInput}
-							value={this.state.input}
+							value={this.props.input}
 							placeholder="???"
 						/>
 					);
