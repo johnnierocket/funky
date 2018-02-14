@@ -7,6 +7,7 @@ const StyledVinyls = styled.div`
 	display: flex;
 	margin: auto;
 	margin: 1em;
+	flex-flow: row wrap;
 `;
 
 export default class NextVinyls extends React.Component {
