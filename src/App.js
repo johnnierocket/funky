@@ -91,6 +91,7 @@ class App extends Component {
 	previousQuestion = () => {
 		this.setState({
 			input: '',
+			error: '',
 		});
 		this.props.previousQuestion();
 	};
@@ -98,6 +99,7 @@ class App extends Component {
 	nextQuestion = () => {
 		this.setState({
 			input: '',
+			error: '',
 		});
 		this.props.nextQuestion(this.state.input);
 	};
