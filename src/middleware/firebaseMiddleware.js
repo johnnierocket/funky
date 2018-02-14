@@ -1,14 +1,15 @@
 import firebase from 'firebase';
 import { LOGIN, REHYDRATE_QUESTIONS } from '../constants/actionTypes';
-import { getQuestionsState, getTotalPoints } from '../reducers/index';
+import { getQuestionsState, getTotalPoints, loggedIn } from '../reducers/index';
 
-const loggedIn = () => !!firebase.auth().currentUser;
 const uid = () => firebase.auth().currentUser.uid;
 const refName = () => `/users/${uid()}/questions`;
 const pointsRefName = () => `/leaderboard/${uid()}/points`;
 const saveToFirebase = store => {
-	if (!loggedIn()) { return; }
 	const state = store.getState();
+	if (!loggedIn(state)) {
+		return;
+	}
 	firebase
 		.database()
 		.ref(refName())
