@@ -3,6 +3,8 @@ import exercises from './Exercises';
 import styled from 'styled-components';
 import CodeBlock from './components/CodeBlock';
 import Instructions from './components/Instructions';
+import ProgressBar from './components/ProgressBar';
+import PointCounter from './components/PointCounter';
 // import { initializeAndLogin } from './actions/FirebaseActions';
 import * as QuestionActions from './actions/QuestionsActions';
 
@@ -19,16 +21,60 @@ const Root = styled.div`
 `;
 
 class App extends Component {
-	render() {
+	state = {
+		correctSubmissiion: false,
+	};
+
+	componentWillReceiveProps(nextProps) {
+		if (this.props.questionId !== nextProps.questionId) {
+			this.setState({
+				correctSubmission: false,
+			});
+		}
+	}
+
+	validateResponse = () => {
 		const { questionId, actions } = this.props;
 		const exercise = exercises.find(ex => ex.id === questionId);
+		if (exercise.assert) {
+			this.setState({
+				correctSubmission: true,
+			});
+		}
+		actions.submitCorrectResponse(exercise.points);
+		// debugger;
+		return exercise.assert;
+	};
+
+	render() {
+		const { questionId, questionsCompleted, totalPoints, actions } = this.props;
+		const { correctSubmission } = this.state;
+		const exercise = exercises.find(ex => ex.id === questionId);
 		const instructions = `#${questionId} ${exercise.title}`;
+		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
 		return (
 			<Root>
+				<ProgressBar progress={questionsCompleted.length / exercises.length} />
+				<PointCounter points={totalPoints} />
+				<h1>You are on Question {questionId}</h1>
 				<Instructions text={instructions} />
 				<CodeBlock code={exercise.display} />
-				<button onClick={actions.previousQuestion}>Prev</button>
-				<button onClick={actions.nextQuestion}>Next</button>
+				<button
+					onClick={actions.previousQuestion}
+					disabled={!(questionId - 1)}
+				>
+					Prev
+				</button>
+				<button onClick={this.validateResponse}>Attempt Answer</button>
+				<button
+					onClick={actions.nextQuestion}
+					disabled={
+						!questionPreviouslyAnswered || questionId === exercises.length
+					}
+				>
+					Next
+				</button>
+				{correctSubmission && <h1>Correct!</h1>}
 			</Root>
 		);
 	}
@@ -37,6 +83,8 @@ class App extends Component {
 function mapStateToProps(state) {
 	return {
 		questionId: state.questionsReducer.questionId,
+		questionsCompleted: state.questionsReducer.questionsCompleted,
+		totalPoints: state.questionsReducer.totalPoints
 	};
 }
 
