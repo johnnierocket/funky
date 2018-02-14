@@ -10,8 +10,10 @@ import * as QuestionActions from './actions/QuestionsActions';
 import RaisedButton from 'material-ui/RaisedButton';
 import { loggedIn, userName, userAvatarUrl } from './reducers/index';
 import { initializeAndLogin } from './actions/FirebaseActions';
+import { showLeaderboard } from './actions/LeaderboardActions';
 import PlaySound from './components/PlaySound';
 import SpinningVinyl from './components/SpinningVinyl';
+import Leaderboard from './components/Leaderboard';
 
 // import { initializeAndLogin } from './actions/FirebaseActions';
 
@@ -207,9 +209,16 @@ class App extends Component {
 							onClick={this.nextQuestion}
 							disabled={!questionPreviouslyAnswered || questionId === exercises.length}
 						/>
+						<RaisedButton
+							label="Show Leaderboard"
+							style={style}
+							secondary={true}
+							onClick={this.props.showLeaderboard}
+						/>
 						{correctSubmission && <h1>Correct!</h1>}
 						{correctSubmission && <PlaySound src={randWin} />}
 						{error && <PlaySound src={randLose} />}
+						<Leaderboard />
 					</CenterContainer>
 					<SideContainer />
 				</ContentContainer>
@@ -234,4 +243,5 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
 	...QuestionActions,
 	login: initializeAndLogin,
+	showLeaderboard,
 })(App);
