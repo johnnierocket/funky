@@ -25,6 +25,7 @@ const Root = styled.div`
 
 const StyledLinearProgress = styled(LinearProgress)`
 	margin-bottom: 40px !important;
+	background-color: #fafafa !important;
 `;
 
 const style = {

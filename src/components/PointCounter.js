@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const StyledText = styled.div`
 	position: absolute;
-	top: 10px;
+	top: 15px;
 	right: 0;
 	font-weight: bold;
 `;
