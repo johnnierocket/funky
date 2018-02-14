@@ -73,6 +73,13 @@ class App extends Component {
 		}
 	};
 
+	previousQuestion = () => {
+		this.setState({
+			input: '',
+		});
+		this.props.actions.previousQuestion();
+	};
+
 	nextQuestion = () => {
 		this.setState({
 			input: '',
@@ -96,7 +103,7 @@ class App extends Component {
 				<RaisedButton
 					label="Go Back"
 					style={style}
-					onClick={actions.previousQuestion}
+					onClick={this.previousQuestion}
 					disabled={!(questionId - 1)}
 				/>
 				<RaisedButton
