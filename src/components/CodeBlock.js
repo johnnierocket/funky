@@ -10,7 +10,7 @@ const StyledAutosizeInput = styled(AutosizeInput)`
 		background: transparent;
 		outline: none;
 		padding: 1px 5px;
-		margin: 5px;
+		margin: 0 5px;
 		border-radius: 5px;
 		border: 1px solid #444444;
 		font-size: 1rem;
