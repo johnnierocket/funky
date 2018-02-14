@@ -7,4 +7,4 @@ const StyledText = styled.div`
 	right: 0;
 `;
 
-export default ({ points }) => <StyledText>{points}</StyledText>;
+export default ({ points }) => <StyledText>Total Points: {points}</StyledText>;

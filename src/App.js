@@ -52,9 +52,11 @@ class App extends Component {
 		const exercise = exercises[questionId];
 		const instructions = `#${questionId} ${exercise.title}`;
 		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
+		const progressPercent = (questionsCompleted.length / Object.keys(exercises).length) * 100;
+		// debugger;
 		return (
 			<Root>
-				<ProgressBar progress={questionsCompleted.length / exercises.length} />
+				<ProgressBar progress={progressPercent} />
 				<PointCounter points={totalPoints} />
 				<h1>You are on Question {questionId}</h1>
 				<Instructions text={instructions} />

@@ -7,4 +7,4 @@ const StyledBar = styled.div`
 	height: 50px;
 `;
 
-export default ({ progress }) => <StyledBar>{progress}</StyledBar>;
+export default ({ progress }) => <StyledBar>{progress}% Complete</StyledBar>;
