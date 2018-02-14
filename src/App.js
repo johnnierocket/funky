@@ -8,10 +8,23 @@ import PointCounter from './components/PointCounter';
 import UserInfo from './components/UserInfo';
 import * as QuestionActions from './actions/QuestionsActions';
 import RaisedButton from 'material-ui/RaisedButton';
+<<<<<<< Updated upstream
 import { loggedIn, userName, userAvatarUrl } from './reducers/index';
 import { initializeAndLogin } from './actions/FirebaseActions';
+=======
+// import { initializeAndLogin } from './actions/FirebaseActions';
+import PlaySound from './components/PlaySound';
+
+>>>>>>> Stashed changes
 import { niceFormatJestError } from './helpers/JestHelpers';
 import { connect } from 'react-redux';
+
+import win1 from './sounds/win1.mp3';
+import win2 from './sounds/win2.mp3';
+import win3 from './sounds/win3.mp3';
+import lose2 from './sounds/lose2.mp3';
+import lose5 from './sounds/lose5.mp3';
+import lose6 from './sounds/lose6.mp3';
 
 const Root = styled.div`
 	width: 50%;
@@ -59,22 +72,24 @@ class App extends Component {
 	};
 
 	validateResponse = () => {
-		const { questionId, submitCorrectResponse, submitIncorrectResponse } = this.props;
+		const { questionId, questionsCompleted, actions } = this.props;
 		const { input } = this.state;
 		const { assert, givens, points } = exercises[questionId];
 
-		try {
-			assert({ ...givens, input });
-			this.setState({
-				correctSubmission: true,
-				error: '',
-			});
-			submitCorrectResponse(points);
-		} catch (error) {
-			this.setState({
-				error: niceFormatJestError(error),
-			});
-			submitIncorrectResponse();
+		if (!questionsCompleted.includes(questionId)) {
+			try {
+				assert({ ...givens, input });
+				this.setState({
+					correctSubmission: true,
+					error: '',
+				});
+				actions.submitCorrectResponse(points);
+			} catch (error) {
+				this.setState({
+					error: niceFormatJestError(error),
+				});
+				actions.submitIncorrectResponse();
+			}
 		}
 	};
 
@@ -99,6 +114,10 @@ class App extends Component {
 		const instructions = `#${questionId} ${exercise.title}`;
 		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
 		const progressPercent = questionsCompleted.length / Object.keys(exercises).length * 100;
+		const winSoundsArray = [win1, win2, win3];
+		const loseSoundsArray = [lose2, lose5, lose6];
+		const randWin = winSoundsArray[Math.floor(Math.random() * winSoundsArray.length)];
+		const randLose = loseSoundsArray[Math.floor(Math.random() * loseSoundsArray.length)];
 		return (
 			<Root>
 				{loggedIn ? (
@@ -144,6 +163,8 @@ class App extends Component {
 					disabled={!questionPreviouslyAnswered || questionId === exercises.length}
 				/>
 				{correctSubmission && <h1>Correct!</h1>}
+				{correctSubmission && <PlaySound src={randWin} />}
+				{error && <PlaySound src={randLose} />}
 			</Root>
 		);
 	}
