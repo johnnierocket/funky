@@ -88,7 +88,7 @@ class App extends Component {
 	};
 
 	render() {
-		const { questionId, questionsCompleted, totalPoints, actions } = this.props;
+		const { questionId, questionsCompleted, totalPoints } = this.props;
 		const { correctSubmission, incorrectSubmission, input } = this.state;
 		const exercise = exercises[questionId];
 		const instructions = `#${questionId} ${exercise.title}`;

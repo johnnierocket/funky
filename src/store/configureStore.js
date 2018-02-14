@@ -5,18 +5,14 @@ import thunk from 'redux-thunk';
 
 const logger = createLogger();
 
-const finalCreateStore = compose(
-	applyMiddleware(logger, thunk),
-	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)(createStore);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const finalCreateStore = composeEnhancers(applyMiddleware(logger, thunk))(createStore);
 
 export const configureStore = function configureStore(initialState) {
 	const store = finalCreateStore(rootReducer, initialState);
 
 	if (module.hot) {
-		module.hot.accept('../reducers', () =>
-			store.replaceReducer(require('../reducers'))
-		);
+		module.hot.accept('../reducers', () => store.replaceReducer(require('../reducers')));
 	}
 
 	return store;
