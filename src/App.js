@@ -37,13 +37,13 @@ class App extends Component {
 		correctSubmissiion: false,
 		incorrectSubmission: false,
 		input: '',
+		error: '',
 	};
 
 	componentWillReceiveProps(nextProps) {
 		if (this.props.questionId !== nextProps.questionId) {
 			this.setState({
 				correctSubmission: false,
-				incorrectSubmission: false,
 				input: nextProps.questionsInputs[nextProps.questionId] || '',
 			});
 		}
@@ -62,13 +62,11 @@ class App extends Component {
 			assert({ ...givens, input });
 			this.setState({
 				correctSubmission: true,
-				incorrectSubmission: false,
 				error: '',
 			});
 			actions.submitCorrectResponse(points);
 		} catch (error) {
 			this.setState({
-				incorrectSubmission: true,
 				error: niceFormatJestError(error),
 			});
 			actions.submitIncorrectResponse();
@@ -91,7 +89,7 @@ class App extends Component {
 
 	render() {
 		const { questionId, questionsCompleted, totalPoints } = this.props;
-		const { correctSubmission, incorrectSubmission, input } = this.state;
+		const { correctSubmission, input, error } = this.state;
 		const exercise = exercises[questionId];
 		const instructions = `#${questionId} ${exercise.title}`;
 		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
@@ -101,7 +99,13 @@ class App extends Component {
 				<StyledLinearProgress mode="determinate" value={progressPercent} color="#ff4081" />
 				<PointCounter points={totalPoints} />
 				<Instructions text={instructions} />
-				<CodeBlock code={exercise.display} input={input} onChange={this.onInputChange} />
+				<CodeBlock code={exercise.display} input={input} onChange={this.onInputChange} showLineNumbers={true} />
+				{error && (
+					<div>
+						<h1>Hmm... not quite.</h1>
+						<CodeBlock code={error} showLineNumbers={false} children={<span>Your</span>} />
+					</div>
+				)}
 				<RaisedButton
 					label="Go Back"
 					style={style}
@@ -124,7 +128,6 @@ class App extends Component {
 					disabled={!questionPreviouslyAnswered || questionId === exercises.length}
 				/>
 				{correctSubmission && <h1>Correct!</h1>}
-				{incorrectSubmission && <h1>Wrong, sir. You lose points.</h1>}
 			</Root>
 		);
 	}
