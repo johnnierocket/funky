@@ -10,6 +10,8 @@ const VinylRecord = styled.div`
 	align-items: center;
 	justify-content: center;
 	animation: ${props => props.isSpinning} 2s infinite linear;
+	zoom: ${props => props.zoom};
+	margin: ${props => props.margin};
 
 	@keyframes spin {
 		0% {
@@ -26,7 +28,7 @@ const RecordLabel = styled.div`
 	position: relative;
 	height: 100px;
 	width: 100px;
-	background: linear-gradient(${props => props.labelColor}, blue);
+	background: linear-gradient(${props => props.labelColor}, ${props => props.gradColor});
 	border-radius: 50%;
 	color: ${props => props.textColor};
 	font-variant: bold;
@@ -109,8 +111,8 @@ const RecordHole = styled.div`
 export default class SpinningVinyl extends React.Component {
 	constructor(props) {
 		super(props);
-		this.backgroundColors = ['#6cc93d', '#6abcfb', '#f7f7f7', '#e84733', '#000'];
-		this.textColors = ['#ffd33f', '#fff', '#000', '#ffd33f', '#6abcfb', '#e84733'];
+		this.backgroundColors = ['#6cc93d', '#e84733', '#f7f7f7', '#6abcfb', '#ffd33f'];
+		this.textColors = ['#ffd33f', '#fff', '#ffd33f', '#6abcfb', '#e84733'];
 
 		this.state = {
 			backgroundColor: '#6cc93d',
@@ -118,27 +120,39 @@ export default class SpinningVinyl extends React.Component {
 		};
 	}
 
+	componentWillMount() {
+		this.applyVinylStyle();
+	}
+
 	componentWillReceiveProps(nextProps) {
 		if (this.props.points !== nextProps.points) {
-			this.difficultyLevel = Math.floor(nextProps.points / 10); // 10-50 point values, 1-5 difficulty
-			debugger;
-			this.setState({
-				backgroundColor: this.backgroundColors[this.difficultyLevel],
-				textColor: this.textColors[this.difficultyLevel],
-			});
+			this.applyVinylStyle();
 		}
 	}
+
+	applyVinylStyle = () => {
+		const difficultyLevel = Math.floor(this.props.points / 10) - 1; // 10-50 point values, 1-5 difficulty
+		console.log('id and diff', this.props.points, difficultyLevel);
+		this.setState({
+			backgroundColor: this.backgroundColors[difficultyLevel],
+			textColor: this.textColors[difficultyLevel],
+		});
+	};
+
 	render() {
-		const { isSpinning } = this.props;
+		const { isSpinning, size } = this.props;
 		const { backgroundColor, textColor } = this.state;
 		const startSpin = isSpinning ? 'spin' : 'unset';
+		const setZoom = size === 'small' ? 0.2 : 1;
+		const setMargin = size === 'small' ? '1em' : 0;
+		const randGradient = this.backgroundColors[Math.floor(Math.random() * this.backgroundColors.length)];
 
 		return (
-			<VinylRecord isSpinning={startSpin}>
-				<RecordLabel labelColor={backgroundColor} textColor={textColor}>
-					<CircleArcs1 />
-					<CircleArcs2 />
-					<CircleArcs3 />
+			<VinylRecord isSpinning={startSpin} zoom={setZoom} margin={setMargin}>
+				<RecordLabel labelColor={backgroundColor} textColor={textColor} gradColor={randGradient}>
+					{!size && <CircleArcs1 />}
+					{!size && <CircleArcs2 />}
+					{!size && <CircleArcs3 />}
 					<LabelChar1>f</LabelChar1>
 					<LabelChar2>u</LabelChar2>
 					<LabelChar3>n</LabelChar3>
