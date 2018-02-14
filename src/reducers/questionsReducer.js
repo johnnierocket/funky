@@ -33,8 +33,8 @@ export default function questionsReducer(state = initialState, action) {
 				...state,
 				questionId: state.questionId + 1,
 				questionsInputs: {
-					[state.questionId]: action.payload.input,
 					...state.questionsInputs,
+					[state.questionId]: action.payload.input,
 				},
 			};
 		case PREVIOUS_QUESTION:
