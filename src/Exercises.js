@@ -39,20 +39,18 @@ const add1 = __INPUT__;
 		id: '3',
 		title: 'Returning a function from a function and mapping over values',
 		points: 30,
-		display: `
-      const getField = __INPUT__;
+		display: `const getField = __INPUT__;
 
-      [{
-        id: 1,
-        name: 'Johnnie'
-      }, {
-        id: 2,
-        name: 'Omar'
-      }, {
-        id: 3,
-        name: 'Brad'
-      }].map(getField('id')); // [1, 2, 3]
-    `,
+[{
+	id: 1,
+	name: 'Johnnie'
+}, {
+	id: 2,
+	name: 'Omar'
+}, {
+	id: 3,
+	name: 'Brad'
+}].map(getField('id')); // [1, 2, 3]`,
 		givens: {},
 		assert: ({ input }) =>
 			expect(
