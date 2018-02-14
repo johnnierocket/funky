@@ -4,6 +4,7 @@ import {
 	NEXT_QUESTION,
 	PREVIOUS_QUESTION,
 	USE_HINT,
+	REHYDRATE_QUESTIONS
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -17,6 +18,8 @@ const initialState = {
 
 export default function questionsReducer(state = initialState, action) {
 	switch (action.type) {
+		case REHYDRATE_QUESTIONS:
+			return action.payload;
 		case SUBMIT_CORRECT_RESPONSE:
 			return {
 				...state,
@@ -52,3 +55,5 @@ export default function questionsReducer(state = initialState, action) {
 			return state;
 	}
 }
+
+export const getTotalPoints = state => state.totalPoints;
