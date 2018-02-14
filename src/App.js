@@ -8,14 +8,9 @@ import PointCounter from './components/PointCounter';
 import UserInfo from './components/UserInfo';
 import * as QuestionActions from './actions/QuestionsActions';
 import RaisedButton from 'material-ui/RaisedButton';
-<<<<<<< Updated upstream
 import { loggedIn, userName, userAvatarUrl } from './reducers/index';
 import { initializeAndLogin } from './actions/FirebaseActions';
-=======
-// import { initializeAndLogin } from './actions/FirebaseActions';
 import PlaySound from './components/PlaySound';
-
->>>>>>> Stashed changes
 import { niceFormatJestError } from './helpers/JestHelpers';
 import { connect } from 'react-redux';
 
