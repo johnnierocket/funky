@@ -60,7 +60,7 @@ class App extends Component {
 			actions.submitCorrectResponse(points);
 		} catch (error) {
 			this.setState({
-				correctSubmission: false,
+				incorrectSubmission: true,
 				error: niceFormatJestError(error),
 			});
 			actions.submitIncorrectResponse();
