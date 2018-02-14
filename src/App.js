@@ -11,6 +11,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { loggedIn, userName, userAvatarUrl } from './reducers/index';
 import { initializeAndLogin } from './actions/FirebaseActions';
 import PlaySound from './components/PlaySound';
+import SpinningVinyl from './components/SpinningVinyl';
+
+// import { initializeAndLogin } from './actions/FirebaseActions';
+
 import { niceFormatJestError } from './helpers/JestHelpers';
 import { connect } from 'react-redux';
 
@@ -132,6 +136,7 @@ class App extends Component {
 					onKeyPress={this.handleKeyPress}
 					showLineNumbers={true}
 				/>
+				<SpinningVinyl labelColor="green" textColor="yellow" />
 				{error && (
 					<div>
 						<h1>Hmm... not quite.</h1>
