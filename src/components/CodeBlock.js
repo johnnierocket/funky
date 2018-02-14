@@ -13,7 +13,7 @@ const StyledAutosizeInput = styled(AutosizeInput)`
 		padding: 1px 5px;
 		margin: 0 5px;
 		border-radius: 5px;
-		border: none;
+		border: 1px solid orange;
 		font-size: 1rem;
 		color: white;
 		font-family: 'Fira Code';
@@ -41,6 +41,7 @@ export default class CustomSyntaxHighlighter extends Component {
 							type="text"
 							onChange={this.props.onChange}
 							value={this.props.input}
+							placeholder="..."
 						/>
 					);
 				}

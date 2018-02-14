@@ -23,6 +23,10 @@ const Root = styled.div`
 	transform: translate(-50%, -50%);
 `;
 
+const StyledLinearProgress = styled(LinearProgress)`
+	margin-bottom: 40px !important;
+`;
+
 const style = {
 	margin: 12,
 };
@@ -79,9 +83,8 @@ class App extends Component {
 		const progressPercent = questionsCompleted.length / Object.keys(exercises).length * 100;
 		return (
 			<Root>
-				<LinearProgress mode="determinate" value={progressPercent} />
+				<StyledLinearProgress mode="determinate" value={progressPercent} />
 				<PointCounter points={totalPoints} />
-				<h1>You are on Question {questionId}</h1>
 				<Instructions text={instructions} />
 				<CodeBlock code={exercise.display} input={input} onChange={this.onInputChange} />
 				<RaisedButton
