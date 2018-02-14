@@ -42,7 +42,6 @@ const style = {
 class App extends Component {
 	state = {
 		correctSubmissiion: false,
-		incorrectSubmission: false,
 		input: '',
 		error: '',
 	};
@@ -67,7 +66,7 @@ class App extends Component {
 	};
 
 	validateResponse = () => {
-		const { questionId, questionsCompleted, actions } = this.props;
+		const { questionId, questionsCompleted, submitCorrectResponse, submitIncorrectResponse } = this.props;
 		const { input } = this.state;
 		const { assert, givens, points } = exercises[questionId];
 
@@ -78,11 +77,13 @@ class App extends Component {
 					correctSubmission: true,
 					error: '',
 				});
-				actions.submitCorrectResponse(points);
+				submitCorrectResponse(points);
 			} catch (error) {
 				this.setState({
+					correctSubmission: false,
 					error: niceFormatJestError(error),
 				});
+				submitIncorrectResponse(points);
 			}
 		}
 	};
