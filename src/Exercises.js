@@ -8,9 +8,7 @@ const exercises = {
 		id: '1',
 		title: 'Using a function returned from another function',
 		points: 10,
-		display: `const greet = greeting => name => {
-	console.log(greeting + " " + name);
-}
+		display: `const greet = greeting => name => (greeting + " " + name);
 
 const hello = greet(__INPUT__)
 
