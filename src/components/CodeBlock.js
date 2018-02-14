@@ -30,8 +30,6 @@ export default class CustomSyntaxHighlighter extends Component {
 		input: string,
 	};
 
-	componentDidMount = () => this.setState({ input: this.props.input });
-
 	customRenderer = ({ rows, stylesheet, useInlineStyles }) => {
 		return rows.map((row, idx) => {
 			return row.children.map((item, idx) => {
