@@ -32,7 +32,8 @@ const Root = styled.div`
 	height: 100vh;
 	width: 100vw;
 	min-width: 1250px;
-	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: scroll;
 `;
 
 class App extends Component {

@@ -9,6 +9,9 @@ const StyledFooter = styled.div`
 	background-color: rgba(255, 255, 255, 0.76);
 	padding: 15px 10px;
 	z-index: 1;
+	position: absolute;
+	width: 100%;
+	bottom: 0;
 `;
 
 const Footer = ({ questionId, questionPreviouslyAnswered, validateResponse, nextQuestion, previousQuestion }) => (
