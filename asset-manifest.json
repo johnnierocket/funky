@@ -1,12 +1,16 @@
 {
   "main.css": "static/css/main.5f1c7771.css",
   "main.css.map": "static/css/main.5f1c7771.css.map",
-  "main.js": "static/js/main.7ae997bc.js",
-  "main.js.map": "static/js/main.7ae997bc.js.map",
+  "main.js": "static/js/main.eaac3ac2.js",
+  "main.js.map": "static/js/main.eaac3ac2.js.map",
+  "static/media/bg.svg": "static/media/bg.13322d2d.svg",
   "static/media/lose2.mp3": "static/media/lose2.df6b0557.mp3",
   "static/media/lose5.mp3": "static/media/lose5.97011cf5.mp3",
   "static/media/lose6.mp3": "static/media/lose6.5268a303.mp3",
-  "static/media/win1.mp3": "static/media/win1.ce28e57a.mp3",
-  "static/media/win2.mp3": "static/media/win2.8dbd97e0.mp3",
-  "static/media/win3.mp3": "static/media/win3.c0919745.mp3"
+  "static/media/next1_50cent_2.mp3": "static/media/next1_50cent_2.32f8d98e.mp3",
+  "static/media/next2_jayz_woo.mp3": "static/media/next2_jayz_woo.79ec4aa1.mp3",
+  "static/media/next3_khaled-anotherone.mp3": "static/media/next3_khaled-anotherone.93868b3e.mp3",
+  "static/media/next4_liljon_2.mp3": "static/media/next4_liljon_2.cc6c2ad5.mp3",
+  "static/media/track1-downtown.mp3": "static/media/track1-downtown.2bc3a433.mp3",
+  "static/media/track2-retrosoul.mp3": "static/media/track2-retrosoul.5d216897.mp3"
 }
