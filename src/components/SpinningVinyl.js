@@ -10,7 +10,7 @@ const VinylRecord = styled.div`
 	align-items: center;
 	justify-content: center;
 	animation: ${props => props.isSpinning} 2s infinite linear;
-	animation: ${props => props.isFlipping} 0.25s 2 linear alternate, spin 2s infinite linear;
+	animation: ${props => props.isFlipping} 0.25s 2 linear alternate, ${props => props.isSpinning} 2s infinite linear;
 	zoom: ${props => (props.size === 'small' ? 0.2 : 1)};
 	margin: ${props => (props.size === 'small' ? '0.5em -0.5em' : 0)};
 	border: ${props => (props.size === 'small' ? '6px solid white' : 'none')};

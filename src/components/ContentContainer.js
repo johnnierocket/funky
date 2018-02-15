@@ -107,11 +107,10 @@ class ContentContainer extends Component {
 			this.setState({
 				correctSubmission: false,
 				input: nextProps.questionsInputs[nextProps.questionId] || '',
-				error: '',
 				next: true,
 			});
 		}
-		if (+nextProps.questionId > numExercises) {
+		if (nextProps.questionId > numExercises) {
 			this.setState({
 				gameOver: true,
 			});
@@ -178,7 +177,6 @@ class ContentContainer extends Component {
 	previousQuestion = () => {
 		this.setState({
 			input: '',
-			error: '',
 			next: false,
 		});
 		this.props.previousQuestion();
@@ -187,7 +185,6 @@ class ContentContainer extends Component {
 	nextQuestion = () => {
 		this.setState({
 			input: '',
-			error: '',
 			next: true,
 		});
 		this.props.nextQuestion();
