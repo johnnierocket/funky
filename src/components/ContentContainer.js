@@ -26,6 +26,8 @@ import scratch1 from '../sounds/scratch1.mp3';
 import scratch2 from '../sounds/scratch2.mp3';
 import scratch3 from '../sounds/scratch3.mp3';
 
+const numExercises = Object.keys(exercises).length;
+
 const ContentWrapper = styled.div`
 	display flex;
 	flex-direction: column;
@@ -88,7 +90,17 @@ class ContentContainer extends Component {
 		correctSubmission: false,
 		input: '',
 		next: false,
+		gameOver: false,
 	};
+
+	componentWillMount() {
+		console.log(+this.props.questionId, numExercises);
+		if (+this.props.questionId > numExercises) {
+			this.setState({
+				gameOver: true,
+			});
+		}
+	}
 
 	componentWillReceiveProps(nextProps) {
 		if (this.props.questionId !== nextProps.questionId) {
@@ -97,6 +109,11 @@ class ContentContainer extends Component {
 				input: nextProps.questionsInputs[nextProps.questionId] || '',
 				error: '',
 				next: true,
+			});
+		}
+		if (+nextProps.questionId > numExercises) {
+			this.setState({
+				gameOver: true,
 			});
 		}
 	}
@@ -173,7 +190,17 @@ class ContentContainer extends Component {
 			error: '',
 			next: true,
 		});
-		this.props.nextQuestion(this.state.input);
+		this.props.nextQuestion();
+	};
+
+	startOver = () => {
+		this.setState({
+			input: '',
+			error: '',
+			next: true,
+			gameOver: false,
+		});
+		this.props.clearUserData();
 	};
 
 	debounceSound = (fn, delay) => {
@@ -195,12 +222,16 @@ class ContentContainer extends Component {
 
 	render() {
 		const { questionId, questionsCompleted } = this.props;
-		const { error, correctSubmission, next, input } = this.state;
-		const exercise = exercises[questionId];
+		const { error, correctSubmission, next, input, gameOver } = this.state;
+		const exercise = exercises[questionId] || 0;
 		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
 		const rotateDeg = error && 30;
 
-		return (
+		return gameOver ? (
+			<div>
+				<button onClick={this.startOver}>Start Over</button>
+			</div>
+		) : (
 			<ContentWrapper>
 				<ContentRow>
 					<CenterContainer

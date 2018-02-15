@@ -52,6 +52,8 @@ class App extends Component {
 		const { loggedIn, questionsCompleted, avatarUrl, login, userName } = this.props;
 		const { startingScreen } = this.state;
 
+		// loggedIn && this.props.clearUserData();
+
 		return (
 			<Root>
 				<Header loggedIn={loggedIn} avatarUrl={avatarUrl} login={login} userName={userName} />

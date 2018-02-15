@@ -200,10 +200,10 @@ import { reduce, set } from 'mudash/fp';
 const items = List(['admin', 'writer', 'approver']);
 
 // 'set' takes the arguments: (path, value, data) and is curried by default
-// if given only a path and value it will return a function that always set 
+// if given only a path and value it will return a function that always set
 // the same path and value to whatever collection is given
 const reducer = (map, key) => set(key, true, map);
-		
+
 reduce(__INPUT__)(items);
 // Map({ admin: true, writer: true, approver: true })`,
 		assert: ({ reduce, reducer, Map, items, input }) =>
@@ -233,7 +233,7 @@ const matchers = map(isEqual, List(['admin', 'approver']));
 
 const isEnabled = key => some(__INPUT__, matchers);
 
-reduce((obj, key) => set(key, isEnabled(key), obj), Map(), items); 
+reduce((obj, key) => set(key, isEnabled(key), obj), Map(), items);
 // Map({ admin: true, writer: false, approver: true })`,
 		assert: ({ input, some, reduce, Map, items, matchers, set }) =>
 			expect(
@@ -263,7 +263,7 @@ const data = fromJS({
 
 // 'at' takes a list of lookup paths and returns a list of the results
 
-at(__INPUT__)(data); 
+at(__INPUT__)(data);
 // List([List(['admin', 'writer']), List(['customer', 'internal'])])`,
 		assert: ({ input, at, data }) =>
 			expect(at(eval(input))(data)).toEqual(List([List(['admin', 'writer']), List(['customer', 'internal'])])),
@@ -295,7 +295,7 @@ const data = fromJS({
 const getVals = at(['roles', 'teams']);
 const onlyAdmin = filter(isEqual('admin'));
 
-// 'flatten' is available which takes a single argument of List and 
+// 'flatten' is available which takes a single argument of List and
 // returns sub-lists flattened into the out list
 // Hint: you do not need to create any new functions
 

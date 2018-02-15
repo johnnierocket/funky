@@ -6,6 +6,7 @@ import {
 	USE_HINT,
 	SET_START_TIME,
 	SET_END_TIME,
+	CLEAR_USER_DATA,
 } from '../constants/actionTypes';
 
 export const submitCorrectResponse = pointValue => ({
@@ -38,4 +39,8 @@ export const setStartTime = time => ({
 export const setEndTime = time => ({
 	type: SET_END_TIME,
 	payload: { time },
+});
+
+export const clearUserData = () => ({
+	type: CLEAR_USER_DATA,
 });
