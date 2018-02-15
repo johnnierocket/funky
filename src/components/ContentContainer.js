@@ -10,6 +10,7 @@ import { initializeAndLogin } from '../actions/FirebaseActions';
 import { showLeaderboard } from '../actions/LeaderboardActions';
 import { niceFormatJestError } from '../helpers/JestHelpers';
 import { connect } from 'react-redux';
+import handle from '../images/handle.png';
 
 const ContentWrapper = styled.div`
 	display flex;
@@ -29,6 +30,46 @@ const SideContainer = styled.div`
 	width: 30%;
 `;
 
+const StyledImg = styled.img`
+	width: 150px;
+	position: absolute;
+	z-index: 1;
+	top: 250px;
+	right: 100px;
+	transform: rotate(${props => props.rotate}deg);
+	-webkit-transform-origin-x: right;
+	-webkit-transform-origin-y: bottom;
+`;
+
+const VinylHandle = styled.div``;
+const MusicScratcher = styled.div`
+	position: absolute;
+	top: 250px;
+	right: 52px;
+	width: 10px;
+	height: 118px;
+	background-color: #000;
+`;
+
+const MusicDial = styled.div`
+	position: absolute;
+	width: 28.5px;
+	height: 28.5px;
+	background-color: #000;
+	border: solid 0.5px #000;
+	border-radius: 100%;
+	right: 42px;
+	bottom: ${props => props.top};
+`;
+
+const MusicSwitch = styled.div`
+	position: absolute;
+	width: 4px;
+	height: 12px;
+	background-color: #fff;
+	left: 43.5%;
+	top: 3px;
+`;
 class ContentContainer extends Component {
 	state = {
 		error: '',
@@ -107,6 +148,7 @@ class ContentContainer extends Component {
 		const { error, correctSubmission, next, input } = this.state;
 		const exercise = exercises[questionId];
 		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
+		const rotateDeg = error && 30;
 
 		return (
 			<ContentWrapper>
@@ -121,6 +163,16 @@ class ContentContainer extends Component {
 					/>
 					<SideContainer>
 						<SpinningVinyl isSpinning={!error} points={exercise.points} />
+						<VinylHandle>
+							<StyledImg src={handle} alt="handle" rotate={rotateDeg} />
+							<MusicScratcher />
+							<MusicDial top="250px">
+								<MusicSwitch />
+							</MusicDial>
+							<MusicDial top="290px">
+								<MusicSwitch />
+							</MusicDial>
+						</VinylHandle>
 						<NextVinyls questionId={questionId} />
 					</SideContainer>
 				</ContentRow>

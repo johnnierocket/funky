@@ -51,7 +51,7 @@ const CircleArc = styled.div`
 `;
 
 const RecordLabelChar = styled.div`
-	font: 26px MonoSpace;
+	font: 26px Shrikhand;
 	height: 50px;
 	position: absolute;
 	width: 10px;
