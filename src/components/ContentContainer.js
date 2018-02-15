@@ -53,8 +53,9 @@ class ContentContainer extends Component {
 	};
 
 	handleKeyPress = event => {
+		const { correctSubmission } = this.state;
 		if (event.key === 'Enter') {
-			this.validateResponse();
+			correctSubmission ? this.nextQuestion() : this.validateResponse();
 		}
 	};
 
