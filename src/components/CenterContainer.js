@@ -21,6 +21,7 @@ import track2 from '../sounds/track2-retrosoul.mp3';
 
 const StyledCenterContainer = styled.div`
 	width: 60%;
+	flex: 1;
 	margin: 1em;
 `;
 

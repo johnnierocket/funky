@@ -27,7 +27,10 @@ const Root = styled.div`
 	position: relative;
 	flex-direction: column;
 	background-size: cover;
-	min-height: 100vh;
+	height: 100vh;
+	width: 100vw;
+	min-width: 1250px;
+	overflow: hidden;
 `;
 
 class App extends Component {
