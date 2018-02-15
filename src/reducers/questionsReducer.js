@@ -4,7 +4,9 @@ import {
 	NEXT_QUESTION,
 	PREVIOUS_QUESTION,
 	USE_HINT,
-	REHYDRATE_QUESTIONS
+	REHYDRATE_QUESTIONS,
+	SET_START_TIME,
+	SET_END_TIME,
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -14,6 +16,8 @@ const initialState = {
 	failedAttemptsCounter: 0,
 	hintsUsedCounter: 0,
 	totalPoints: 0,
+	startTime: 0,
+	endTime: 0,
 };
 
 export default function questionsReducer(state = initialState, action) {
@@ -50,6 +54,16 @@ export default function questionsReducer(state = initialState, action) {
 				...state,
 				hintsUsedCounter: state.hintsUsedCounter++,
 				totalPoints: Math.max(0, state.totalPoints - 2),
+			};
+		case SET_START_TIME:
+			return {
+				...state,
+				startTime: action.payload.time,
+			};
+		case SET_END_TIME:
+			return {
+				...state,
+				endTime: action.payload.time,
 			};
 		default:
 			return state;

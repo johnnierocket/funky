@@ -6,8 +6,10 @@ import { loggedIn, userName, userAvatarUrl } from './reducers/index';
 import { initializeAndLogin } from './actions/FirebaseActions';
 import Header from './components/Header';
 import ContentContainer from './components/ContentContainer';
+import StartingContainer from './components/StartingContainer';
 import Progress from './components/Progress';
 import bg from './images/bg.svg';
+import moment from 'moment';
 import { connect } from 'react-redux';
 
 injectGlobal`
@@ -34,16 +36,26 @@ const Root = styled.div`
 `;
 
 class App extends Component {
+	state = {
+		startingScreen: true,
+	};
+
+	startGame = () => {
+		this.props.setStartTime(moment());
+		this.setState({
+			startingScreen: false,
+		});
+	};
+
 	render() {
 		const { loggedIn, questionsCompleted, avatarUrl, login, userName } = this.props;
+		const { startingScreen } = this.state;
 
 		return (
 			<Root>
 				<Header loggedIn={loggedIn} avatarUrl={avatarUrl} login={login} userName={userName} />
-				<Progress questionsCompleted={questionsCompleted} exercises={exercises} />
-				{/* <PointCounter points={totalPoints} /> */}
-
-				<ContentContainer />
+				{!startingScreen && <Progress questionsCompleted={questionsCompleted} exercises={exercises} />}
+				{startingScreen ? <StartingContainer startGame={this.startGame} /> : <ContentContainer />}
 			</Root>
 		);
 	}
