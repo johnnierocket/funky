@@ -11,8 +11,10 @@ const VinylRecord = styled.div`
 	justify-content: center;
 	animation: ${props => props.isSpinning} 2s infinite linear;
 	animation: ${props => props.isFlipping} 0.25s 2 linear alternate;
-	zoom: ${props => props.zoom};
-	margin: ${props => props.margin};
+	zoom: ${props => (props.size === 'small' ? 0.2 : 1)};
+	margin: ${props => (props.size === 'small' ? '0.5em -0.5em' : 0)};
+	border: ${props => (props.size === 'small' ? '6px solid white' : 'none')};
+	box-shadow: ${props => (props.size === 'small' ? '-2px 18px 38px' : 'none')};
 
 	@keyframes spin {
 		0% {
@@ -151,12 +153,11 @@ export default class SpinningVinyl extends React.Component {
 		const { backgroundColor, textColor } = this.state;
 		const startSpin = isSpinning ? 'spin' : 'unset';
 		const startFlipSlide = flipAndSlide ? 'flip' : 'unset';
-		const setZoom = size === 'small' ? 0.2 : 1;
-		const setMargin = size === 'small' ? '1em' : 0;
+
 		const randGradient = this.backgroundColors[Math.floor(Math.random() * this.backgroundColors.length)];
 
 		return (
-			<VinylRecord zoom={setZoom} margin={setMargin} isSpinning={startSpin} isFlipping={startFlipSlide}>
+			<VinylRecord size={size} isSpinning={startSpin} isFlipping={startFlipSlide}>
 				<RecordLabel labelColor={backgroundColor} textColor={textColor} gradColor={randGradient}>
 					{!size && (
 						<CircleWrapper>

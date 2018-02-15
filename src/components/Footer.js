@@ -8,6 +8,7 @@ const StyledFooter = styled.div`
 	justify-self: flex-end;
 	background-color: rgba(255, 255, 255, 0.76);
 	padding: 15px 10px;
+	z-index: 1;
 `;
 
 const Footer = ({ questionId, questionPreviouslyAnswered, validateResponse, nextQuestion, previousQuestion }) => (

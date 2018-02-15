@@ -141,11 +141,11 @@ import join from 'lodash/fp/join';
 
 const li = inner => \`<li>\${inner}</li>\`;
 
-// compose will pass the args into the right-most function first, 
-// execute it, and then pass the return value into the next function 
+// compose will pass the args into the right-most function first,
+// execute it, and then pass the return value into the next function
 // and so on moving right to left
 const buildList = compose(join(''), __INPUT__);
-		
+
 buildList(['item1','item2','item3']); // '<li>item1</li><li>item2</li><li>item3</li>'`,
 		assert: ({ compose, li, map, input }) =>
 			expect(compose(join(''), eval(input))(['item1', 'item2', 'item3'])).toEqual(
@@ -170,8 +170,182 @@ import join from 'lodash/fp/join';
 const ul = inner => \`<ul>\${inner}</ul>\`;
 const li = inner => \`<li>\${inner}</li>\`;
 
-// compose will pass the args into the right-most function first, 
-// execute it, and then pass the return value into the next function 
+// compose will pass the args into the right-most function first,
+// execute it, and then pass the return value into the next function
+// and so on moving right to left
+const buildUl = compose(__INPUT__);
+
+buildUl(['item1', 'item2', 'item3']) // <ul><li>item1</li><li>item2</li><li>item3</li></ul>`,
+		assert: ({ ul, li, compose, join, map, input }) =>
+			expect(eval(`compose(${input})`)(['item1', 'item2', 'item3'])).toEqual(
+				'<ul><li>item1</li><li>item2</li><li>item3</li></ul>'
+			),
+	},
+	'9': {
+		id: '8',
+		title: 'Mapping function returns through compose (right to left)',
+		points: 40,
+		givens: {
+			ul,
+			li,
+			compose,
+			join,
+			map,
+		},
+		display: `import map from 'lodash/fp/map';
+import compose from 'lodash/fp/compose';
+import join from 'lodash/fp/join';
+
+const ul = inner => \`<ul>\${inner}</ul>\`;
+const li = inner => \`<li>\${inner}</li>\`;
+
+// compose will pass the args into the right-most function first,
+// execute it, and then pass the return value into the next function
+// and so on moving right to left
+const buildUl = compose(__INPUT__);
+
+buildUl(['item1', 'item2', 'item3']) // <ul><li>item1</li><li>item2</li><li>item3</li></ul>`,
+		assert: ({ ul, li, compose, join, map, input }) =>
+			expect(eval(`compose(${input})`)(['item1', 'item2', 'item3'])).toEqual(
+				'<ul><li>item1</li><li>item2</li><li>item3</li></ul>'
+			),
+	},
+	'10': {
+		id: '8',
+		title: 'Mapping function returns through compose (right to left)',
+		points: 40,
+		givens: {
+			ul,
+			li,
+			compose,
+			join,
+			map,
+		},
+		display: `import map from 'lodash/fp/map';
+import compose from 'lodash/fp/compose';
+import join from 'lodash/fp/join';
+
+const ul = inner => \`<ul>\${inner}</ul>\`;
+const li = inner => \`<li>\${inner}</li>\`;
+
+// compose will pass the args into the right-most function first,
+// execute it, and then pass the return value into the next function
+// and so on moving right to left
+const buildUl = compose(__INPUT__);
+
+buildUl(['item1', 'item2', 'item3']) // <ul><li>item1</li><li>item2</li><li>item3</li></ul>`,
+		assert: ({ ul, li, compose, join, map, input }) =>
+			expect(eval(`compose(${input})`)(['item1', 'item2', 'item3'])).toEqual(
+				'<ul><li>item1</li><li>item2</li><li>item3</li></ul>'
+			),
+	},
+	'11': {
+		id: '8',
+		title: 'Mapping function returns through compose (right to left)',
+		points: 40,
+		givens: {
+			ul,
+			li,
+			compose,
+			join,
+			map,
+		},
+		display: `import map from 'lodash/fp/map';
+import compose from 'lodash/fp/compose';
+import join from 'lodash/fp/join';
+
+const ul = inner => \`<ul>\${inner}</ul>\`;
+const li = inner => \`<li>\${inner}</li>\`;
+
+// compose will pass the args into the right-most function first,
+// execute it, and then pass the return value into the next function
+// and so on moving right to left
+const buildUl = compose(__INPUT__);
+
+buildUl(['item1', 'item2', 'item3']) // <ul><li>item1</li><li>item2</li><li>item3</li></ul>`,
+		assert: ({ ul, li, compose, join, map, input }) =>
+			expect(eval(`compose(${input})`)(['item1', 'item2', 'item3'])).toEqual(
+				'<ul><li>item1</li><li>item2</li><li>item3</li></ul>'
+			),
+	},
+	'12': {
+		id: '8',
+		title: 'Mapping function returns through compose (right to left)',
+		points: 40,
+		givens: {
+			ul,
+			li,
+			compose,
+			join,
+			map,
+		},
+		display: `import map from 'lodash/fp/map';
+import compose from 'lodash/fp/compose';
+import join from 'lodash/fp/join';
+
+const ul = inner => \`<ul>\${inner}</ul>\`;
+const li = inner => \`<li>\${inner}</li>\`;
+
+// compose will pass the args into the right-most function first,
+// execute it, and then pass the return value into the next function
+// and so on moving right to left
+const buildUl = compose(__INPUT__);
+
+buildUl(['item1', 'item2', 'item3']) // <ul><li>item1</li><li>item2</li><li>item3</li></ul>`,
+		assert: ({ ul, li, compose, join, map, input }) =>
+			expect(eval(`compose(${input})`)(['item1', 'item2', 'item3'])).toEqual(
+				'<ul><li>item1</li><li>item2</li><li>item3</li></ul>'
+			),
+	},
+	'13': {
+		id: '8',
+		title: 'Mapping function returns through compose (right to left)',
+		points: 40,
+		givens: {
+			ul,
+			li,
+			compose,
+			join,
+			map,
+		},
+		display: `import map from 'lodash/fp/map';
+import compose from 'lodash/fp/compose';
+import join from 'lodash/fp/join';
+
+const ul = inner => \`<ul>\${inner}</ul>\`;
+const li = inner => \`<li>\${inner}</li>\`;
+
+// compose will pass the args into the right-most function first,
+// execute it, and then pass the return value into the next function
+// and so on moving right to left
+const buildUl = compose(__INPUT__);
+
+buildUl(['item1', 'item2', 'item3']) // <ul><li>item1</li><li>item2</li><li>item3</li></ul>`,
+		assert: ({ ul, li, compose, join, map, input }) =>
+			expect(eval(`compose(${input})`)(['item1', 'item2', 'item3'])).toEqual(
+				'<ul><li>item1</li><li>item2</li><li>item3</li></ul>'
+			),
+	},
+	'14': {
+		id: '8',
+		title: 'Mapping function returns through compose (right to left)',
+		points: 40,
+		givens: {
+			ul,
+			li,
+			compose,
+			join,
+			map,
+		},
+		display: `import map from 'lodash/fp/map';
+import compose from 'lodash/fp/compose';
+import join from 'lodash/fp/join';
+
+const ul = inner => \`<ul>\${inner}</ul>\`;
+const li = inner => \`<li>\${inner}</li>\`;
+
+// compose will pass the args into the right-most function first,
+// execute it, and then pass the return value into the next function
 // and so on moving right to left
 const buildUl = compose(__INPUT__);
 

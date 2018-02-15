@@ -11,6 +11,11 @@ import { showLeaderboard } from '../actions/LeaderboardActions';
 import { niceFormatJestError } from '../helpers/JestHelpers';
 import { connect } from 'react-redux';
 import handle from '../images/handle.png';
+import StyledInputRange from '../components/StyledInputRange';
+
+import scratch1 from '../sounds/scratch1.mp3';
+import scratch2 from '../sounds/scratch2.mp3';
+import scratch3 from '../sounds/scratch3.mp3';
 
 const ContentWrapper = styled.div`
 	display flex;
@@ -47,14 +52,20 @@ const StyledImg = styled.img`
 	transition: transform 0.25s linear 0s;
 `;
 
-const MusicScratcher = styled.div`
-	position: absolute;
-	width: 10px;
-	height: 118px;
-	background-color: #000;
-	left: 350px;
-	bottom: 100px;
-`;
+// const MusicScratcher = styled.div`
+// 	position: absolute;
+// 	width: 10px;
+// 	height: 118px;
+// 	background-color: #000;
+// 	left: 350px;
+// 	bottom: 100px;
+// `;
+
+// const ScratchHandle = styled.div`
+// 	width: 50px;
+// 	height: 10px;
+// 	border: 2px solid gray;
+// `;
 
 const MusicDial = styled.div`
 	position: absolute;
@@ -74,6 +85,7 @@ const MusicSwitch = styled.div`
 	background-color: #fff;
 	left: 43.5%;
 	top: 3px;
+	border-radius: 75%;
 `;
 class ContentContainer extends Component {
 	state = {
@@ -148,6 +160,23 @@ class ContentContainer extends Component {
 		this.props.nextQuestion(this.state.input);
 	};
 
+	debounceSound = (fn, delay) => {
+		let timeoutId;
+		return function() {
+			clearTimeout(timeoutId);
+			timeoutId = setTimeout(() => fn.call(), delay);
+		};
+	};
+
+	playScratchSound = () => {
+		const sc1 = new Audio(scratch1);
+		const sc2 = new Audio(scratch2);
+		const sc3 = new Audio(scratch3);
+		const scArray = [sc1, sc2, sc3];
+		const randScratch = scArray[Math.floor(Math.random() * scArray.length)];
+		randScratch.play();
+	};
+
 	render() {
 		const { questionId, questionsCompleted } = this.props;
 		const { error, correctSubmission, next, input } = this.state;
@@ -170,7 +199,7 @@ class ContentContainer extends Component {
 						<SpinningVinyl points={exercise.points} isSpinning={!error} flipAndSlide={next} />
 						<VinylControls>
 							<StyledImg src={handle} alt="handle" rotate={rotateDeg} />
-							<MusicScratcher />
+							<StyledInputRange onChange={this.debounceSound(this.playScratchSound, 500)} />
 							<MusicDial bottom="50px">
 								<MusicSwitch />
 							</MusicDial>
