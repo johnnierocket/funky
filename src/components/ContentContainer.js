@@ -71,7 +71,7 @@ const MusicDial = styled.div`
 	background-color: #000;
 	border: solid 0.5px #000;
 	border-radius: 100%;
-	left: 310px;
+	left: 340px;
 	bottom: ${props => props.bottom};
 `;
 

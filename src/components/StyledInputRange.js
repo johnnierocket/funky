@@ -6,7 +6,7 @@ const StyledInputWrapper = styled.div`
 	width: 10px;
 	height: 118px;
 	background-color: #000;
-	left: 320px;
+	left: 350px;
 	bottom: 100px;
 
 	input[type='range'] {
