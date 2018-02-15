@@ -17,23 +17,6 @@ const Root = styled.div`
 `;
 
 class App extends Component {
-	state = {
-		correctSubmission: false,
-		input: '',
-		error: '',
-		next: false,
-	};
-
-	componentWillReceiveProps(nextProps) {
-		if (this.props.questionId !== nextProps.questionId) {
-			this.setState({
-				correctSubmission: false,
-				input: nextProps.questionsInputs[nextProps.questionId] || '',
-				next: true,
-			});
-		}
-	}
-
 	render() {
 		const { loggedIn, questionsCompleted, avatarUrl, login, userName } = this.props;
 
