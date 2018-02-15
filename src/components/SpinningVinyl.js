@@ -10,7 +10,7 @@ const VinylRecord = styled.div`
 	align-items: center;
 	justify-content: center;
 	animation: ${props => props.isSpinning} 2s infinite linear;
-	animation: ${props => props.isFlipping} 1s 1 linear;
+	animation: ${props => props.isFlipping} 0.25s 2 linear alternate;
 	zoom: ${props => props.zoom};
 	margin: ${props => props.margin};
 
@@ -25,11 +25,14 @@ const VinylRecord = styled.div`
 
 	@keyframes flip {
 		0% {
-			transform: translateX(0);
+			transform: scale(1);
+		}
+		50% {
+			transform-style: preserve-3d;
+			transform: scale(0.75) rotateY(90deg);
 		}
 		100% {
-			transform: rotateY(180deg);
-			transform: translate(1000px);
+			transform: scale(0.25) rotateY(180deg);
 		}
 	}
 `;
@@ -153,7 +156,7 @@ export default class SpinningVinyl extends React.Component {
 		const randGradient = this.backgroundColors[Math.floor(Math.random() * this.backgroundColors.length)];
 
 		return (
-			<VinylRecord isSpinning={startSpin} zoom={setZoom} margin={setMargin} isFlipping={startFlipSlide}>
+			<VinylRecord zoom={setZoom} margin={setMargin} isSpinning={startSpin} isFlipping={startFlipSlide}>
 				<RecordLabel labelColor={backgroundColor} textColor={textColor} gradColor={randGradient}>
 					{!size && (
 						<CircleWrapper>
