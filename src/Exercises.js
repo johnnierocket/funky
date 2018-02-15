@@ -1,10 +1,11 @@
 /* eslint-disable no-eval */
 
 import compose from 'lodash/fp/compose';
-import map from 'lodash/fp/map';
 import join from 'lodash/fp/join';
 import expect from 'expect';
 import toUpper from 'lodash/fp/toUpper';
+import { at, isEqual, some, reduce, set, map, flatten, filter } from 'mudash/fp';
+import { Map, List, fromJS } from 'immutable';
 
 const greet = greeting => name => {
 	return greeting + ' ' + name;
@@ -180,6 +181,127 @@ buildUl(['item1', 'item2', 'item3']) // <ul><li>item1</li><li>item2</li><li>item
 			expect(eval(`compose(${input})`)(['item1', 'item2', 'item3'])).toEqual(
 				'<ul><li>item1</li><li>item2</li><li>item3</li></ul>'
 			),
+	},
+	'9': {
+		id: '9',
+		title: 'Use a transformer to reduce a List into a Map',
+		points: 20,
+		givens: {
+			reduce,
+			set,
+			List,
+			Map,
+			reducer: (map, key) => set(key, true, map),
+			items: List(['admin', 'writer', 'approver']),
+		},
+		display: `import { Map, List } from 'immutable';
+import { reduce, set } from 'mudash/fp';
+
+const items = List(['admin', 'writer', 'approver']);
+
+// 'set' takes the arguments: (path, value, data) and is curried by default
+// if given only a path and value it will return a function that always set 
+// the same path and value to whatever collection is given
+const reducer = (map, key) => set(key, true, map);
+		
+reduce(__INPUT__)(items);
+// Map({ admin: true, writer: true, approver: true })`,
+		assert: ({ reduce, reducer, Map, items, input }) =>
+			expect(eval(`reduce(${input})(items)`)).toEqual(Map({ admin: true, writer: true, approver: true })),
+	},
+	'10': {
+		id: '10',
+		title: 'Transform and Filter a List into a Map',
+		points: 40,
+		givens: {
+			List,
+			Map,
+			reduce,
+			set,
+			some,
+			map,
+			matchers: map(isEqual, List(['admin', 'approver'])),
+			items: List(['admin', 'writer', 'approver']),
+		},
+		display: `import { map, some, isEqual reduce } from 'mudash/fp';
+import { Map, List } from 'immutable';
+
+const items = List(['admin', 'writer', 'approver']);
+
+// isEqual compares two arguments and is curried by default
+const matchers = map(isEqual, List(['admin', 'approver']));
+
+const isEnabled = key => some(__INPUT__, matchers);
+
+reduce((obj, key) => set(key, isEnabled(key), obj), Map(), items); 
+// Map({ admin: true, writer: false, approver: true })`,
+		assert: ({ input, some, reduce, Map, items, matchers, set }) =>
+			expect(
+				eval(`reduce((obj, key) => set(key, (key => some(${input}, matchers))(key), obj), Map(), items)`)
+			).toEqual(Map({ admin: true, writer: false, approver: true })),
+	},
+	'11': {
+		id: '11',
+		title: '11 Selecting values out of a Map',
+		points: 10,
+		givens: {
+			at,
+			data: fromJS({
+				name: 'Bart',
+				roles: ['admin', 'writer'],
+				teams: ['customer', 'internal'],
+			}),
+		},
+		display: `import { at } from 'mudash/fp';
+import { fromJS } from 'immutable';
+
+const data = fromJS({
+	name: 'Bart',
+	roles: ['admin', 'writer'],
+	teams: ['customer', 'internal']
+});
+
+// 'at' takes a list of lookup paths and returns a list of the results
+
+at(__INPUT__)(data); 
+// List([List(['admin', 'writer']), List(['customer', 'internal'])])`,
+		assert: ({ input, at, data }) =>
+			expect(at(eval(input))(data)).toEqual(List([List(['admin', 'writer']), List(['customer', 'internal'])])),
+	},
+	'12': {
+		id: '12',
+		title: '',
+		points: 50,
+		givens: {
+			compose,
+			flatten,
+			data: fromJS({
+				name: 'Bart',
+				roles: ['admin', 'writer'],
+				teams: ['customer', 'internal'],
+			}),
+			getVals: at(['roles', 'teams']),
+			onlyAdmin: filter(isEqual('admin')),
+		},
+		display: `import { fromJS } from 'immutable';
+import { at, isEqual, flatten, filter } from 'mudash/fp';
+
+const data = fromJS({
+	name: 'Bart',
+	roles: ['admin', 'writer'],
+	teams: ['customer', 'internal']
+});
+
+const getVals = at(['roles', 'teams']);
+const onlyAdmin = filter(isEqual('admin'));
+
+// 'flatten' is available which takes a single argument of List and 
+// returns sub-lists flattened into the out list
+// Hint: you do not need to create any new functions
+
+compose(__INPUT__)(data); // List(['admin'])`,
+		assert: ({ input, flatten, data, onlyAdmin, getVals, compose }) =>
+			expect(eval(`compose(${input})(data)`)).toEqual(List(['admin'])),
 	},
 };
 

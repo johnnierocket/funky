@@ -37,3 +37,19 @@ it('7 Introducing compose to put our items into <li>', () => {
 it('8 Mapping function returns through compose (right to left)', () => {
 	validate('8', "ul, join(''), map(li)");
 });
+
+it('9 Use a transformer to reduce a List into a Map', () => {
+	validate('9', 'reducer, Map()');
+});
+
+it('10 Transform and Filter a List into a Map', () => {
+	validate('10', 'match => match(key)');
+});
+
+it('11 Selecting values out of a Map', () => {
+	validate('11', "['roles', 'teams']");
+});
+
+it('12 Selecting values out of a Map', () => {
+	validate('12', 'onlyAdmin, flatten, getVals');
+});
