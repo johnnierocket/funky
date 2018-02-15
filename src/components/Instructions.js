@@ -17,7 +17,7 @@ const Situation = styled.div`
 
 export default ({ questionId, text }) => (
 	<StyledText>
-		<Situation>Situation {questionId}</Situation>
+		<Situation>Jive #{questionId}</Situation>
 		{text}
 	</StyledText>
 );
