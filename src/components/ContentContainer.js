@@ -13,6 +13,10 @@ import { connect } from 'react-redux';
 import handle from '../images/handle.png';
 import StyledInputRange from '../components/StyledInputRange';
 
+import win1 from '../sounds/next1_50cent_2.mp3';
+import win2 from '../sounds/next2_jayz_woo.mp3';
+import win3 from '../sounds/next3_khaled-anotherone.mp3';
+import win4 from '../sounds/next4_liljon_2.mp3';
 import scratch1 from '../sounds/scratch1.mp3';
 import scratch2 from '../sounds/scratch2.mp3';
 import scratch3 from '../sounds/scratch3.mp3';
@@ -51,21 +55,6 @@ const StyledImg = styled.img`
 	-webkit-transform-origin-y: bottom;
 	transition: transform 0.25s linear 0s;
 `;
-
-// const MusicScratcher = styled.div`
-// 	position: absolute;
-// 	width: 10px;
-// 	height: 118px;
-// 	background-color: #000;
-// 	left: 350px;
-// 	bottom: 100px;
-// `;
-
-// const ScratchHandle = styled.div`
-// 	width: 50px;
-// 	height: 10px;
-// 	border: 2px solid gray;
-// `;
 
 const MusicDial = styled.div`
 	position: absolute;
@@ -131,6 +120,7 @@ class ContentContainer extends Component {
 					next: false,
 				});
 				submitCorrectResponse(points);
+				this.playWinSound();
 			} catch (error) {
 				this.setState({
 					correctSubmission: false,
@@ -140,6 +130,16 @@ class ContentContainer extends Component {
 				submitIncorrectResponse(points);
 			}
 		}
+	};
+
+	playWinSound = () => {
+		const w1 = new Audio(win1);
+		const w2 = new Audio(win2);
+		const w3 = new Audio(win3);
+		const w4 = new Audio(win4);
+		const winArray = [w1, w2, w3, w4];
+		const randWinSound = winArray[Math.floor(Math.random() * winArray.length)];
+		randWinSound.play();
 	};
 
 	previousQuestion = () => {

@@ -12,10 +12,6 @@ import { connect } from 'react-redux';
 import lose2 from '../sounds/lose2.mp3';
 import lose5 from '../sounds/lose5.mp3';
 import lose6 from '../sounds/lose6.mp3';
-import next1 from '../sounds/next1_50cent_2.mp3';
-import next2 from '../sounds/next2_jayz_woo.mp3';
-import next3 from '../sounds/next3_khaled-anotherone.mp3';
-import next4 from '../sounds/next4_liljon_2.mp3';
 import track1 from '../sounds/track1-downtown.mp3';
 import track2 from '../sounds/track2-retrosoul.mp3';
 
@@ -29,11 +25,9 @@ class CenterContainer extends Component {
 		const { questionId, error, onInputChange, handleKeyPress, correctSubmission, next, input } = this.props;
 		const exercise = exercises[questionId];
 		const vinylTrackArray = [track1, track2];
-		const nextSoundArray = [next1, next2, next3, next4];
 		const loseSoundsArray = [lose2, lose5, lose6];
 		const randTrack = vinylTrackArray[Math.floor(Math.random() * vinylTrackArray.length)];
 		const randLose = loseSoundsArray[Math.floor(Math.random() * loseSoundsArray.length)];
-		const randNext = nextSoundArray[Math.floor(Math.random() * nextSoundArray.length)];
 
 		return (
 			<StyledCenterContainer>
@@ -53,7 +47,6 @@ class CenterContainer extends Component {
 				)}
 				{!error && <PlaySound src={randTrack} />}
 				{correctSubmission && <h1>Correct!</h1>}
-				{next && <PlaySound src={randNext} />}
 				{error && <PlaySound src={randLose} />}
 				<Leaderboard />
 			</StyledCenterContainer>
