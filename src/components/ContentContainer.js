@@ -14,6 +14,7 @@ const StyledContentContainer = styled.div`
 
 const SideContainer = styled.div`
 	margin: 1em;
+	width: 20%;
 `;
 
 class ContentContainer extends Component {

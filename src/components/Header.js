@@ -1,12 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
+import Login from './Login';
 
 const StyledHeader = styled.div`
 	background-color: #6abcfb;
 	color: #fff;
-	h1 {
-		margin: 10px 15px;
-	}
+`;
+
+const TitleBar = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-content: center;
+	padding: 10px 20px;
+`;
+
+const Title = styled.div`
+	font-family: 'Shrikhand', cursive;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 1.5rem;
+	align-self: center;
 `;
 
 const YellowAccentBar = styled.div`
@@ -19,9 +32,17 @@ const RedAccentBar = styled.div`
 	height: 5px;
 `;
 
-const Header = () => (
+const StyledLogin = styled(Login)`
+	display: inline-flex;
+`;
+
+const Header = ({ loggedIn, login, userName, avatarUrl }) => (
 	<StyledHeader>
-		<h1>Funky</h1>
+		<TitleBar>
+			<Title>Funky</Title>
+			<StyledLogin loggedIn={loggedIn} login={login} userName={userName} avatarUrl={avatarUrl} />
+		</TitleBar>
+
 		<YellowAccentBar />
 		<RedAccentBar />
 	</StyledHeader>
