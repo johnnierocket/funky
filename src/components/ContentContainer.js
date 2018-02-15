@@ -25,8 +25,8 @@ const ContentRow = styled.div`
 `;
 
 const SideContainer = styled.div`
-	margin: 1em;
-	width: 20%;
+	margin: 40px;
+	width: 30%;
 `;
 
 class ContentContainer extends Component {
@@ -110,7 +110,6 @@ class ContentContainer extends Component {
 		return (
 			<ContentWrapper>
 				<ContentRow>
-					<SideContainer />
 					<CenterContainer
 						error={error}
 						onInputChange={this.onInputChange}

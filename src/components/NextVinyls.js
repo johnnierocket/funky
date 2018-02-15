@@ -6,7 +6,7 @@ import exercises from '../Exercises';
 const StyledVinyls = styled.div`
 	display: flex;
 	margin: auto;
-	margin: 1em;
+	margin: 20px 0;
 	flex-flow: row wrap;
 `;
 
