@@ -4,13 +4,9 @@ import exercises from '../Exercises';
 import CodeBlock from './CodeBlock';
 import Instructions from './Instructions';
 import Leaderboard from './Leaderboard';
-import Buttons from './Buttons';
 import PlaySound from './PlaySound';
-import * as QuestionActions from '../actions/QuestionsActions';
-import { initializeAndLogin } from '../actions/FirebaseActions';
-import { showLeaderboard } from '../actions/LeaderboardActions';
+
 import { loggedIn, userName, userAvatarUrl } from '../reducers/index';
-import { niceFormatJestError } from '../helpers/JestHelpers';
 import { connect } from 'react-redux';
 
 import lose2 from '../sounds/lose2.mp3';
@@ -29,80 +25,9 @@ const StyledCenterContainer = styled.div`
 `;
 
 class CenterContainer extends Component {
-	state = {
-		correctSubmission: false,
-		input: '',
-		next: false,
-	};
-
-	componentWillReceiveProps(nextProps) {
-		if (this.props.questionId !== nextProps.questionId) {
-			this.setState({
-				correctSubmission: false,
-				input: nextProps.questionsInputs[nextProps.questionId] || '',
-				next: true,
-			});
-		}
-	}
-
-	onInputChange = e => {
-		this.setState({ input: e.target.value });
-	};
-
-	handleKeyPress = event => {
-		if (event.key === 'Enter') {
-			this.validateResponse();
-		}
-	};
-
-	validateResponse = () => {
-		const { questionId, questionsCompleted, submitCorrectResponse, submitIncorrectResponse, setError } = this.props;
-		const { input } = this.state;
-		const { assert, givens, points } = exercises[questionId];
-
-		if (!questionsCompleted.includes(questionId)) {
-			try {
-				assert({ ...givens, input });
-				this.setState({
-					correctSubmission: true,
-					next: false,
-				});
-				setError('');
-				submitCorrectResponse(points);
-			} catch (error) {
-				this.setState({
-					correctSubmission: false,
-					next: false,
-				});
-				setError(niceFormatJestError(error));
-				submitIncorrectResponse(points);
-			}
-		}
-	};
-
-	previousQuestion = () => {
-		this.setState({
-			input: '',
-			next: false,
-		});
-		this.props.setError('');
-		this.props.previousQuestion();
-	};
-
-	nextQuestion = () => {
-		this.setState({
-			input: '',
-			next: true,
-		});
-		this.props.setError('');
-		this.props.nextQuestion(this.state.input);
-	};
-
 	render() {
-		const { questionId, questionsCompleted, error } = this.props;
-		const { correctSubmission, input, next } = this.state;
+		const { questionId, error, onInputChange, handleKeyPress, correctSubmission, next, input } = this.props;
 		const exercise = exercises[questionId];
-		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
 		const vinylTrackArray = [track1, track2];
 		const nextSoundArray = [next1, next2, next3, next4];
 		const loseSoundsArray = [lose2, lose5, lose6];
@@ -116,8 +41,8 @@ class CenterContainer extends Component {
 				<CodeBlock
 					code={exercise.display}
 					input={input}
-					onChange={this.onInputChange}
-					onKeyPress={this.handleKeyPress}
+					onChange={onInputChange}
+					onKeyPress={handleKeyPress}
 					showLineNumbers={true}
 				/>
 				{error && (
@@ -126,14 +51,6 @@ class CenterContainer extends Component {
 						<CodeBlock code={error} showLineNumbers={false} children={<span>Your</span>} />
 					</div>
 				)}
-				<Buttons
-					questionId={questionId}
-					questionPreviouslyAnswered={questionPreviouslyAnswered}
-					exercises={exercises}
-					validateResponse={this.validateResponse}
-					nextQuestion={this.nextQuestion}
-					previousQuestion={this.previousQuestion}
-				/>
 				{!error && <PlaySound src={randTrack} />}
 				{correctSubmission && <h1>Correct!</h1>}
 				{next && <PlaySound src={randNext} />}
@@ -150,14 +67,7 @@ function mapStateToProps(state) {
 		userName: userName(state),
 		avatarUrl: userAvatarUrl(state),
 		questionId: state.questionsReducer.questionId,
-		questionsCompleted: state.questionsReducer.questionsCompleted,
-		questionsInputs: state.questionsReducer.questionsInputs,
-		totalPoints: state.questionsReducer.totalPoints,
 	};
 }
 
-export default connect(mapStateToProps, {
-	...QuestionActions,
-	login: initializeAndLogin,
-	showLeaderboard,
-})(CenterContainer);
+export default connect(mapStateToProps)(CenterContainer);

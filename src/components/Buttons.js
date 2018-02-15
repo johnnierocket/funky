@@ -2,8 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import RaisedButton from 'material-ui/RaisedButton';
 
+const ButtonsWrapper = styled.div`
+	display: flex;
+	flex: 1;
+`;
+
 const StyledRaisedButton = styled(RaisedButton)`
 	margin: 12px;
+	display: flex !important;
+`;
+
+const StyledSubmitButton = styled(StyledRaisedButton)`
+	margin-left: auto;
 `;
 
 const Buttons = ({
@@ -14,22 +24,22 @@ const Buttons = ({
 	nextQuestion,
 	previousQuestion,
 }) => (
-	<div>
-		<StyledRaisedButton label="Go Back" onClick={previousQuestion} disabled={!(questionId - 1)} />
+	<ButtonsWrapper>
+		<StyledRaisedButton label="Previous" onClick={previousQuestion} disabled={!(questionId - 1)} />
 		<StyledRaisedButton
-			label="Attempt Answer"
+			label="Next"
+			secondary={true}
+			onClick={nextQuestion}
+			disabled={!questionPreviouslyAnswered || questionId === exercises.length}
+		/>
+		<StyledSubmitButton
+			label="Submit"
 			backgroundColor="#ffa500"
 			labelColor="#ffffff"
 			onClick={validateResponse}
 			disabled={questionPreviouslyAnswered}
 		/>
-		<StyledRaisedButton
-			label="Next Question"
-			secondary={true}
-			onClick={nextQuestion}
-			disabled={!questionPreviouslyAnswered || questionId === exercises.length}
-		/>
-	</div>
+	</ButtonsWrapper>
 );
 
 export default Buttons;

@@ -27,6 +27,7 @@ const Root = styled.div`
 	position: relative;
 	flex-direction: column;
 	background-size: cover;
+	min-height: 100vh;
 `;
 
 class App extends Component {
