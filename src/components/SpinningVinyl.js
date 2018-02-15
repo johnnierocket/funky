@@ -10,6 +10,7 @@ const VinylRecord = styled.div`
 	align-items: center;
 	justify-content: center;
 	animation: ${props => props.isSpinning} 2s infinite linear;
+	animation: ${props => props.isSliding} 2s infinite linear;
 	zoom: ${props => props.zoom};
 	margin: ${props => props.margin};
 
@@ -19,6 +20,15 @@ const VinylRecord = styled.div`
 		}
 		100% {
 			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes translate {
+		0% {
+			transform: translateX(0);
+		}
+		100% {
+			transform: translate(50px);
 		}
 	}
 `;
@@ -99,6 +109,7 @@ export default class SpinningVinyl extends React.Component {
 		this.state = {
 			backgroundColor: '#6cc93d',
 			textColor: '#ffd33f',
+			slideRight: false,
 		};
 	}
 
@@ -109,6 +120,11 @@ export default class SpinningVinyl extends React.Component {
 	componentWillReceiveProps(nextProps) {
 		if (this.props.points !== nextProps.points) {
 			this.applyVinylStyle();
+		}
+		if (this.props.next !== nextProps.next) {
+			this.setState({
+				slideRight: true,
+			});
 		}
 	}
 
@@ -122,14 +138,15 @@ export default class SpinningVinyl extends React.Component {
 
 	render() {
 		const { isSpinning, size } = this.props;
-		const { backgroundColor, textColor } = this.state;
+		const { backgroundColor, textColor, slideRight } = this.state;
 		const startSpin = isSpinning ? 'spin' : 'unset';
+		const startSlide = slideRight ? 'slide' : 'unset';
 		const setZoom = size === 'small' ? 0.2 : 1;
 		const setMargin = size === 'small' ? '1em' : 0;
 		const randGradient = this.backgroundColors[Math.floor(Math.random() * this.backgroundColors.length)];
 
 		return (
-			<VinylRecord isSpinning={startSpin} zoom={setZoom} margin={setMargin}>
+			<VinylRecord isSpinning={startSpin} zoom={setZoom} margin={setMargin} isSliding={startSlide}>
 				<RecordLabel labelColor={backgroundColor} textColor={textColor} gradColor={randGradient}>
 					{!size && (
 						<CircleWrapper>

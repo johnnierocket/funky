@@ -28,27 +28,31 @@ const ContentRow = styled.div`
 const SideContainer = styled.div`
 	margin: 40px;
 	width: 30%;
+	position: relative;
+`;
+
+const VinylControls = styled.div`
+	position: relative;
 `;
 
 const StyledImg = styled.img`
 	width: 150px;
 	position: absolute;
 	z-index: 1;
-	top: 250px;
-	right: 100px;
+	left: 150px;
 	transform: rotate(${props => props.rotate}deg);
 	-webkit-transform-origin-x: right;
 	-webkit-transform-origin-y: bottom;
+	transition: transform 0.25s linear 0s;
 `;
 
-const VinylHandle = styled.div``;
 const MusicScratcher = styled.div`
 	position: absolute;
-	top: 250px;
-	right: 52px;
 	width: 10px;
 	height: 118px;
 	background-color: #000;
+	left: 350px;
+	bottom: 100px;
 `;
 
 const MusicDial = styled.div`
@@ -58,8 +62,8 @@ const MusicDial = styled.div`
 	background-color: #000;
 	border: solid 0.5px #000;
 	border-radius: 100%;
-	right: 42px;
-	bottom: ${props => props.top};
+	left: 340px;
+	bottom: ${props => props.bottom};
 `;
 
 const MusicSwitch = styled.div`
@@ -162,17 +166,17 @@ class ContentContainer extends Component {
 						input={input}
 					/>
 					<SideContainer>
-						<SpinningVinyl isSpinning={!error} points={exercise.points} />
-						<VinylHandle>
+						<SpinningVinyl isSpinning={!error} points={exercise.points} transition={next} />
+						<VinylControls>
 							<StyledImg src={handle} alt="handle" rotate={rotateDeg} />
 							<MusicScratcher />
-							<MusicDial top="250px">
+							<MusicDial bottom="50px">
 								<MusicSwitch />
 							</MusicDial>
-							<MusicDial top="290px">
+							<MusicDial bottom="10px">
 								<MusicSwitch />
 							</MusicDial>
-						</VinylHandle>
+						</VinylControls>
 						<NextVinyls questionId={questionId} />
 					</SideContainer>
 				</ContentRow>
