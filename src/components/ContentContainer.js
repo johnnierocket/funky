@@ -40,6 +40,7 @@ const StyledImg = styled.img`
 	position: absolute;
 	z-index: 1;
 	left: 150px;
+	bottom: 0;
 	transform: rotate(${props => props.rotate}deg);
 	-webkit-transform-origin-x: right;
 	-webkit-transform-origin-y: bottom;
