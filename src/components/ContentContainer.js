@@ -41,8 +41,9 @@ const ContentRow = styled.div`
 
 const SideContainer = styled.div`
 	margin: 40px;
-	width: 30%;
 	position: relative;
+	flex: 0.2;
+	flex-basis: 300px;
 `;
 
 const VinylControls = styled.div`

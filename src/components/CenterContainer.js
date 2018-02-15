@@ -14,7 +14,9 @@ import track2 from '../sounds/track2-retrosoul.mp3';
 
 const StyledCenterContainer = styled.div`
 	flex: 1;
-	margin: -50px 40px 0;
+	margin: 0;
+	margin-top: -50px;
+	padding: 1em;
 `;
 
 class CenterContainer extends Component {

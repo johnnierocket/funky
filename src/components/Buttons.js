@@ -14,6 +14,7 @@ const StyledRaisedButton = styled(RaisedButton)`
 
 const StyledSubmitButton = styled(StyledRaisedButton)`
 	margin-left: auto;
+	margin-right: 2rem;
 `;
 
 const Buttons = ({
