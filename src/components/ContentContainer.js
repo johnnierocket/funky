@@ -59,7 +59,7 @@ class ContentContainer extends Component {
 	};
 
 	validateResponse = () => {
-		const { questionId, questionsCompleted, submitCorrectResponse, submitIncorrectResponse, setError } = this.props;
+		const { questionId, questionsCompleted, submitCorrectResponse, submitIncorrectResponse } = this.props;
 		const { input } = this.state;
 		const { assert, givens, points } = exercises[questionId];
 
