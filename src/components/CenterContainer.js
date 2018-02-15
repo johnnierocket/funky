@@ -21,7 +21,7 @@ const StyledCenterContainer = styled.div`
 
 class CenterContainer extends Component {
 	render() {
-		const { questionId, error, onInputChange, handleKeyPress, correctSubmission, next, input } = this.props;
+		const { questionId, error, onInputChange, handleKeyPress, correctSubmission, input } = this.props;
 		const exercise = exercises[questionId];
 		const vinylTrackArray = [track1, track2];
 		const randTrack = vinylTrackArray[Math.floor(Math.random() * vinylTrackArray.length)];
