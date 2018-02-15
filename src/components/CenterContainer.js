@@ -9,9 +9,6 @@ import PlaySound from './PlaySound';
 import { loggedIn, userName, userAvatarUrl } from '../reducers/index';
 import { connect } from 'react-redux';
 
-import lose2 from '../sounds/lose2.mp3';
-import lose5 from '../sounds/lose5.mp3';
-import lose6 from '../sounds/lose6.mp3';
 import track1 from '../sounds/track1-downtown.mp3';
 import track2 from '../sounds/track2-retrosoul.mp3';
 
@@ -25,9 +22,7 @@ class CenterContainer extends Component {
 		const { questionId, error, onInputChange, handleKeyPress, correctSubmission, next, input } = this.props;
 		const exercise = exercises[questionId];
 		const vinylTrackArray = [track1, track2];
-		const loseSoundsArray = [lose2, lose5, lose6];
 		const randTrack = vinylTrackArray[Math.floor(Math.random() * vinylTrackArray.length)];
-		const randLose = loseSoundsArray[Math.floor(Math.random() * loseSoundsArray.length)];
 
 		return (
 			<StyledCenterContainer>
@@ -47,7 +42,6 @@ class CenterContainer extends Component {
 				)}
 				{!error && <PlaySound src={randTrack} />}
 				{correctSubmission && <h1>Correct!</h1>}
-				{error && <PlaySound src={randLose} />}
 				<Leaderboard />
 			</StyledCenterContainer>
 		);

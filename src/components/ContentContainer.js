@@ -17,6 +17,11 @@ import win1 from '../sounds/next1_50cent_2.mp3';
 import win2 from '../sounds/next2_jayz_woo.mp3';
 import win3 from '../sounds/next3_khaled-anotherone.mp3';
 import win4 from '../sounds/next4_liljon_2.mp3';
+
+import lose1 from '../sounds/lose2.mp3';
+import lose2 from '../sounds/lose5.mp3';
+import lose3 from '../sounds/lose6.mp3';
+
 import scratch1 from '../sounds/scratch1.mp3';
 import scratch2 from '../sounds/scratch2.mp3';
 import scratch3 from '../sounds/scratch3.mp3';
@@ -128,6 +133,7 @@ class ContentContainer extends Component {
 					next: false,
 				});
 				submitIncorrectResponse(points);
+				this.playLoseSound();
 			}
 		}
 	};
@@ -140,6 +146,15 @@ class ContentContainer extends Component {
 		const winArray = [w1, w2, w3, w4];
 		const randWinSound = winArray[Math.floor(Math.random() * winArray.length)];
 		randWinSound.play();
+	};
+
+	playLoseSound = () => {
+		const l1 = new Audio(lose1);
+		const l2 = new Audio(lose2);
+		const l3 = new Audio(lose3);
+		const loseArray = [l1, l2, l3];
+		const randLoseSound = loseArray[Math.floor(Math.random() * loseArray.length)];
+		randLoseSound.play();
 	};
 
 	previousQuestion = () => {
