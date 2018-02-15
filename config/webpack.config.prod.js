@@ -129,6 +129,13 @@ module.exports = {
         include: paths.appSrc,
       },
       {
+        test: /node_modules\/mudash/,
+        use: [{
+          options: { compact: true },
+          loader: require.resolve('babel-loader')
+        }],
+      },
+      {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
         // back to the "file" loader at the end of the loader list.
