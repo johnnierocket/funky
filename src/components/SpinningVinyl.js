@@ -34,38 +34,20 @@ const RecordLabel = styled.div`
 	font-variant: bold;
 `;
 
-const CircleArcs1 = styled.div`
-	border: 2px solid #fff;
-	display: inline-block;
-	min-width: 11em;
-	padding: 0.5em;
-	border-radius: 100%;
-	border-left-color: transparent;
-	border-right-color: transparent;
-	margin: -3.85rem -3rem;
-	opacity: 1;
+const CircleWrapper = styled.div`
+	margin: -2.2em -2.1em;
+	zoom: 1.5;
 `;
 
-const CircleArcs2 = styled.div`
-	border: 2px solid #fff;
+const CircleArc = styled.div`
+	border: 1px solid #fff;
 	display: inline-block;
-	min-width: 6.5em;
-	min-height: 9em;
+	min-width: 4em;
+	min-height: 4em;
 	padding: 0.5em;
-	border-radius: 40%;
+	border-radius: 50%;
 	border-left-color: transparent;
 	border-right-color: transparent;
-	margin: -2.5rem -7rem;
-	opacity: 0.75;
-`;
-
-const CircleArcs3 = styled.div`
-	border: 2px solid #fff;
-	display: inline-block;
-	min-width: 6em;
-	min-height: 6em;
-	border-radius: 100%;
-	opacity: 1;
 `;
 
 const RecordLabelChar = styled.div`
@@ -149,9 +131,17 @@ export default class SpinningVinyl extends React.Component {
 		return (
 			<VinylRecord isSpinning={startSpin} zoom={setZoom} margin={setMargin}>
 				<RecordLabel labelColor={backgroundColor} textColor={textColor} gradColor={randGradient}>
-					{!size && <CircleArcs1 />}
-					{!size && <CircleArcs2 />}
-					{!size && <CircleArcs3 />}
+					{!size && (
+						<CircleWrapper>
+							<CircleArc>
+								<CircleArc>
+									<CircleArc>
+										<CircleArc />
+									</CircleArc>
+								</CircleArc>
+							</CircleArc>
+						</CircleWrapper>
+					)}
 					<LabelChar1>f</LabelChar1>
 					<LabelChar2>u</LabelChar2>
 					<LabelChar3>n</LabelChar3>
