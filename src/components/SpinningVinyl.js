@@ -10,7 +10,7 @@ const VinylRecord = styled.div`
 	align-items: center;
 	justify-content: center;
 	animation: ${props => props.isSpinning} 2s infinite linear;
-	animation: ${props => props.isSliding} 2s infinite linear;
+	animation: ${props => props.isFlipping} 1s 1 linear 5s;
 	zoom: ${props => props.zoom};
 	margin: ${props => props.margin};
 
@@ -23,12 +23,13 @@ const VinylRecord = styled.div`
 		}
 	}
 
-	@keyframes translate {
+	@keyframes flip {
 		0% {
 			transform: translateX(0);
 		}
 		100% {
-			transform: translate(50px);
+			transform: rotateY(180deg);
+			transform: translate(1000px);
 		}
 	}
 `;
@@ -110,6 +111,7 @@ export default class SpinningVinyl extends React.Component {
 			backgroundColor: '#6cc93d',
 			textColor: '#ffd33f',
 			slideRight: false,
+			moveUp: false,
 		};
 	}
 
@@ -121,9 +123,14 @@ export default class SpinningVinyl extends React.Component {
 		if (this.props.points !== nextProps.points) {
 			this.applyVinylStyle();
 		}
-		if (this.props.next !== nextProps.next) {
+		if (this.props.isFlipping !== nextProps.isFlipping) {
 			this.setState({
 				slideRight: true,
+			});
+		}
+		if (this.props.isMovingUp !== nextProps.isMovingUp) {
+			this.setState({
+				moveUp: true,
 			});
 		}
 	}
@@ -137,16 +144,16 @@ export default class SpinningVinyl extends React.Component {
 	};
 
 	render() {
-		const { isSpinning, size } = this.props;
-		const { backgroundColor, textColor, slideRight } = this.state;
+		const { isSpinning, flipAndSlide, size } = this.props;
+		const { backgroundColor, textColor } = this.state;
 		const startSpin = isSpinning ? 'spin' : 'unset';
-		const startSlide = slideRight ? 'slide' : 'unset';
+		const startFlipSlide = flipAndSlide ? 'flip' : 'unset';
 		const setZoom = size === 'small' ? 0.2 : 1;
 		const setMargin = size === 'small' ? '1em' : 0;
 		const randGradient = this.backgroundColors[Math.floor(Math.random() * this.backgroundColors.length)];
 
 		return (
-			<VinylRecord isSpinning={startSpin} zoom={setZoom} margin={setMargin} isSliding={startSlide}>
+			<VinylRecord isSpinning={startSpin} zoom={setZoom} margin={setMargin} isFlipping={startFlipSlide}>
 				<RecordLabel labelColor={backgroundColor} textColor={textColor} gradColor={randGradient}>
 					{!size && (
 						<CircleWrapper>

@@ -167,7 +167,7 @@ class ContentContainer extends Component {
 						input={input}
 					/>
 					<SideContainer>
-						<SpinningVinyl isSpinning={!error} points={exercise.points} transition={next} />
+						<SpinningVinyl isSpinning={!error} points={exercise.points} flipAndSlide={next} />
 						<VinylControls>
 							<StyledImg src={handle} alt="handle" rotate={rotateDeg} />
 							<MusicScratcher />
@@ -178,7 +178,7 @@ class ContentContainer extends Component {
 								<MusicSwitch />
 							</MusicDial>
 						</VinylControls>
-						<NextVinyls questionId={questionId} />
+						<NextVinyls questionId={questionId} next={next} />
 					</SideContainer>
 				</ContentRow>
 				<Footer
