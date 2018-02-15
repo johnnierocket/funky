@@ -18,7 +18,9 @@ export default class NextVinyls extends React.Component {
 			<StyledVinyls>
 				{Object.keys(exercises)
 					.slice(questionId)
-					.map(id => <SpinningVinyl isSpinning={false} points={exercises[id].points} size="small" />)}
+					.map((id, idx) => (
+						<SpinningVinyl key={idx} isSpinning={false} points={exercises[id].points} size="small" />
+					))}
 			</StyledVinyls>
 		);
 	}

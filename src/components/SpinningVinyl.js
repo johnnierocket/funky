@@ -132,7 +132,6 @@ export default class SpinningVinyl extends React.Component {
 
 	applyVinylStyle = () => {
 		const difficultyLevel = Math.floor(this.props.points / 10) - 1; // 10-50 point values, 1-5 difficulty
-		console.log('id and diff', this.props.points, difficultyLevel);
 		this.setState({
 			backgroundColor: this.backgroundColors[difficultyLevel],
 			textColor: this.textColors[difficultyLevel],
