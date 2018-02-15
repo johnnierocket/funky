@@ -4,6 +4,8 @@ import {
 	NEXT_QUESTION,
 	PREVIOUS_QUESTION,
 	USE_HINT,
+	SET_START_TIME,
+	SET_END_TIME,
 } from '../constants/actionTypes';
 
 export const submitCorrectResponse = pointValue => ({
@@ -26,4 +28,14 @@ export const previousQuestion = () => ({
 
 export const useHint = () => ({
 	type: USE_HINT,
+});
+
+export const setStartTime = time => ({
+	type: SET_START_TIME,
+	payload: { time },
+});
+
+export const setEndTime = time => ({
+	type: SET_END_TIME,
+	payload: { time },
 });
