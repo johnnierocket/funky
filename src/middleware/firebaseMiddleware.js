@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { LOGIN, REHYDRATE_QUESTIONS, UPDATE_LEADERBOARD } from '../constants/actionTypes';
+import { CLEAR_USER_DATA, LOGIN, REHYDRATE_QUESTIONS, UPDATE_LEADERBOARD } from '../constants/actionTypes';
 import { getQuestionsState, getTotalPoints, loggedIn, userAvatarUrl, userName } from '../reducers/index';
 
 const uid = () => firebase.auth().currentUser.uid;
@@ -50,6 +50,12 @@ const subscribeToLeaderboard = store => {
 		.on('value', snapshot => store.dispatch({ type: UPDATE_LEADERBOARD, payload: snapshot.val() }));
 };
 
+const clearUserData = () =>
+	firebase
+		.database()
+		.ref(questionsRefName())
+		.remove();
+
 export default store => {
 	subscribeToLeaderboard(store);
 	return next => action => {
@@ -57,6 +63,8 @@ export default store => {
 		if (action.type === LOGIN) {
 			rehydrateQuestions(store);
 			updateUserInfo(store);
+		} else if (action.type === CLEAR_USER_DATA) {
+			clearUserData();
 		} else {
 			saveToFirebase(store);
 		}
