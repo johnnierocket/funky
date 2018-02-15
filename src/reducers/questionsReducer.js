@@ -7,6 +7,7 @@ import {
 	REHYDRATE_QUESTIONS,
 	SET_START_TIME,
 	SET_END_TIME,
+	CLEAR_USER_DATA,
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -64,6 +65,11 @@ export default function questionsReducer(state = initialState, action) {
 			return {
 				...state,
 				endTime: action.payload.time,
+			};
+		case CLEAR_USER_DATA:
+			return {
+				...state,
+				...initialState,
 			};
 		default:
 			return state;
