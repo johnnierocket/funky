@@ -31,7 +31,6 @@ export default class CustomSyntaxHighlighter extends Component {
 		onKeyPress: func,
 		input: string,
 		showLineNumbers: bool,
-		children: string,
 	};
 
 	customRenderer = ({ rows, stylesheet, useInlineStyles }) => {
@@ -67,7 +66,6 @@ export default class CustomSyntaxHighlighter extends Component {
 				style={atomDark}
 				renderer={this.customRenderer}
 				showLineNumbers={this.props.showLineNumbers}
-				children={this.props.children}
 			>
 				{this.props.code}
 			</SyntaxHighlighter>
