@@ -55,7 +55,11 @@ class App extends Component {
 			<Root>
 				<Header loggedIn={loggedIn} avatarUrl={avatarUrl} login={login} userName={userName} />
 				{!startingScreen && <Progress questionsCompleted={questionsCompleted} exercises={exercises} />}
-				{startingScreen ? <StartingContainer startGame={this.startGame} /> : <ContentContainer />}
+				{startingScreen ? (
+					<StartingContainer login={login} loggedIn={loggedIn} startGame={this.startGame} />
+				) : (
+					<ContentContainer />
+				)}
 			</Root>
 		);
 	}

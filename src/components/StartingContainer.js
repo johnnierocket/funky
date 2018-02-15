@@ -29,7 +29,6 @@ const StyledRaisedButton = styled(RaisedButton)`
 	margin: 0 auto;
 	display: flex !important;
 	font-family: 'Righteous', cursive;
-	width: 220px;
 `;
 
 export default class ContentContainer extends Component {
@@ -38,12 +37,23 @@ export default class ContentContainer extends Component {
 			<ContentWrapper>
 				<Title>Are you ready for some composition?</Title>
 				<StyledImg src={introRecord} alt="record" />
-				<StyledRaisedButton
-					label="Let's Get It Poppin'!"
-					backgroundColor="#6cc93d"
-					labelColor="#ffffff"
-					onClick={this.props.startGame}
-				/>
+				{this.props.loggedIn ? (
+					<StyledRaisedButton
+						label="Let's Get It Poppin'!"
+						backgroundColor="#6cc93d"
+						labelColor="#ffffff"
+						onClick={this.props.startGame}
+						style={{ width: '250px' }}
+					/>
+				) : (
+					<StyledRaisedButton
+						label="Login with Github to Continue"
+						backgroundColor="#6cc93d"
+						labelColor="#ffffff"
+						onClick={this.props.login}
+						style={{ width: '320px' }}
+					/>
+				)}
 			</ContentWrapper>
 		);
 	}
