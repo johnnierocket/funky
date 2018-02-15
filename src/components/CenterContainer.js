@@ -16,7 +16,7 @@ const StyledCenterContainer = styled.div`
 	flex: 1;
 	margin: 0;
 	margin-top: -50px;
-	padding: 1em;
+	padding-left: 2em;
 `;
 
 class CenterContainer extends Component {
