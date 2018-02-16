@@ -94,7 +94,6 @@ class ContentContainer extends Component {
 	};
 
 	componentWillMount() {
-		console.log(+this.props.questionId, numExercises);
 		if (+this.props.questionId > numExercises) {
 			this.setState({
 				gameOver: true,
@@ -226,6 +225,7 @@ class ContentContainer extends Component {
 
 		return gameOver ? (
 			<div>
+				<h1>Leaderboard coming soon...</h1>
 				<button onClick={this.startOver}>Start Over</button>
 			</div>
 		) : (
