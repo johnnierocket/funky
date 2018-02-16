@@ -25,14 +25,43 @@ const LeaderboardRow = styled.div`
 	background: white;
 `;
 
+const PersonalUserRow = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 50px;
+	background-color: rgba(106, 188, 251, 0.3);
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+	border: solid 1.5px #6abcfb;
+	width: 65%;
+	margin: auto;
+	margin-bottom: 2em;
+
+	div {
+		flex: 1;
+	}
+
+	span {
+		padding-right: 1em;
+	}
+
+	img {
+		margin-right: 1em;
+	}
+`;
+
 class Leaderboard extends React.Component {
 	render() {
-		const { users } = this.props;
+		const { users, currentUser, totalPoints } = this.props;
 
 		const sortedUsers = users.sort((a, b) => b.points - a.points);
 
 		return (
 			<LeaderboardWrapper>
+				<PersonalUserRow>
+					<UserInfo rank="" avatarUrl={currentUser.photoURL} name={currentUser.displayName} />
+					<span>{totalPoints}</span>
+				</PersonalUserRow>
 				{sortedUsers.map((user, idx) => (
 					<LeaderboardRow key={user.id}>
 						<UserInfo rank={idx + 1} avatarUrl={user.avatarUrl} name={user.name} />
@@ -48,6 +77,8 @@ export default connect(
 	state => ({
 		open: getShowingLeaderboard(state),
 		users: getLeaderboardUsers(state),
+		currentUser: state.user.user,
+		totalPoints: state.questionsReducer.totalPoints,
 	}),
 	{ hide }
 )(Leaderboard);

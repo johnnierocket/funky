@@ -17,12 +17,16 @@ const StyledUserRow = styled.div`
 	}
 `;
 
-const UserInfo = ({ avatarUrl, name, rank }) => (
-	<StyledUserRow>
-		<span>{rank}</span>
-		<AvatarCircle size={40} src={avatarUrl} />
-		<span>{name}</span>
-	</StyledUserRow>
-);
+const UserInfo = ({ avatarUrl, name, rank }) => {
+	return (
+		<div>
+			<StyledUserRow>
+				<span>{rank}</span>
+				<AvatarCircle size={40} src={avatarUrl} />
+				<span>{name}</span>
+			</StyledUserRow>
+		</div>
+	);
+};
 
 export default UserInfo;
