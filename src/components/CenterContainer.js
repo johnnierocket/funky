@@ -44,7 +44,7 @@ class CenterContainer extends Component {
 				)}
 				{!error && <PlaySound src={randTrack} />}
 				{correctSubmission && <h1>Correct!</h1>}
-				<Leaderboard />
+				{questionId === exercises.length && <Leaderboard />}
 			</StyledCenterContainer>
 		);
 	}

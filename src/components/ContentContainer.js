@@ -12,6 +12,8 @@ import { niceFormatJestError } from '../helpers/JestHelpers';
 import { connect } from 'react-redux';
 import handle from '../images/handle.png';
 import StyledInputRange from '../components/StyledInputRange';
+import Leaderboard from '../components/Leaderboard';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import win1 from '../sounds/next1_50cent_2.mp3';
 import win2 from '../sounds/next2_jayz_woo.mp3';
@@ -83,6 +85,12 @@ const MusicSwitch = styled.div`
 	left: 43.5%;
 	top: 3px;
 	border-radius: 75%;
+`;
+
+const StyledRaisedButton = styled(RaisedButton)`
+	margin: 0 auto;
+	display: flex !important;
+	font-family: 'Righteous', cursive;
 `;
 class ContentContainer extends Component {
 	state = {
@@ -225,8 +233,14 @@ class ContentContainer extends Component {
 
 		return gameOver ? (
 			<div>
-				<h1>Leaderboard coming soon...</h1>
-				<button onClick={this.startOver}>Start Over</button>
+				<Leaderboard />
+				<StyledRaisedButton
+					label="Start Over"
+					backgroundColor="#6cc93d"
+					labelColor="#ffffff"
+					onClick={this.startOver}
+					style={{ width: '250px' }}
+				/>
 			</div>
 		) : (
 			<ContentWrapper>
