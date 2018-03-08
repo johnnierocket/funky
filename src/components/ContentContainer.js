@@ -257,7 +257,7 @@ class ContentContainer extends Component {
 						<SpinningVinyl points={exercise.points} isSpinning={!error} flipAndSlide={next} />
 						<VinylControls>
 							<StyledImg src={handle} alt="handle" rotate={rotateDeg} />
-							<StyledInputRange onChange={this.debounceSound(this.playScratchSound, 500)} />
+							<StyledInputRange onChange={this.debounceSound(this.playScratchSound, 400)} />
 							<MusicDial bottom="50px">
 								<MusicSwitch />
 							</MusicDial>
