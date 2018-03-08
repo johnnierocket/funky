@@ -57,7 +57,7 @@ const VinylControls = styled.div`
 const StyledImg = styled.img`
 	width: 150px;
 	position: absolute;
-	z-index: 1;
+	z-index: 0;
 	left: 150px;
 	bottom: 0;
 	transform: rotate(${props => props.rotate}deg);
