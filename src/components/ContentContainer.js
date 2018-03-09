@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { createStructuredSelector } from 'reselect';
+import { getQuestionId, getQuestionsCompleted, getQuestionsInputs } from '../selectors';
 import exercises from '../Exercises';
 import styled from 'styled-components';
 import CenterContainer from './CenterContainer';
@@ -281,16 +283,16 @@ class ContentContainer extends Component {
 	}
 }
 
-function mapStateToProps(state) {
-	return {
-		questionId: state.questionsReducer.questionId,
-		questionsInputs: state.questionsReducer.questionsInputs,
-		questionsCompleted: state.questionsReducer.questionsCompleted,
-	};
-}
+const selectors = createStructuredSelector({
+	questionId: getQuestionId,
+	questionsInputs: getQuestionsInputs,
+	questionsCompleted: getQuestionsCompleted,
+});
 
-export default connect(mapStateToProps, {
+const actions = {
 	...QuestionActions,
 	login: initializeAndLogin,
 	showLeaderboard,
-})(ContentContainer);
+};
+
+export default connect(selectors, actions)(ContentContainer);

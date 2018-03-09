@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import exercises from './Exercises';
+import { createStructuredSelector } from 'reselect';
+import { withRouter } from 'react-router-dom';
 import styled, { injectGlobal } from 'styled-components';
 import * as QuestionActions from './actions/QuestionsActions';
-import { loggedIn, userName, userAvatarUrl } from './reducers/index';
 import { initializeAndLogin } from './actions/FirebaseActions';
 import Header from './components/Header';
 import ContentContainer from './components/ContentContainer';
@@ -11,6 +12,7 @@ import Progress from './components/Progress';
 import bg from './images/bg.svg';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import { getLoggedIn, getUserName, getAvatarUrl, getQuestionsCompleted } from './selectors';
 
 injectGlobal`
 	html {
@@ -66,16 +68,18 @@ class App extends Component {
 	}
 }
 
-function mapStateToProps(state) {
-	return {
-		loggedIn: loggedIn(state),
-		userName: userName(state),
-		avatarUrl: userAvatarUrl(state),
-		questionsCompleted: state.questionsReducer.questionsCompleted,
-	};
-}
+const selectors = createStructuredSelector({
+	loggedIn: getLoggedIn,
+	userName: getUserName,
+	avatarUrl: getAvatarUrl,
+	questionsCompleted: getQuestionsCompleted,
+});
 
-export default connect(mapStateToProps, {
+const actions = {
 	...QuestionActions,
 	login: initializeAndLogin,
-})(App);
+};
+
+const withRedux = connect(selectors, actions);
+
+export default withRouter(withRedux(App));

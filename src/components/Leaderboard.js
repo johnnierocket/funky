@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import UserInfo from './UserInfo';
-import { getLeaderboardUsers, getShowingLeaderboard } from '../reducers/index';
+import { getLeaderboardUsers, getShowingLeaderboard, getTotalPoints, getCurrentUser } from '../selectors';
 import { hideLeaderboard as hide } from '../actions/LeaderboardActions';
 
 const LeaderboardWrapper = styled.div`
@@ -73,12 +74,15 @@ class Leaderboard extends React.Component {
 	}
 }
 
-export default connect(
-	state => ({
-		open: getShowingLeaderboard(state),
-		users: getLeaderboardUsers(state),
-		currentUser: state.user.user,
-		totalPoints: state.questionsReducer.totalPoints,
-	}),
-	{ hide }
-)(Leaderboard);
+const selectors = createStructuredSelector({
+	open: getShowingLeaderboard,
+	users: getLeaderboardUsers,
+	currentUser: getCurrentUser,
+	totalPoints: getTotalPoints,
+});
+
+const actions = {
+	hide,
+};
+
+export default connect(selectors, actions)(Leaderboard);
