@@ -20,3 +20,7 @@ Fill in intuitive javascript expressions to solve the puzzle, earn points, and p
 
 ## Future/Roadmap
 - [ ] Home screen shows multiple empty lessons for other topics or other languages **(Omar/Johnnie/Brent)**
+
+## Brent Design
+
+https://imgur.com/a/8a7Cf
