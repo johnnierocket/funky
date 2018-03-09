@@ -31,7 +31,7 @@ const StyledRaisedButton = styled(RaisedButton)`
 	font-family: 'Righteous', cursive;
 `;
 
-export default class ContentContainer extends Component {
+export default class StartingContainer extends Component {
 	render() {
 		return (
 			<ContentWrapper>
