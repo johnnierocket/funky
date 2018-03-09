@@ -75,5 +75,3 @@ export default function questionsReducer(state = initialState, action) {
 			return state;
 	}
 }
-
-export const getTotalPoints = state => state.totalPoints;

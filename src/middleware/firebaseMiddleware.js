@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import { CLEAR_USER_DATA, LOGIN, REHYDRATE_QUESTIONS, UPDATE_LEADERBOARD } from '../constants/actionTypes';
-import { getQuestionsState, getTotalPoints, loggedIn, userAvatarUrl, userName } from '../reducers/index';
+import { getQuestionsState, getLoggedIn, getAvatarUrl, getUserName, getTotalPoints } from '../selectors';
 
 const uid = () => firebase.auth().currentUser.uid;
 const questionsRefName = () => `/users/${uid()}/questions`;
@@ -8,7 +8,7 @@ const userLeaderboardRefName = () => `/leaderboard/${uid()}`;
 const userInfoRefName = () => `/users/${uid()}/meta`;
 const saveToFirebase = store => {
 	const state = store.getState();
-	if (!loggedIn(state)) {
+	if (!getLoggedIn(state)) {
 		return;
 	}
 	firebase
@@ -18,15 +18,15 @@ const saveToFirebase = store => {
 	firebase
 		.database()
 		.ref(userLeaderboardRefName())
-		.set({ name: userName(state), avatarUrl: userAvatarUrl(state), points: getTotalPoints(state) });
+		.set({ name: getUserName(state), avatarUrl: getAvatarUrl(state), points: getTotalPoints(state) });
 };
 const updateUserInfo = store => {
 	const state = store.getState();
-	if (loggedIn(state)) {
+	if (getLoggedIn(state)) {
 		firebase
 			.database()
 			.ref(userInfoRefName())
-			.set({ name: userName(state), avatarUrl: userAvatarUrl(state) });
+			.set({ name: getUserName(state), avatarUrl: getAvatarUrl(state) });
 	}
 };
 

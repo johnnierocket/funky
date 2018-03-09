@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import exercises from '../Exercises';
 import CodeBlock from './CodeBlock';
@@ -6,7 +7,7 @@ import Instructions from './Instructions';
 import Leaderboard from './Leaderboard';
 import PlaySound from './PlaySound';
 
-import { loggedIn, userName, userAvatarUrl } from '../reducers/index';
+import { getAvatarUrl, getLoggedIn, getQuestionId, getUserName } from '../selectors';
 import { connect } from 'react-redux';
 
 import track1 from '../sounds/track1-downtown.mp3';
@@ -50,13 +51,11 @@ class CenterContainer extends Component {
 	}
 }
 
-function mapStateToProps(state) {
-	return {
-		loggedIn: loggedIn(state),
-		userName: userName(state),
-		avatarUrl: userAvatarUrl(state),
-		questionId: state.questionsReducer.questionId,
-	};
-}
+const selectors = createStructuredSelector({
+	loggedIn: getLoggedIn,
+	userName: getUserName,
+	avatarUrl: getAvatarUrl,
+	questionId: getQuestionId,
+});
 
-export default connect(mapStateToProps)(CenterContainer);
+export default connect(selectors)(CenterContainer);

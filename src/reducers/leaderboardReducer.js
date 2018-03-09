@@ -34,6 +34,3 @@ const showingLeaderboard = (state, action) => {
 };
 
 export default combineReducers({ showingLeaderboard, users });
-
-export const getShowingLeaderboard = state => state.showingLeaderboard;
-export const getUsers = state => state.users;

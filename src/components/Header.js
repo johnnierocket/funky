@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Login from './Login';
+import LoginBug from './LoginBug';
 
 const StyledHeader = styled.div`
 	background-color: #6abcfb;
@@ -32,7 +32,7 @@ const RedAccentBar = styled.div`
 	height: 5px;
 `;
 
-const StyledLogin = styled(Login)`
+const StyledLoginBug = styled(LoginBug)`
 	display: inline-flex;
 `;
 
@@ -40,7 +40,7 @@ const Header = ({ loggedIn, login, userName, avatarUrl }) => (
 	<StyledHeader>
 		<TitleBar>
 			<Title>Funky</Title>
-			<StyledLogin loggedIn={loggedIn} login={login} userName={userName} avatarUrl={avatarUrl} />
+			<StyledLoginBug loggedIn={loggedIn} login={login} userName={userName} avatarUrl={avatarUrl} />
 		</TitleBar>
 
 		<YellowAccentBar />

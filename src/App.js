@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-import exercises from './Exercises';
-import styled, { injectGlobal } from 'styled-components';
-import * as QuestionActions from './actions/QuestionsActions';
-import { loggedIn, userName, userAvatarUrl } from './reducers/index';
-import { initializeAndLogin } from './actions/FirebaseActions';
-import Header from './components/Header';
-import ContentContainer from './components/ContentContainer';
-import StartingContainer from './components/StartingContainer';
-import Progress from './components/Progress';
-import bg from './images/bg.svg';
-import moment from 'moment';
+import PropTypes from 'prop-types';
+import { Route } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
+import styled, { injectGlobal } from 'styled-components';
+import { getLoggedIn, getUserName, getAvatarUrl } from './selectors';
+import { initializeAndLogin } from './actions/FirebaseActions';
+import bg from './images/bg.svg';
+
+import Home from './components/Home';
+import Login from './components/Login';
+import Header from './components/Header';
+import GamePlay from './components/Gameplay';
+import Leaderboard from './components/Leaderboard';
 
 injectGlobal`
 	html {
@@ -37,45 +40,42 @@ const Root = styled.div`
 `;
 
 class App extends Component {
-	state = {
-		startingScreen: true,
-	};
-
-	startGame = () => {
-		this.props.setStartTime(moment());
-		this.setState({
-			startingScreen: false,
-		});
+	static propTypes = {
+		// react-router
+		history: PropTypes.object.isRequired,
+		location: PropTypes.object.isRequired,
+		match: PropTypes.object.isRequired,
+		// selectors
+		loggedIn: PropTypes.bool.isRequired,
+		userName: PropTypes.string.isRequired,
+		avatarUrl: PropTypes.string.isRequired,
+		// actions
+		login: PropTypes.func.isRequired,
 	};
 
 	render() {
-		const { loggedIn, questionsCompleted, avatarUrl, login, userName } = this.props;
-		const { startingScreen } = this.state;
-
+		const { loggedIn, avatarUrl, login, userName } = this.props;
 		return (
 			<Root>
 				<Header loggedIn={loggedIn} avatarUrl={avatarUrl} login={login} userName={userName} />
-				{!startingScreen && <Progress questionsCompleted={questionsCompleted} exercises={exercises} />}
-				{startingScreen ? (
-					<StartingContainer login={login} loggedIn={loggedIn} startGame={this.startGame} />
-				) : (
-					<ContentContainer />
-				)}
+				<Route exact path="/" component={Home} />
+				<Route exact path="/login" component={Login} />
+				<Route exact path="/gameplay" component={GamePlay} />
+				<Route exact path="/leaderboard" component={Leaderboard} />
 			</Root>
 		);
 	}
 }
 
-function mapStateToProps(state) {
-	return {
-		loggedIn: loggedIn(state),
-		userName: userName(state),
-		avatarUrl: userAvatarUrl(state),
-		questionsCompleted: state.questionsReducer.questionsCompleted,
-	};
-}
+const selectors = createStructuredSelector({
+	loggedIn: getLoggedIn,
+	userName: getUserName,
+	avatarUrl: getAvatarUrl,
+});
 
-export default connect(mapStateToProps, {
-	...QuestionActions,
+const actions = {
 	login: initializeAndLogin,
-})(App);
+};
+
+const withRedux = connect(selectors, actions);
+export default withRouter(withRedux(App));

@@ -16,8 +16,3 @@ export default function(state, action) {
 			return state;
 	}
 }
-
-export const loggedIn = state => !!state.user;
-export const userName = state => state.user ? state.user.displayName : '';
-export const userId = state => state.user ? state.user.uid : '';
-export const userAvatarUrl = state => state.user ? state.user.photoURL : '';
