@@ -10,7 +10,7 @@ Fill in intuitive javascript expressions to solve the puzzle, earn points, and p
 - [ ] Adding access to leaderboard from the home screen **(Omar/Johnnie/Brent)**
 - [ ] Check that Firebase github auth only asks for username **(Brad)**
 - [ ] Add a few more easy exercises upfront **(Bart)**
-- [ ] Remove dependency on mudash library for exercises so it is more generic **(Bart)**
+- [x] Remove dependency on mudash library for exercises so it is more generic **(Bart)**
 - [ ] During gameplay, add a bailout button to home screen **(Johnnie)**
 - [ ] Start over button on leaderboard should not clear your score, instead it only saves your BEST score **(Brad)**
 

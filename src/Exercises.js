@@ -4,8 +4,8 @@ import compose from 'lodash/fp/compose';
 import join from 'lodash/fp/join';
 import expect from 'expect';
 import toUpper from 'lodash/fp/toUpper';
-import { at, isEqual, some, reduce, set, map, flatten, filter } from 'mudash/fp';
-import { Map, List, fromJS } from 'immutable';
+import map from 'lodash/fp/map';
+import { Map, List, fromJS, set, get } from 'immutable';
 
 const greet = greeting => name => {
 	return greeting + ' ' + name;
@@ -187,27 +187,22 @@ buildUl(['item1', 'item2', 'item3']) // <ul><li>item1</li><li>item2</li><li>item
 		title: 'Use a transformer to reduce a List into a Map',
 		points: 20,
 		givens: {
-			reduce,
 			set,
-			List,
 			Map,
-			reducer: (map, key) => set(key, true, map),
+			reducer: (map, key) => set(map, key, true),
 			items: List(['admin', 'writer', 'approver']),
 		},
-		display: `import { Map, List } from 'immutable';
-import { reduce, set } from 'mudash/fp';
+		display: `import { Map, List, set } from 'immutable';
 
 const items = List(['admin', 'writer', 'approver']);
 
-// 'set' takes the arguments: (path, value, data) and is curried by default
-// if given only a path and value it will return a function that always set
-// the same path and value to whatever collection is given
-const reducer = (map, key) => set(key, true, map);
+// sometimes you might want to convert a List into a Map for quick lookup
+// this is a perfect fit for using a reducer!
+const reducer = (map, key) => set(map, key, true);
 
-reduce(__INPUT__)(items);
-// Map({ admin: true, writer: true, approver: true })`,
-		assert: ({ reduce, reducer, Map, items, input }) =>
-			expect(eval(`reduce(${input})(items)`)).toEqual(Map({ admin: true, writer: true, approver: true })),
+items.reduce(__INPUT__); // Map({ admin: strue, writer: true, approver: true })`,
+		assert: ({ reducer, items, input, Map }) =>
+			expect(eval(`items.reduce(${input})`)).toEqual(Map({ admin: true, writer: true, approver: true })),
 	},
 	'10': {
 		id: '10',
@@ -216,75 +211,67 @@ reduce(__INPUT__)(items);
 		givens: {
 			List,
 			Map,
-			reduce,
-			set,
-			some,
-			map,
-			matchers: map(isEqual, List(['admin', 'approver'])),
 			items: List(['admin', 'writer', 'approver']),
 		},
-		display: `import { map, some, isEqual reduce } from 'mudash/fp';
-import { Map, List } from 'immutable';
+		display: `import { Map } from 'immutable';
 
 const items = List(['admin', 'writer', 'approver']);
 
-// isEqual compares two arguments and is curried by default
-const matchers = map(isEqual, List(['admin', 'approver']));
+const match = __INPUT__;
 
-const isEnabled = key => some(__INPUT__, matchers);
-
-reduce((obj, key) => set(key, isEnabled(key), obj), Map(), items);
-// Map({ admin: true, writer: false, approver: true })`,
-		assert: ({ input, some, reduce, Map, items, matchers, set }) =>
-			expect(
-				eval(`reduce((obj, key) => set(key, (key => some(${input}, matchers))(key), obj), Map(), items)`)
-			).toEqual(Map({ admin: true, writer: false, approver: true })),
+// using tacit argument passing we can invoke the function 
+// that match returns against the current item
+items.map(match('admin')); // List([ true, false, false ])
+`,
+		assert: ({ items, input }) => expect(items.map(eval(input)('admin'))).toEqual(List([true, false, false])),
 	},
 	'11': {
 		id: '11',
-		title: '11 Selecting values out of a Map',
-		points: 10,
+		title: 'Transform and Filter a List into a Map',
+		points: 40,
 		givens: {
-			at,
-			data: fromJS({
-				name: 'Bart',
-				roles: ['admin', 'writer'],
-				teams: ['customer', 'internal'],
-			}),
+			List,
+			Map,
+			enabledItems: List(['admin', 'writer', 'manager']),
+			items: List(['admin', 'writer', 'approver']),
+			match: a => b => a === b,
 		},
-		display: `import { at } from 'mudash/fp';
-import { fromJS } from 'immutable';
+		display: `import { Map, List, set } from 'immutable';
+		
+const items = List(['admin', 'approver', 'writer']);
+const enabledItems = List(['admin', 'writer', 'manager']);
+const match = a => b => a === b;
 
-const data = fromJS({
-	name: 'Bart',
-	roles: ['admin', 'writer'],
-	teams: ['customer', 'internal']
-});
+// by binding match to the given key we can check if
+// some of the enabled items match that key
+const isEnabled = key => enabledItems.some(__INPUT__);
 
-// 'at' takes a list of lookup paths and returns a list of the results
+const reducer = (obj, key) => set(obj, key, isEnabled(key));
 
-at(__INPUT__)(data);
-// List([List(['admin', 'writer']), List(['customer', 'internal'])])`,
-		assert: ({ input, at, data }) =>
-			expect(at(eval(input))(data)).toEqual(List([List(['admin', 'writer']), List(['customer', 'internal'])])),
+items.reduce(reducer, Map()); // Map({ admin: true, approver: false, writer: true })`,
+		assert: ({ items, input, enabledItems, match, Map }) => {
+			const isEnabled = key => enabledItems.some(eval(input));
+			expect(items.reduce((obj, key) => set(obj, key, isEnabled(key)), Map())).toEqual(
+				Map({ admin: true, approver: false, writer: true })
+			);
+		},
 	},
 	'12': {
 		id: '12',
-		title: '',
-		points: 50,
+		title: 'Selecting values out of a Map',
+		points: 10,
 		givens: {
-			compose,
-			flatten,
+			get,
 			data: fromJS({
 				name: 'Bart',
 				roles: ['admin', 'writer'],
 				teams: ['customer', 'internal'],
 			}),
-			getVals: at(['roles', 'teams']),
-			onlyAdmin: filter(isEqual('admin')),
+			flatMap: (arr, pred) => List(arr).flatMap(pred),
 		},
-		display: `import { fromJS } from 'immutable';
-import { at, isEqual, flatten, filter } from 'mudash/fp';
+		display: `import { fromJS, get } from 'immutable';
+
+const flatMap = (arr, pred) => List(arr).flatMap(pred);
 
 const data = fromJS({
 	name: 'Bart',
@@ -292,16 +279,49 @@ const data = fromJS({
 	teams: ['customer', 'internal']
 });
 
-const getVals = at(['roles', 'teams']);
-const onlyAdmin = filter(isEqual('admin'));
+// 'at' takes a list of lookup paths and returns a flattened result List
+const at = paths => obj => __INPUT__; // flatMap(paths, path => get())
 
-// 'flatten' is available which takes a single argument of List and
-// returns sub-lists flattened into the out list
-// Hint: you do not need to create any new functions
+at(['roles','teams'])(data); // List(['admin', 'writer', 'customer', 'internal'])`,
+		assert: ({ input, data, flatMap, get }) => {
+			const at = paths => obj => eval(input);
+			expect(at(['roles', 'teams'])(data)).toEqual(List(['admin', 'writer', 'customer', 'internal']));
+		},
+	},
+	'13': {
+		id: '13',
+		title: 'Selecting values out of a Map',
+		points: 50,
+		givens: {
+			compose,
+			data: fromJS({
+				name: 'Bart',
+				roles: ['admin', 'writer'],
+				teams: ['customer', 'internal'],
+			}),
+			at: paths => obj => List(paths).flatMap(path => get(obj, path)),
+			onlyAdmin: items => items.filter(item => item === 'admin'),
+		},
+		display: `import { fromJS, get, List } from 'immutable';
+import compose from 'lodash/fp/compose';
 
-compose(__INPUT__)(data); // List(['admin'])`,
-		assert: ({ input, flatten, data, onlyAdmin, getVals, compose }) =>
-			expect(eval(`compose(${input})(data)`)).toEqual(List(['admin'])),
+const match = a => b => a === b;
+const at = paths => obj => List(paths).flatMap(path => get(obj, path));
+const onlyAdmin = items => items.filter(match('admin'));
+
+const data = fromJS({
+	name: 'Bart',
+	roles: ['admin', 'writer'],
+	teams: ['customer', 'internal']
+});
+
+// using only the functions defined above we can build a flattened list of roles from the data
+const doFilter = compose(__INPUT__);
+
+doFilter(data); // List(['admin'])`,
+		assert: ({ input, onlyAdmin, at, data, compose }) => {
+			expect(eval(`compose(${input})`)(data)).toEqual(List(['admin']));
+		},
 	},
 };
 

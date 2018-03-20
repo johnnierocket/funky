@@ -43,13 +43,17 @@ it('9 Use a transformer to reduce a List into a Map', () => {
 });
 
 it('10 Transform and Filter a List into a Map', () => {
-	validate('10', 'match => match(key)');
+	validate('10', 'a => b => a === b');
 });
 
-it('11 Selecting values out of a Map', () => {
-	validate('11', "['roles', 'teams']");
+it('11 Transform and Filter a List into a Map', () => {
+	validate('11', 'match(key)');
 });
 
 it('12 Selecting values out of a Map', () => {
-	validate('12', 'onlyAdmin, flatten, getVals');
+	validate('12', 'flatMap(paths, path => get(obj, path))');
+});
+
+it('13 Selecting values out of a Map', () => {
+	validate('13', "onlyAdmin, at(['roles'])");
 });
