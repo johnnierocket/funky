@@ -13,8 +13,9 @@ import { showLeaderboard } from '../actions/LeaderboardActions';
 import { niceFormatJestError } from '../helpers/JestHelpers';
 import { connect } from 'react-redux';
 import handle from '../images/handle.png';
-import StyledInputRange from '../components/StyledInputRange';
-import Leaderboard from '../components/Leaderboard';
+import StyledInputRange from './StyledInputRange';
+import CoolBeansCounter from './CoolBeansCounter';
+import Leaderboard from './Leaderboard';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import win1 from '../sounds/next1_50cent_2.mp3';
@@ -50,6 +51,8 @@ const SideContainer = styled.div`
 	position: relative;
 	flex: 0.2;
 	flex-basis: 300px;
+	display: flex;
+	flex-direction: column;
 `;
 
 const VinylControls = styled.div`
@@ -256,6 +259,7 @@ class ContentContainer extends Component {
 						input={input}
 					/>
 					<SideContainer>
+						<CoolBeansCounter />
 						<SpinningVinyl points={exercise.points} isSpinning={!error} flipAndSlide={next} />
 						<VinylControls>
 							<StyledImg src={handle} alt="handle" rotate={rotateDeg} />
