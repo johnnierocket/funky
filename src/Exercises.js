@@ -200,7 +200,7 @@ const items = List(['admin', 'writer', 'approver']);
 // this is a perfect fit for using a reducer!
 const reducer = (map, key) => set(map, key, true);
 
-items.reduce(__INPUT__); // Map({ admin: strue, writer: true, approver: true })`,
+items.reduce(__INPUT__); // Map({ admin: true, writer: true, approver: true })`,
 		assert: ({ reducer, items, input, Map }) =>
 			expect(eval(`items.reduce(${input})`)).toEqual(Map({ admin: true, writer: true, approver: true })),
 	},
@@ -280,7 +280,7 @@ const data = fromJS({
 });
 
 // 'at' takes a list of lookup paths and returns a flattened result List
-const at = paths => obj => __INPUT__; // flatMap(paths, path => get())
+const at = paths => obj => __INPUT__;
 
 at(['roles','teams'])(data); // List(['admin', 'writer', 'customer', 'internal'])`,
 		assert: ({ input, data, flatMap, get }) => {
