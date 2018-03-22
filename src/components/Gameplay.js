@@ -10,7 +10,7 @@ import exercises from '../Exercises';
 
 import { getLoggedIn, getQuestionsCompleted } from '../selectors';
 
-class Home extends Component {
+class FunkyModule extends Component {
 	static propTypes = {
 		// react-router
 		history: PropTypes.object.isRequired,
@@ -44,4 +44,4 @@ const selectors = createStructuredSelector({
 
 const withRedux = connect(selectors);
 
-export default withRouter(withRedux(Home));
+export default withRouter(withRedux(FunkyModule));
