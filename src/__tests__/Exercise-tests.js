@@ -51,7 +51,7 @@ it('11 Transform and Filter a List into a Map', () => {
 });
 
 it('12 Selecting values out of a Map', () => {
-	validate('12', 'flatMap(paths, path => get(obj, path))');
+	validate('12', 'paths, path => get(obj, path)');
 });
 
 it('13 Selecting values out of a Map', () => {

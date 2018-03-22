@@ -280,11 +280,11 @@ const data = fromJS({
 });
 
 // 'at' takes a list of lookup paths and returns a flattened result List
-const at = paths => obj => __INPUT__;
+const at = paths => obj => flatMap(__INPUT__);
 
 at(['roles','teams'])(data); // List(['admin', 'writer', 'customer', 'internal'])`,
 		assert: ({ input, data, flatMap, get }) => {
-			const at = paths => obj => eval(input);
+			const at = paths => obj => eval(`flatMap(${input})`);
 			expect(at(['roles', 'teams'])(data)).toEqual(List(['admin', 'writer', 'customer', 'internal']));
 		},
 	},
