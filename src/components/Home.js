@@ -48,7 +48,8 @@ const PlayButton = LeaderButton.extend`
 const LessonsContainer = styled.div`
 	display: flex;
 	flex-flow: row wrap;
-	justify-content: space-between;
+	margin: auto;
+	width: 100%;
 `;
 
 const LessonBox = styled.div`
@@ -83,10 +84,10 @@ const Module = ({ moduleId, moduleName, handlePlay, showLeaderboard, logoName })
 			<StyledImg src={funky} alt="record" />
 			<Title>{moduleName}</Title>
 			<LeaderButton onClick={showLeaderboard}>
-				<i class="fas fa-trophy" style={{ color: '##9B9B9B' }} /> Leaders
+				<i className="fas fa-trophy" style={{ color: '##9B9B9B' }} /> Leaders
 			</LeaderButton>
 			<PlayButton onClick={handlePlay}>
-				<i class="fas fa-play-circle" /> Play
+				<i className="fas fa-play-circle" /> Play
 			</PlayButton>
 		</ButtonGroup>
 	</LessonBox>
