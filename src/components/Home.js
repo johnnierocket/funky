@@ -17,7 +17,7 @@ const StyledImg = styled.img`
 	padding: 1em;
 `;
 
-const Link = styled.button`
+const LeaderButton = styled.button`
 	padding: 10px 5px;
 	margin: auto 4px;
 	background-color: #fff;
@@ -29,9 +29,15 @@ const Link = styled.button`
 	flex: 2;
 	font-size: 16px;
 	color: #b0a5a5;
+	cursor: pointer;
+
+	&:hover {
+		border-color: #000;
+		color: #000;
+	}
 `;
 
-const PlayButton = Link.extend`
+const PlayButton = LeaderButton.extend`
 	flex-basis: 150px;
 	background-color: #69c94b;
 	border: 2px solid #69c94b;
@@ -76,9 +82,9 @@ const Module = ({ moduleId, moduleName, handlePlay, showLeaderboard, logoName })
 		<ButtonGroup>
 			<StyledImg src={funky} alt="record" />
 			<Title>{moduleName}</Title>
-			<Link onClick={showLeaderboard}>
+			<LeaderButton onClick={showLeaderboard}>
 				<i class="fas fa-trophy" style={{ color: '##9B9B9B' }} /> Leaders
-			</Link>
+			</LeaderButton>
 			<PlayButton onClick={handlePlay}>
 				<i class="fas fa-play-circle" /> Play
 			</PlayButton>
