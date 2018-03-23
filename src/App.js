@@ -60,8 +60,8 @@ class App extends Component {
 				<Header loggedIn={loggedIn} avatarUrl={avatarUrl} login={login} userName={userName} />
 				<Route exact path="/" component={Home} />
 				<Route exact path="/login" component={Login} />
-				<Route exact path="module/:moduleId/gameplay" component={GamePlay} />
-				<Route exact path="module/:moduleId/leaderboard" component={Leaderboard} />
+				<Route exact path="/module/:moduleId/gameplay" component={GamePlay} />
+				<Route exact path="/module/:moduleId/leaderboard" component={Leaderboard} />
 			</Root>
 		);
 	}

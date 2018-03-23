@@ -21,7 +21,7 @@ const Link = styled.button`
 	padding: 10px 5px;
 	margin: auto 4px;
 	background-color: #fff;
-	border: 1px solid gray;
+	border: 2px solid #b0a5a5;
 	border-radius: 3%;
 	outline: none;
 	flex-basis: 300px;
@@ -34,6 +34,7 @@ const Link = styled.button`
 const PlayButton = Link.extend`
 	flex-basis: 150px;
 	background-color: #69c94b;
+	border: 2px solid #69c94b;
 	color: #fff;
 	flex: 1;
 `;
@@ -114,6 +115,7 @@ class Home extends Component {
 				<LessonsContainer>
 					{Object.keys(Modules).map(id => (
 						<Module
+							key={id}
 							moduleId={id}
 							moduleName={Modules[id].moduleName}
 							handlePlay={this.handlePlay.bind(this, id)}
