@@ -5,7 +5,7 @@ import { getModuleId } from '../helpers/LocationHelpers';
 
 const uid = () => firebase.auth().currentUser.uid;
 const questionsRefName = () => `/users/${uid()}/questions`;
-const userLeaderboardRefName = () => `/leaderboard/${uid()}/${getModuleId()}`;
+const userLeaderboardRefName = () => `/leaderboard/${getModuleId()}/${uid()}`;
 const userInfoRefName = () => `/users/${uid()}/meta`;
 const saveToFirebase = store => {
 	const state = store.getState();
@@ -52,7 +52,7 @@ const rehydrateQuestions = async store => {
 const subscribeToLeaderboard = store => {
 	firebase
 		.database()
-		.ref(`/leaderboard`)
+		.ref(`/leaderboard/${getModuleId()}`)
 		.on('value', snapshot => snapshot && store.dispatch({ type: UPDATE_LEADERBOARD, payload: snapshot.val() }));
 };
 
