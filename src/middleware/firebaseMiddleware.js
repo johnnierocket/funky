@@ -5,8 +5,8 @@ import nth from 'lodash/fp/nth';
 
 const module = () => nth(1, /module\/(.*?)\//.exec(window.location.pathname)) || 'funkyjs';
 const uid = () => firebase.auth().currentUser.uid;
-const questionsRefName = () => `/users/${uid()}/questions`;
-const userLeaderboardRefName = () => `/leaderboard/${uid()}`;
+const questionsRefName = () => `/users/${uid()}/questions/${module()}`;
+const userLeaderboardRefName = () => `/leaderboard/${uid()}/${module()}`;
 const userInfoRefName = () => `/users/${uid()}/meta`;
 const saveToFirebase = store => {
 	const state = store.getState();

@@ -9,7 +9,7 @@ const users = (state, action) => {
 
 	switch (action.type) {
 		case UPDATE_LEADERBOARD:
-			return Object.keys(action.payload)
+			return Object.keys(action.payload || {})
 				.map(id => ({ ...action.payload[id], id }))
 				.sort(byPoints)
 				.slice(0, 10);
