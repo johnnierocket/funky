@@ -33,7 +33,7 @@ const selectors = createStructuredSelector({
 });
 
 class CoolBeansCounter extends Component {
-	static PropTypes = {
+	static propTypes = {
 		totalPoints: PropTypes.number,
 	};
 
