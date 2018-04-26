@@ -11,6 +11,9 @@ import { initializeAndLogin } from '../actions/FirebaseActions';
 
 import StartingContainer from './StartingContainer';
 
+// TODO get from route
+const moduleId = 'funkyjs';
+
 class Login extends Component {
 	static propTypes = {
 		// react-router
@@ -26,7 +29,7 @@ class Login extends Component {
 
 	startGame = () => {
 		const { setStartTime, history } = this.props;
-		setStartTime(moment());
+		setStartTime({ time: moment(), moduleId });
 		history.push('/');
 	};
 

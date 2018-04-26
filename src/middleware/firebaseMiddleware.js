@@ -1,7 +1,9 @@
 import firebase from 'firebase';
 import { CLEAR_USER_DATA, LOGIN, REHYDRATE_QUESTIONS, UPDATE_LEADERBOARD } from '../constants/actionTypes';
 import { getQuestionsState, getLoggedIn, getAvatarUrl, getUserName, getTotalPoints } from '../selectors';
+import nth from 'lodash/fp/nth';
 
+const module = () => nth(1, /module\/(.*?)\//.exec(window.location.pathname)) || 'funkyjs';
 const uid = () => firebase.auth().currentUser.uid;
 const questionsRefName = () => `/users/${uid()}/questions`;
 const userLeaderboardRefName = () => `/leaderboard/${uid()}`;
@@ -11,6 +13,11 @@ const saveToFirebase = store => {
 	if (!getLoggedIn(state)) {
 		return;
 	}
+
+	const name = getUserName(state);
+	const avatarUrl = getAvatarUrl(state);
+	const points = getTotalPoints(state);
+
 	firebase
 		.database()
 		.ref(questionsRefName())
@@ -18,7 +25,7 @@ const saveToFirebase = store => {
 	firebase
 		.database()
 		.ref(userLeaderboardRefName())
-		.set({ name: getUserName(state), avatarUrl: getAvatarUrl(state), points: getTotalPoints(state) });
+		.set({ name, avatarUrl, points });
 };
 const updateUserInfo = store => {
 	const state = store.getState();

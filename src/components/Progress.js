@@ -9,7 +9,7 @@ const StyledLinearProgress = styled(LinearProgress)`
 `;
 
 const Login = ({ questionsCompleted, exercises }) => {
-	const progressPercent = questionsCompleted.length / Object.keys(exercises).length * 100;
+	const progressPercent = questionsCompleted.size / Object.keys(exercises).length * 100;
 
 	return <StyledLinearProgress mode="determinate" value={progressPercent} color="#6cc93d" />;
 };

@@ -9,11 +9,20 @@ import {
 	SET_END_TIME,
 	CLEAR_USER_DATA,
 } from '../constants/actionTypes';
+import { Map, List, fromJS } from 'immutable';
 
-const initialState = {
+// TODO move out of this module into its own json file
+const modules = [
+	{
+		path: 'funkyjs',
+		name: "Gettin' Funky with JavaScript",
+	},
+];
+
+const emptyModule = {
 	questionId: 1,
-	questionsCompleted: [],
-	questionsInputs: {},
+	questionsCompleted: List(),
+	questionsInputs: Map(),
 	failedAttemptsCounter: 0,
 	hintsUsedCounter: 0,
 	totalPoints: 0,
@@ -21,56 +30,45 @@ const initialState = {
 	endTime: 0,
 };
 
+const initialState = modules.reduce((stateMap, module) => {
+	return stateMap.set(module.path, fromJS(emptyModule));
+}, Map());
+
 export default function questionsReducer(state = initialState, action) {
 	switch (action.type) {
 		case REHYDRATE_QUESTIONS:
-			return action.payload;
+			// return fromJS(action.payload.data);
+			return initialState;
 		case SUBMIT_CORRECT_RESPONSE:
-			return {
-				...state,
-				questionsCompleted: [...state.questionsCompleted, state.questionId],
-				totalPoints: state.totalPoints + action.payload.pointValue,
-			};
+			return state
+				.updateIn([action.payload.moduleId, 'questionsCompleted'], questionsCompleted =>
+					questionsCompleted.push(action.payload.questionId)
+				)
+				.updateIn(
+					[action.payload.moduleId, 'totalPoints'],
+					totalPoints => totalPoints + (action.payload.points || 0)
+				);
 		case SUBMIT_INCORRECT_RESPONSE:
-			return {
-				...state,
-				totalPoints: Math.max(0, state.totalPoints - 5),
-			};
+			return state.updateIn([action.payload.moduleId, 'totalPoints'], totalPoints =>
+				Math.max(0, totalPoints - (action.payload.points || 0))
+			);
 		case NEXT_QUESTION:
-			return {
-				...state,
-				questionId: state.questionId + 1,
-				questionsInputs: {
-					...state.questionsInputs,
-					[state.questionId]: action.payload.input,
-				},
-			};
+			const questionId = state.getIn([action.payload.moduleId, 'questionId']);
+			return state
+				.setIn([action.payload.moduleId, 'questionsInputs', questionId], action.payload.input)
+				.setIn([action.payload.moduleId, 'questionId'], questionId + 1);
 		case PREVIOUS_QUESTION:
-			return {
-				...state,
-				questionId: state.questionId - 1,
-			};
+			return state.updateIn([action.payload.moduleId, 'questionId'], questionId => questionId - 1);
 		case USE_HINT:
-			return {
-				...state,
-				hintsUsedCounter: state.hintsUsedCounter++,
-				totalPoints: Math.max(0, state.totalPoints - 2),
-			};
+			return state
+				.updateIn([action.payload.moduleId, 'hintsUsedCounter'], hintsUsed => hintsUsed++)
+				.updateIn([action.payload.moduleId, 'totalPoints'], totalPoints => totalPoints - 2);
 		case SET_START_TIME:
-			return {
-				...state,
-				startTime: action.payload.time,
-			};
+			return state.setIn([action.payload.moduleId, 'startTime'], action.payload.time);
 		case SET_END_TIME:
-			return {
-				...state,
-				endTime: action.payload.time,
-			};
+			return state.setIn([action.payload.moduleId, 'endTime'], action.payload.time);
 		case CLEAR_USER_DATA:
-			return {
-				...state,
-				...initialState,
-			};
+			return initialState;
 		default:
 			return state;
 	}

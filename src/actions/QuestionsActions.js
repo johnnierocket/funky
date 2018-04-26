@@ -9,36 +9,39 @@ import {
 	CLEAR_USER_DATA,
 } from '../constants/actionTypes';
 
-export const submitCorrectResponse = pointValue => ({
+export const submitCorrectResponse = ({ moduleId, points, questionId }) => ({
 	type: SUBMIT_CORRECT_RESPONSE,
-	payload: { pointValue },
+	payload: { moduleId, points, questionId },
 });
 
-export const submitIncorrectResponse = () => ({
+export const submitIncorrectResponse = ({ moduleId }) => ({
 	type: SUBMIT_INCORRECT_RESPONSE,
+	payload: { moduleId },
 });
 
-export const nextQuestion = input => ({
+export const nextQuestion = ({ moduleId, input }) => ({
 	type: NEXT_QUESTION,
-	payload: { input },
+	payload: { moduleId, input },
 });
 
-export const previousQuestion = () => ({
+export const previousQuestion = ({ moduleId }) => ({
 	type: PREVIOUS_QUESTION,
+	payload: { moduleId },
 });
 
-export const useHint = () => ({
+export const useHint = ({ moduleId }) => ({
 	type: USE_HINT,
+	payload: { moduleId },
 });
 
-export const setStartTime = time => ({
+export const setStartTime = ({ moduleId, time }) => ({
 	type: SET_START_TIME,
-	payload: { time },
+	payload: { moduleId, time },
 });
 
-export const setEndTime = time => ({
+export const setEndTime = ({ moduleId, time }) => ({
 	type: SET_END_TIME,
-	payload: { time },
+	payload: { moduleId, time },
 });
 
 export const clearUserData = () => ({

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-
+import { listOf } from 'react-immutable-proptypes';
 import ContentContainer from './ContentContainer';
 import Progress from './Progress';
 import exercises from '../Exercises';
@@ -18,7 +18,7 @@ class FunkyModule extends Component {
 		match: PropTypes.object.isRequired,
 		// selectors
 		loggedIn: PropTypes.bool.isRequired,
-		questionsCompleted: PropTypes.arrayOf(PropTypes.number),
+		questionsCompleted: listOf(PropTypes.number),
 	};
 
 	componentDidMount() {

@@ -22,14 +22,14 @@ export const getAvatarUrl = createSelector(
 // QUESTIONS STATE
 export const getQuestionsCompleted = createSelector(
 	[getQuestionsState],
-	questionsState => questionsState.questionsCompleted
+	questionsState => questionsState.getIn(['funkyjs','questionsCompleted'])
 );
 
-export const getQuestionId = createSelector([getQuestionsState], questionsState => questionsState.questionId);
+export const getQuestionId = createSelector([getQuestionsState], questionsState => questionsState.getIn(['funkyjs', 'questionId']));
 
-export const getQuestionsInputs = createSelector([getQuestionsState], questionsState => questionsState.questionsInputs);
+export const getQuestionsInputs = createSelector([getQuestionsState], questionsState => questionsState.getIn(['funkyjs','questionsInputs']));
 
-export const getTotalPoints = createSelector([getQuestionsState], questionsState => questionsState.totalPoints);
+export const getTotalPoints = createSelector([getQuestionsState], questionsState => questionsState.getIn(['funkyjs','totalPoints']));
 
 // LEADERBOARD STATE
 export const getLeaderboardUsers = createSelector([getLeaderboardState], leaderboardState => leaderboardState.users);

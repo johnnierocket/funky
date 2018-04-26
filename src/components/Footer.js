@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import exercises from '../Exercises';
 import Buttons from './Buttons';
 
+// TODO get from route
+const moduleId = 'funkyjs';
+
 const StyledFooter = styled.div`
 	display: flex;
 	justify-self: flex-end;
@@ -21,8 +24,8 @@ const Footer = ({ questionId, questionPreviouslyAnswered, validateResponse, next
 			questionPreviouslyAnswered={questionPreviouslyAnswered}
 			exercises={exercises}
 			validateResponse={validateResponse}
-			nextQuestion={nextQuestion}
-			previousQuestion={previousQuestion}
+			nextQuestion={() => nextQuestion({ moduleId })}
+			previousQuestion={() => previousQuestion({ moduleId })}
 		/>
 	</StyledFooter>
 );

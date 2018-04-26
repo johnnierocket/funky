@@ -31,6 +31,9 @@ import scratch1 from '../sounds/scratch1.mp3';
 import scratch2 from '../sounds/scratch2.mp3';
 import scratch3 from '../sounds/scratch3.mp3';
 
+// TODO get this from the route
+const moduleId = 'funkyjs';
+
 const numExercises = Object.keys(exercises).length;
 
 const ContentWrapper = styled.div`
@@ -118,7 +121,7 @@ class ContentContainer extends Component {
 		if (this.props.questionId !== nextProps.questionId) {
 			this.setState({
 				correctSubmission: false,
-				input: nextProps.questionsInputs[nextProps.questionId] || '',
+				input: nextProps.questionsInputs.get(nextProps.questionId, ''),
 				next: true,
 			});
 		}
@@ -136,7 +139,7 @@ class ContentContainer extends Component {
 	handleKeyPress = event => {
 		const { correctSubmission } = this.state;
 		if (event.key === 'Enter') {
-			correctSubmission ? this.nextQuestion() : this.validateResponse();
+			correctSubmission ? this.nextQuestion({ moduleId }) : this.validateResponse();
 		}
 	};
 
@@ -153,15 +156,16 @@ class ContentContainer extends Component {
 					error: '',
 					next: false,
 				});
-				submitCorrectResponse(points);
+				submitCorrectResponse({ moduleId, points, questionId });
 				this.playWinSound();
+
 			} catch (error) {
 				this.setState({
 					correctSubmission: false,
 					error: niceFormatJestError(error),
 					next: false,
 				});
-				submitIncorrectResponse(points);
+				submitIncorrectResponse({ moduleId, points: 5 });
 				this.playLoseSound();
 			}
 		}
@@ -191,7 +195,7 @@ class ContentContainer extends Component {
 			input: '',
 			next: false,
 		});
-		this.props.previousQuestion();
+		this.props.previousQuestion({ moduleId });
 	};
 
 	nextQuestion = () => {
@@ -199,7 +203,7 @@ class ContentContainer extends Component {
 			input: '',
 			next: true,
 		});
-		this.props.nextQuestion();
+		this.props.nextQuestion({ moduleId });
 	};
 
 	startOver = () => {
@@ -209,7 +213,7 @@ class ContentContainer extends Component {
 			next: true,
 			gameOver: false,
 		});
-		this.props.clearUserData();
+		this.props.clearUserData({ moduleId });
 	};
 
 	debounceSound = (fn, delay) => {
@@ -279,8 +283,8 @@ class ContentContainer extends Component {
 					questionPreviouslyAnswered={questionPreviouslyAnswered}
 					exercises={exercises}
 					validateResponse={this.validateResponse}
-					nextQuestion={this.nextQuestion}
-					previousQuestion={this.previousQuestion}
+					nextQuestion={() => this.nextQuestion({ moduleId })}
+					previousQuestion={() => this.previousQuestion({ moduleId })}
 				/>
 			</ContentWrapper>
 		);
