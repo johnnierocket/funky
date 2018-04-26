@@ -17,6 +17,7 @@ import StyledInputRange from './StyledInputRange';
 import CoolBeansCounter from './CoolBeansCounter';
 import Leaderboard from './Leaderboard';
 import RaisedButton from 'material-ui/RaisedButton';
+import { getModuleId } from '../helpers/LocationHelpers';
 
 import win1 from '../sounds/next1_50cent_2.mp3';
 import win2 from '../sounds/next2_jayz_woo.mp3';
@@ -31,8 +32,7 @@ import scratch1 from '../sounds/scratch1.mp3';
 import scratch2 from '../sounds/scratch2.mp3';
 import scratch3 from '../sounds/scratch3.mp3';
 
-// TODO get this from the route
-const moduleId = 'funkyjs';
+const moduleId = getModuleId();
 
 const numExercises = Object.keys(exercises).length;
 

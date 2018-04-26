@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { getModuleId } from '../helpers/LocationHelpers';
 
 export const getQuestionsState = state => state.questionsReducer;
 export const getUserState = state => state.user;
@@ -22,14 +23,14 @@ export const getAvatarUrl = createSelector(
 // QUESTIONS STATE
 export const getQuestionsCompleted = createSelector(
 	[getQuestionsState],
-	questionsState => questionsState.getIn(['funkyjs','questionsCompleted'])
+	questionsState => questionsState.getIn([getModuleId(),'questionsCompleted'])
 );
 
-export const getQuestionId = createSelector([getQuestionsState], questionsState => questionsState.getIn(['funkyjs', 'questionId']));
+export const getQuestionId = createSelector([getQuestionsState], questionsState => questionsState.getIn([getModuleId(), 'questionId']));
 
-export const getQuestionsInputs = createSelector([getQuestionsState], questionsState => questionsState.getIn(['funkyjs','questionsInputs']));
+export const getQuestionsInputs = createSelector([getQuestionsState], questionsState => questionsState.getIn([getModuleId(),'questionsInputs']));
 
-export const getTotalPoints = createSelector([getQuestionsState], questionsState => questionsState.getIn(['funkyjs','totalPoints']));
+export const getTotalPoints = createSelector([getQuestionsState], questionsState => questionsState.getIn([getModuleId(),'totalPoints']));
 
 // LEADERBOARD STATE
 export const getLeaderboardUsers = createSelector([getLeaderboardState], leaderboardState => leaderboardState.users);

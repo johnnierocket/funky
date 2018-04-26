@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import exercises from '../Exercises';
 import Buttons from './Buttons';
+import { getModuleId } from '../helpers/LocationHelpers';
 
-// TODO get from route
-const moduleId = 'funkyjs';
+const moduleId = getModuleId();
 
 const StyledFooter = styled.div`
 	display: flex;

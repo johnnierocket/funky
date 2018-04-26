@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import RaisedButton from 'material-ui/RaisedButton';
+import { getModuleId } from '../helpers/LocationHelpers';
 
-// TODO get from route
-const moduleId = 'funkyjs';
+const moduleId = getModuleId();
 
 const ButtonsWrapper = styled.div`
 	display: flex;

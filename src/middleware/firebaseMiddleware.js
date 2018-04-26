@@ -1,12 +1,11 @@
 import firebase from 'firebase';
 import { CLEAR_USER_DATA, LOGIN, REHYDRATE_QUESTIONS, UPDATE_LEADERBOARD } from '../constants/actionTypes';
 import { getQuestionsState, getLoggedIn, getAvatarUrl, getUserName, getTotalPoints } from '../selectors';
-import nth from 'lodash/fp/nth';
+import { getModuleId } from '../helpers/LocationHelpers';
 
-const module = () => nth(1, /module\/(.*?)\//.exec(window.location.pathname)) || 'funkyjs';
 const uid = () => firebase.auth().currentUser.uid;
-const questionsRefName = () => `/users/${uid()}/questions/${module()}`;
-const userLeaderboardRefName = () => `/leaderboard/${uid()}/${module()}`;
+const questionsRefName = () => `/users/${uid()}/questions`;
+const userLeaderboardRefName = () => `/leaderboard/${getModuleId()}/${uid()}`;
 const userInfoRefName = () => `/users/${uid()}/meta`;
 const saveToFirebase = store => {
 	const state = store.getState();
