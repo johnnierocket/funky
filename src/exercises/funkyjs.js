@@ -15,7 +15,7 @@ const div = inner => `<div>${inner}</div>`;
 const ul = inner => `<ul>${inner}</ul>`;
 const li = inner => `<li>${inner}</li>`;
 
-const exercises = {
+const funkyjs = {
 	'1': {
 		id: '1',
 		title: 'Using a function returned from another function',
@@ -219,7 +219,7 @@ const items = List(['admin', 'writer', 'approver']);
 
 const match = __INPUT__;
 
-// using tacit argument passing we can invoke the function 
+// using tacit argument passing we can invoke the function
 // that match returns against the current item
 items.map(match('admin')); // List([ true, false, false ])
 `,
@@ -237,7 +237,7 @@ items.map(match('admin')); // List([ true, false, false ])
 			match: a => b => a === b,
 		},
 		display: `import { Map, List, set } from 'immutable';
-		
+
 const items = List(['admin', 'approver', 'writer']);
 const enabledItems = List(['admin', 'writer', 'manager']);
 const match = a => b => a === b;
@@ -325,4 +325,4 @@ doFilter(data); // List(['admin'])`,
 	},
 };
 
-export default exercises;
+export default funkyjs;

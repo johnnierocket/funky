@@ -1,7 +1,7 @@
 import React from 'react';
 import SpinningVinyl from './SpinningVinyl';
 import styled from 'styled-components';
-import exercises from '../Exercises';
+import { getCurrentExercises } from '../helpers/LocationHelpers';
 
 const StyledVinyls = styled.div`
 	display: flex;
@@ -17,14 +17,14 @@ export default class NextVinyls extends React.Component {
 
 		return (
 			<StyledVinyls>
-				{Object.keys(exercises)
+				{Object.keys(getCurrentExercises())
 					.slice(questionId)
 					.map((id, idx) => (
 						<SpinningVinyl
 							key={idx}
 							isSpinning={false}
 							flipAndSlide={false}
-							points={exercises[id].points}
+							points={getCurrentExercises()[id].points}
 							size="small"
 						/>
 					))}

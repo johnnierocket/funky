@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import exercises from '../Exercises';
+import { getCurrentExercises } from '../helpers/LocationHelpers';
 import CodeBlock from './CodeBlock';
 import Instructions from './Instructions';
 import Leaderboard from './Leaderboard';
@@ -23,7 +23,7 @@ const StyledCenterContainer = styled.div`
 class CenterContainer extends Component {
 	render() {
 		const { questionId, error, onInputChange, handleKeyPress, correctSubmission, input } = this.props;
-		const exercise = exercises[questionId];
+		const exercise = getCurrentExercises()[questionId];
 		const vinylTrackArray = [track1, track2];
 		const randTrack = vinylTrackArray[Math.floor(Math.random() * vinylTrackArray.length)];
 
@@ -45,7 +45,7 @@ class CenterContainer extends Component {
 				)}
 				{!error && <PlaySound src={randTrack} />}
 				{correctSubmission && <h1>Correct!</h1>}
-				{questionId === exercises.length && <Leaderboard />}
+				{questionId === getCurrentExercises().length && <Leaderboard />}
 			</StyledCenterContainer>
 		);
 	}

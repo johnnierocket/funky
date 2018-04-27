@@ -1,8 +1,9 @@
-import exercises from '../Exercises';
+// import exercises from '../Exercises';
+import { getCurrentExercises } from '../helpers/LocationHelpers';
 
 const validate = (exId, input) =>
-	exercises[exId].assert({
-		...exercises[exId].givens,
+	getCurrentExercises()[exId].assert({
+		...getCurrentExercises()[exId].givens,
 		input,
 	});
 

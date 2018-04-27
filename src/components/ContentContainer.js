@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { getQuestionId, getQuestionsCompleted, getQuestionsInputs } from '../selectors';
-import exercises from '../Exercises';
+import { getCurrentExercises } from '../helpers/LocationHelpers';
 import styled from 'styled-components';
 import CenterContainer from './CenterContainer';
 import SpinningVinyl from './SpinningVinyl';
@@ -34,7 +34,7 @@ import scratch3 from '../sounds/scratch3.mp3';
 
 const moduleId = getModuleId();
 
-const numExercises = Object.keys(exercises).length;
+const numExercises = Object.keys(getCurrentExercises()).length;
 
 const ContentWrapper = styled.div`
 	display flex;
@@ -146,7 +146,7 @@ class ContentContainer extends Component {
 	validateResponse = () => {
 		const { questionId, questionsCompleted, submitCorrectResponse, submitIncorrectResponse } = this.props;
 		const { input } = this.state;
-		const { assert, givens, points } = exercises[questionId];
+		const { assert, givens, points } = getCurrentExercises()[questionId];
 
 		if (!questionsCompleted.includes(questionId)) {
 			try {
@@ -158,7 +158,6 @@ class ContentContainer extends Component {
 				});
 				submitCorrectResponse({ moduleId, points, questionId });
 				this.playWinSound();
-
 			} catch (error) {
 				this.setState({
 					correctSubmission: false,
@@ -236,7 +235,7 @@ class ContentContainer extends Component {
 	render() {
 		const { questionId, questionsCompleted } = this.props;
 		const { error, correctSubmission, next, input, gameOver } = this.state;
-		const exercise = exercises[questionId] || 0;
+		const exercise = getCurrentExercises()[questionId] || 0;
 		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
 		const rotateDeg = error && 30;
 
@@ -281,7 +280,7 @@ class ContentContainer extends Component {
 				<Footer
 					questionId={questionId}
 					questionPreviouslyAnswered={questionPreviouslyAnswered}
-					exercises={exercises}
+					exercises={getCurrentExercises()}
 					validateResponse={this.validateResponse}
 					nextQuestion={() => this.nextQuestion({ moduleId })}
 					previousQuestion={() => this.previousQuestion({ moduleId })}

@@ -6,8 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import { listOf } from 'react-immutable-proptypes';
 import ContentContainer from './ContentContainer';
 import Progress from './Progress';
-import exercises from '../Exercises';
-
+import { getCurrentExercises } from '../helpers/LocationHelpers';
 import { getLoggedIn, getQuestionsCompleted } from '../selectors';
 
 class FunkyModule extends Component {
@@ -30,7 +29,7 @@ class FunkyModule extends Component {
 		const { questionsCompleted } = this.props;
 		return (
 			<div>
-				<Progress questionsCompleted={questionsCompleted} exercises={exercises} />
+				<Progress questionsCompleted={questionsCompleted} exercises={getCurrentExercises()} />
 				<ContentContainer />
 			</div>
 		);

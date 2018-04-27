@@ -10,14 +10,8 @@ import {
 	CLEAR_USER_DATA,
 } from '../constants/actionTypes';
 import { Map, List, fromJS } from 'immutable';
-
-// TODO move out of this module into its own json file
-const modules = [
-	{
-		path: 'funkyjs',
-		name: "Gettin' Funky with JavaScript",
-	},
-];
+import reduce from 'lodash/fp/reduce';
+import modules from '../Modules';
 
 const emptyModule = {
 	questionId: 1,
@@ -30,9 +24,13 @@ const emptyModule = {
 	endTime: 0,
 };
 
-const initialState = modules.reduce((stateMap, module) => {
-	return stateMap.set(module.path, fromJS(emptyModule));
-}, Map());
+const initialState = reduce(
+	(stateMap, key) => {
+		return stateMap.set(key, fromJS(emptyModule));
+	},
+	Map(),
+	Object.keys(modules)
+);
 
 export default function questionsReducer(state = initialState, action) {
 	switch (action.type) {

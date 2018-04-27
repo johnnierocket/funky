@@ -8,10 +8,10 @@ const StyledLinearProgress = styled(LinearProgress)`
 	margin: 0 0 30px 0 !important;
 `;
 
-const Login = ({ questionsCompleted, exercises }) => {
-	const progressPercent = questionsCompleted.size / Object.keys(exercises).length * 100;
+const Progress = ({ questionsCompleted, exercises }) => {
+	const progressPercent = questionsCompleted ? questionsCompleted.size / Object.keys(exercises).length * 100 : 0;
 
 	return <StyledLinearProgress mode="determinate" value={progressPercent} color="#6cc93d" />;
 };
 
-export default Login;
+export default Progress;

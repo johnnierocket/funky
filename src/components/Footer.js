@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import exercises from '../Exercises';
+import { getCurrentExercises } from '../helpers/LocationHelpers';
 import Buttons from './Buttons';
 import { getModuleId } from '../helpers/LocationHelpers';
 
@@ -22,7 +22,7 @@ const Footer = ({ questionId, questionPreviouslyAnswered, validateResponse, next
 		<Buttons
 			questionId={questionId}
 			questionPreviouslyAnswered={questionPreviouslyAnswered}
-			exercises={exercises}
+			exercises={getCurrentExercises()}
 			validateResponse={validateResponse}
 			nextQuestion={() => nextQuestion({ moduleId })}
 			previousQuestion={() => previousQuestion({ moduleId })}
