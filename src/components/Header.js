@@ -22,6 +22,14 @@ const Title = styled.div`
 	align-self: center;
 `;
 
+const CloseButton = styled.div`
+	cursor: pointer;
+	height: 50px;
+	line-height: 2em;
+	font-size: 24px;
+	padding: 0 10px;
+`;
+
 const YellowAccentBar = styled.div`
 	background-color: #ffd33f;
 	height: 5px;
@@ -36,10 +44,10 @@ const StyledLoginBug = styled(LoginBug)`
 	display: inline-flex;
 `;
 
-const Header = ({ loggedIn, login, userName, avatarUrl }) => (
+const Header = ({ loggedIn, login, userName, avatarUrl, isPlaying, history }) => (
 	<StyledHeader>
 		<TitleBar>
-			<Title>Funky</Title>
+			{isPlaying ? <CloseButton onClick={() => history.push('/')}><i className="fas fa-times" /></CloseButton> : <Title>Funky</Title>}
 			<StyledLoginBug loggedIn={loggedIn} login={login} userName={userName} avatarUrl={avatarUrl} />
 		</TitleBar>
 

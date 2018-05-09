@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import styled, { injectGlobal } from 'styled-components';
-import { getLoggedIn, getUserName, getAvatarUrl } from './selectors';
+import { getLoggedIn, getUserName, getAvatarUrl, getStartTime } from './selectors';
 import { initializeAndLogin } from './actions/FirebaseActions';
 import bg from './images/bg.svg';
 
@@ -54,10 +54,10 @@ class App extends Component {
 	};
 
 	render() {
-		const { loggedIn, avatarUrl, login, userName } = this.props;
+		const { loggedIn, avatarUrl, login, userName, startTime, history } = this.props;
 		return (
 			<Root>
-				<Header loggedIn={loggedIn} avatarUrl={avatarUrl} login={login} userName={userName} />
+				<Header loggedIn={loggedIn} avatarUrl={avatarUrl} login={login} userName={userName} isPlaying={!!startTime} history={history} />
 				<Route exact path="/" component={Home} />
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/module/:moduleId/gameplay" component={GamePlay} />
@@ -71,6 +71,7 @@ const selectors = createStructuredSelector({
 	loggedIn: getLoggedIn,
 	userName: getUserName,
 	avatarUrl: getAvatarUrl,
+	startTime: getStartTime
 });
 
 const actions = {
