@@ -8,11 +8,8 @@ import moment from 'moment';
 import { setStartTime } from '../actions/QuestionsActions';
 import { getLoggedIn } from '../selectors';
 import { initializeAndLogin } from '../actions/FirebaseActions';
-import { getModuleId } from '../helpers/LocationHelpers';
 
 import StartingContainer from './StartingContainer';
-
-const moduleId = getModuleId();
 
 class Login extends Component {
 	static propTypes = {
@@ -29,7 +26,7 @@ class Login extends Component {
 
 	startGame = () => {
 		const { setStartTime, history } = this.props;
-		setStartTime({ time: moment(), moduleId });
+		setStartTime({ time: moment() });
 		history.push('/');
 	};
 

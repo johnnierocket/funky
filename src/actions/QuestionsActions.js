@@ -8,40 +8,41 @@ import {
 	SET_END_TIME,
 	CLEAR_USER_DATA,
 } from '../constants/actionTypes';
+import { getModuleId } from '../helpers/LocationHelpers';
 
-export const submitCorrectResponse = ({ moduleId, points, questionId }) => ({
+export const submitCorrectResponse = ({ points, questionId }) => ({
 	type: SUBMIT_CORRECT_RESPONSE,
-	payload: { moduleId, points, questionId },
+	payload: { moduleId: getModuleId(), points, questionId },
 });
 
-export const submitIncorrectResponse = ({ moduleId }) => ({
+export const submitIncorrectResponse = () => ({
 	type: SUBMIT_INCORRECT_RESPONSE,
-	payload: { moduleId },
+	payload: { moduleId: getModuleId() },
 });
 
-export const nextQuestion = ({ moduleId, input }) => ({
+export const nextQuestion = ({ input }) => ({
 	type: NEXT_QUESTION,
-	payload: { moduleId, input },
+	payload: { moduleId: getModuleId(), input },
 });
 
-export const previousQuestion = ({ moduleId }) => ({
+export const previousQuestion = () => ({
 	type: PREVIOUS_QUESTION,
-	payload: { moduleId },
+	payload: { moduleId: getModuleId() },
 });
 
-export const useHint = ({ moduleId }) => ({
+export const useHint = () => ({
 	type: USE_HINT,
-	payload: { moduleId },
+	payload: { moduleId: getModuleId() },
 });
 
-export const setStartTime = ({ moduleId, time }) => ({
+export const setStartTime = ({ time }) => ({
 	type: SET_START_TIME,
-	payload: { moduleId, time },
+	payload: { moduleId: getModuleId(), time },
 });
 
-export const setEndTime = ({ moduleId, time }) => ({
+export const setEndTime = ({ time }) => ({
 	type: SET_END_TIME,
-	payload: { moduleId, time },
+	payload: { moduleId: getModuleId(), time },
 });
 
 export const clearUserData = () => ({

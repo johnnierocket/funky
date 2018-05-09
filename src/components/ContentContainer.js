@@ -17,7 +17,6 @@ import StyledInputRange from './StyledInputRange';
 import CoolBeansCounter from './CoolBeansCounter';
 import Leaderboard from './Leaderboard';
 import RaisedButton from 'material-ui/RaisedButton';
-import { getModuleId } from '../helpers/LocationHelpers';
 
 import win1 from '../sounds/next1_50cent_2.mp3';
 import win2 from '../sounds/next2_jayz_woo.mp3';
@@ -31,8 +30,6 @@ import lose3 from '../sounds/lose6.mp3';
 import scratch1 from '../sounds/scratch1.mp3';
 import scratch2 from '../sounds/scratch2.mp3';
 import scratch3 from '../sounds/scratch3.mp3';
-
-const moduleId = getModuleId();
 
 const numExercises = Object.keys(getCurrentExercises()).length;
 
@@ -139,7 +136,7 @@ class ContentContainer extends Component {
 	handleKeyPress = event => {
 		const { correctSubmission } = this.state;
 		if (event.key === 'Enter') {
-			correctSubmission ? this.nextQuestion({ moduleId }) : this.validateResponse();
+			correctSubmission ? this.nextQuestion() : this.validateResponse();
 		}
 	};
 
@@ -156,7 +153,7 @@ class ContentContainer extends Component {
 					error: '',
 					next: false,
 				});
-				submitCorrectResponse({ moduleId, points, questionId });
+				submitCorrectResponse({ points, questionId });
 				this.playWinSound();
 			} catch (error) {
 				this.setState({
@@ -164,7 +161,7 @@ class ContentContainer extends Component {
 					error: niceFormatJestError(error),
 					next: false,
 				});
-				submitIncorrectResponse({ moduleId, points: 5 });
+				submitIncorrectResponse({ points: 5 });
 				this.playLoseSound();
 			}
 		}
@@ -194,7 +191,7 @@ class ContentContainer extends Component {
 			input: '',
 			next: false,
 		});
-		this.props.previousQuestion({ moduleId });
+		this.props.previousQuestion();
 	};
 
 	nextQuestion = () => {
@@ -202,7 +199,7 @@ class ContentContainer extends Component {
 			input: '',
 			next: true,
 		});
-		this.props.nextQuestion({ moduleId });
+		this.props.nextQuestion();
 	};
 
 	startOver = () => {
@@ -212,7 +209,7 @@ class ContentContainer extends Component {
 			next: true,
 			gameOver: false,
 		});
-		this.props.clearUserData({ moduleId });
+		this.props.clearUserData();
 	};
 
 	debounceSound = (fn, delay) => {
@@ -282,8 +279,8 @@ class ContentContainer extends Component {
 					questionPreviouslyAnswered={questionPreviouslyAnswered}
 					exercises={getCurrentExercises()}
 					validateResponse={this.validateResponse}
-					nextQuestion={() => this.nextQuestion({ moduleId })}
-					previousQuestion={() => this.previousQuestion({ moduleId })}
+					nextQuestion={this.nextQuestion}
+					previousQuestion={this.previousQuestion}
 				/>
 			</ContentWrapper>
 		);

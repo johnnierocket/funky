@@ -4,8 +4,6 @@ import { getCurrentExercises } from '../helpers/LocationHelpers';
 import Buttons from './Buttons';
 import { getModuleId } from '../helpers/LocationHelpers';
 
-const moduleId = getModuleId();
-
 const StyledFooter = styled.div`
 	display: flex;
 	justify-self: flex-end;
@@ -24,8 +22,8 @@ const Footer = ({ questionId, questionPreviouslyAnswered, validateResponse, next
 			questionPreviouslyAnswered={questionPreviouslyAnswered}
 			exercises={getCurrentExercises()}
 			validateResponse={validateResponse}
-			nextQuestion={() => nextQuestion({ moduleId })}
-			previousQuestion={() => previousQuestion({ moduleId })}
+			nextQuestion={nextQuestion}
+			previousQuestion={previousQuestion}
 		/>
 	</StyledFooter>
 );
