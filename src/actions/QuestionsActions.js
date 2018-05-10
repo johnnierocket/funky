@@ -20,9 +20,9 @@ export const submitIncorrectResponse = () => ({
 	payload: { moduleId: getModuleId() },
 });
 
-export const nextQuestion = ({ input }) => ({
+export const nextQuestion = () => ({
 	type: NEXT_QUESTION,
-	payload: { moduleId: getModuleId(), input },
+	payload: { moduleId: getModuleId() },
 });
 
 export const previousQuestion = () => ({

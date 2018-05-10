@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { getCurrentExercises } from '../helpers/LocationHelpers';
 import Buttons from './Buttons';
-import { getModuleId } from '../helpers/LocationHelpers';
 
 const StyledFooter = styled.div`
 	display: flex;
