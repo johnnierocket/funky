@@ -19,12 +19,12 @@ In `/src/exercises` add a new JS file with an empty object as default export.
 
 In the next step we will start creating exercises as unit tests first. Each exercise needs to have the following fields:
 
-- `id: string that matches the key it is stored in`
-- `title: string to be displayed at the top of the page`
-- `points: number of points to be awarded on success`
-- `display: big string that contains all the example code - use the token __INPUT__ to render the user's input box. don't put more than one on there, I don't know what will happen if you do`
-- `givens: object of key/val pairs that will be made available to the context used to eval the user's input`
-- `assert: function that is passed an object containing the givens along with an 'input' field and if it runs without throwing an exception the exercise is considered a success`
+- `id`: string that matches the key it is stored in
+- `title`: string to be displayed at the top of the page
+- `points`: number of points to be awarded on success
+- `display`: big string that contains all the example code - use the token __INPUT__ to render the user's input box. don't put more than one on there, I don't know what will happen if you do
+- `givens`: object of key/val pairs that will be made available to the context used to eval the user's input
+- `assert`: function that is passed an object containing the givens along with an 'input' field and if it runs without throwing an exception the exercise is considered a success
 
 Take a look at `/src/exercises/funkyjs.js` for an example implementation
 
