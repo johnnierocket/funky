@@ -1,10 +1,7 @@
 import exercises from '../exercises/funkyjs';
+import getValidater from '../helpers/Validate';
 
-const validate = (exId, input) =>
-	exercises[exId].assert({
-		...exercises[exId].givens,
-		input,
-	});
+const validate = getValidater(exercises);
 
 it('1 Using a function returned from another function', () => {
 	validate('1', '"Hello"');
