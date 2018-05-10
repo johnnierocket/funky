@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { CLEAR_USER_DATA, LOGIN, REHYDRATE_QUESTIONS, UPDATE_LEADERBOARD } from '../constants/actionTypes';
+import { CLEAR_USER_DATA, LOGIN, REHYDRATE_QUESTIONS } from '../constants/actionTypes';
 import { getQuestionsState, getLoggedIn, getAvatarUrl, getUserName, getTotalPoints } from '../selectors';
 import { getModuleId } from '../helpers/LocationHelpers';
 
@@ -26,6 +26,7 @@ const saveToFirebase = store => {
 		.ref(userLeaderboardRefName())
 		.set({ name, avatarUrl, points });
 };
+
 const updateUserInfo = store => {
 	const state = store.getState();
 	if (getLoggedIn(state)) {
@@ -49,13 +50,6 @@ const rehydrateQuestions = async store => {
 	}
 };
 
-const subscribeToLeaderboard = store => {
-	firebase
-		.database()
-		.ref(`/leaderboard/${getModuleId()}`)
-		.on('value', snapshot => snapshot && store.dispatch({ type: UPDATE_LEADERBOARD, payload: snapshot.val() }));
-};
-
 const clearUserData = () =>
 	firebase
 		.database()
@@ -63,7 +57,6 @@ const clearUserData = () =>
 		.remove();
 
 export default store => {
-	subscribeToLeaderboard(store);
 	return next => action => {
 		next(action);
 		if (action.type === LOGIN) {

@@ -9,7 +9,6 @@ import NextVinyls from './NextVinyls';
 import Footer from './Footer';
 import * as QuestionActions from '../actions/QuestionsActions';
 import { initializeAndLogin } from '../actions/FirebaseActions';
-import { showLeaderboard } from '../actions/LeaderboardActions';
 import { niceFormatJestError } from '../helpers/JestHelpers';
 import { connect } from 'react-redux';
 import handle from '../images/handle.png';
@@ -296,7 +295,6 @@ const selectors = createStructuredSelector({
 const actions = {
 	...QuestionActions,
 	login: initializeAndLogin,
-	showLeaderboard,
 };
 
 export default connect(selectors, actions)(ContentContainer);

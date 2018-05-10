@@ -1,10 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import UserInfo from './UserInfo';
-import { getLeaderboardUsers, getShowingLeaderboard, getTotalPoints, getCurrentUser } from '../selectors';
-import { hideLeaderboard as hide } from '../actions/LeaderboardActions';
+import { getLeaderboardUsers, getTotalPoints, getCurrentUser } from '../selectors';
+import { getModuleId } from '../helpers/LocationHelpers';
+import firebase from 'firebase';
+import { UPDATE_LEADERBOARD } from '../constants/actionTypes';
 
 const LeaderboardWrapper = styled.div`
 	font-family: Righteous;
@@ -52,8 +55,22 @@ const PersonalUserRow = styled.div`
 `;
 
 class Leaderboard extends React.Component {
+	static propTypes: {
+		// actions
+		subscribeToLeaderboard: PropTypes.func,
+	};
+	componentDidMount() {
+		this.props.subscribeToLeaderboard();
+	}
+
+	componentWillUnmount() {}
+
 	render() {
 		const { users, currentUser, totalPoints } = this.props;
+
+		if (!users) {
+			return null;
+		}
 
 		const sortedUsers = users.sort((a, b) => b.points - a.points);
 
@@ -75,14 +92,21 @@ class Leaderboard extends React.Component {
 }
 
 const selectors = createStructuredSelector({
-	open: getShowingLeaderboard,
 	users: getLeaderboardUsers,
 	currentUser: getCurrentUser,
 	totalPoints: getTotalPoints,
 });
 
-const actions = {
-	hide,
-};
+const actions = dispatch => ({
+	subscribeToLeaderboard: () => {
+		firebase
+			.database()
+			.ref(`/leaderboard/${getModuleId()}`)
+			.orderByChild('points')
+			.limitToFirst(10)
+			.on('value', snapshot => snapshot && dispatch({ type: UPDATE_LEADERBOARD, payload: snapshot.val() }));
+	},
+	unsubscribeLeaderboard: () => {},
+});
 
 export default connect(selectors, actions)(Leaderboard);

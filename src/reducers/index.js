@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import * as questionsReducer from './questionsReducer';
-import * as userReducer from './userReducer';
-import * as leaderboard from './leaderboardReducer';
+import questionsReducer from './questionsReducer';
+import userReducer from './userReducer';
+import leaderboards from './leaderboardReducer';
 
 export default combineReducers({
-	questionsReducer: questionsReducer.default,
-	user: userReducer.default,
-	leaderboard: leaderboard.default,
+	questionsReducer: questionsReducer,
+	user: userReducer,
+	leaderboards: leaderboards,
 });
