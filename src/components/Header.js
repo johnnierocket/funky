@@ -47,7 +47,13 @@ const StyledLoginBug = styled(LoginBug)`
 const Header = ({ loggedIn, login, userName, avatarUrl, isPlaying, history }) => (
 	<StyledHeader>
 		<TitleBar>
-			{isPlaying ? <CloseButton onClick={() => history.push('/')}><i className="fas fa-times" /></CloseButton> : <Title>Funky</Title>}
+			{isPlaying ? (
+				<CloseButton onClick={() => history.push('/')}>
+					<i className="fas fa-times" />
+				</CloseButton>
+			) : (
+				<Title>Funky</Title>
+			)}
 			<StyledLoginBug loggedIn={loggedIn} login={login} userName={userName} avatarUrl={avatarUrl} />
 		</TitleBar>
 
