@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getCurrentExercises } from '../helpers/LocationHelpers';
+import { getCurrentExercises, getQuestionIndex } from '../helpers/LocationHelpers';
 import Buttons from './Buttons';
 
 const StyledFooter = styled.div`
@@ -17,7 +17,7 @@ const StyledFooter = styled.div`
 const Footer = ({ questionId, questionPreviouslyAnswered, validateResponse, nextQuestion, previousQuestion }) => (
 	<StyledFooter>
 		<Buttons
-			questionId={questionId}
+			questionIndex={getQuestionIndex(questionId)}
 			questionPreviouslyAnswered={questionPreviouslyAnswered}
 			exercises={getCurrentExercises()}
 			validateResponse={validateResponse}

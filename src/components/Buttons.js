@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import RaisedButton from 'material-ui/RaisedButton';
-
+import { getExercisesCount } from '../helpers/LocationHelpers';
 const ButtonsWrapper = styled.div`
 	display: flex;
 	flex: 1;
@@ -18,7 +18,7 @@ const StyledSubmitButton = styled(StyledRaisedButton)`
 `;
 
 const Buttons = ({
-	questionId,
+	questionIndex,
 	questionPreviouslyAnswered,
 	exercises,
 	validateResponse,
@@ -26,12 +26,12 @@ const Buttons = ({
 	previousQuestion,
 }) => (
 	<ButtonsWrapper>
-		<StyledRaisedButton label="Previous" onClick={previousQuestion} disabled={!(questionId - 1)} />
+		<StyledRaisedButton label="Previous" onClick={previousQuestion} disabled={!(questionIndex - 1)} />
 		<StyledRaisedButton
 			label="Next"
 			secondary={true}
 			onClick={nextQuestion}
-			disabled={!questionPreviouslyAnswered || questionId === exercises.length}
+			disabled={!questionPreviouslyAnswered || questionIndex === getExercisesCount()}
 		/>
 		<StyledSubmitButton
 			label="Submit"
