@@ -18,7 +18,7 @@ const StyledApp = () => (
 
 ReactDOM.render(
 	<Provider store={store}>
-		<Router>
+		<Router basename="/funky">
 			<StyledApp />
 		</Router>
 	</Provider>,
