@@ -1,5 +1,11 @@
 import firebase from 'firebase';
-import { CLEAR_USER_DATA, LOGIN, REHYDRATE_QUESTIONS } from '../constants/actionTypes';
+import {
+	CLEAR_USER_DATA,
+	LOGIN,
+	REHYDRATE_QUESTIONS,
+	UPDATE_LEADERBOARD,
+	CLEAR_LEADERBOARD,
+} from '../constants/actionTypes';
 import { getQuestionsState, getLoggedIn, getAvatarUrl, getUserName, getTotalPoints } from '../selectors';
 import { getModuleId } from '../helpers/LocationHelpers';
 
@@ -64,6 +70,8 @@ export default store => {
 			updateUserInfo(store);
 		} else if (action.type === CLEAR_USER_DATA) {
 			clearUserData();
+		} else if (action.type === UPDATE_LEADERBOARD || action.type === CLEAR_LEADERBOARD) {
+			return;
 		} else {
 			saveToFirebase(store);
 		}

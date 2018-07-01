@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import UserInfo from './UserInfo';
-import { getLeaderboardUsers, getTotalPoints, getCurrentUser } from '../selectors';
+import { getLeaderboardUsers } from '../selectors';
 import { getModuleId } from '../helpers/LocationHelpers';
 import firebase from 'firebase';
-import { UPDATE_LEADERBOARD } from '../constants/actionTypes';
+import { UPDATE_LEADERBOARD, CLEAR_LEADERBOARD } from '../constants/actionTypes';
 
 const LeaderboardWrapper = styled.div`
 	font-family: Righteous;
@@ -29,44 +29,57 @@ const LeaderboardRow = styled.div`
 	background: white;
 `;
 
-const PersonalUserRow = styled.div`
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	height: 50px;
-	background-color: rgba(106, 188, 251, 0.3);
-	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-	border: solid 1.5px #6abcfb;
-	width: 65%;
-	margin: auto;
-	margin-bottom: 2em;
+// const PersonalUserRow = styled.div`
+// 	display: flex;
+// 	flex-direction: row;
+// 	align-items: center;
+// 	height: 50px;
+// 	background-color: rgba(106, 188, 251, 0.3);
+// 	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+// 	border: solid 1.5px #6abcfb;
+// 	width: 65%;
+// 	margin: auto;
+// 	margin-bottom: 2em;
 
-	div {
-		flex: 1;
-	}
+// 	div {
+// 		flex: 1;
+// 	}
 
-	span {
-		padding-right: 1em;
-	}
+// 	span {
+// 		padding-right: 1em;
+// 	}
 
-	img {
-		margin-right: 1em;
-	}
-`;
+// 	img {
+// 		margin-right: 1em;
+// 	}
+// `;
 
 class Leaderboard extends React.Component {
 	static propTypes: {
+		users: PropTypes.array.isRequired,
 		// actions
 		subscribeToLeaderboard: PropTypes.func,
+		clearLeaderboard: PropTypes.func,
 	};
+
 	componentDidMount() {
-		this.props.subscribeToLeaderboard();
+		this.firebaseRef && this.firebaseRef.off('value');
+
+		this.firebaseRef = firebase.database().ref(`/leaderboard/${getModuleId()}`);
+
+		this.firebaseRef
+			.orderByChild('points')
+			.limitToFirst(10)
+			.on('value', this.props.updateLeaderboard);
 	}
 
-	componentWillUnmount() {}
+	componentWillUnmount() {
+		this.firebaseRef && this.firebaseRef.off('value');
+		this.props.clearLeaderboard();
+	}
 
 	render() {
-		const { users, currentUser, totalPoints } = this.props;
+		const { users } = this.props;
 
 		if (!users) {
 			return null;
@@ -76,10 +89,6 @@ class Leaderboard extends React.Component {
 
 		return (
 			<LeaderboardWrapper>
-				<PersonalUserRow>
-					<UserInfo rank="" avatarUrl={currentUser.photoURL} name={currentUser.displayName} />
-					<span>{totalPoints}</span>
-				</PersonalUserRow>
 				{sortedUsers.map((user, idx) => (
 					<LeaderboardRow key={user.id}>
 						<UserInfo rank={idx + 1} avatarUrl={user.avatarUrl} name={user.name} />
@@ -93,20 +102,13 @@ class Leaderboard extends React.Component {
 
 const selectors = createStructuredSelector({
 	users: getLeaderboardUsers,
-	currentUser: getCurrentUser,
-	totalPoints: getTotalPoints,
 });
 
 const actions = dispatch => ({
-	subscribeToLeaderboard: () => {
-		firebase
-			.database()
-			.ref(`/leaderboard/${getModuleId()}`)
-			.orderByChild('points')
-			.limitToFirst(10)
-			.on('value', snapshot => snapshot && dispatch({ type: UPDATE_LEADERBOARD, payload: snapshot.val() }));
+	updateLeaderboard: snapshot => {
+		snapshot && dispatch({ type: UPDATE_LEADERBOARD, payload: { moduleId: getModuleId(), score: snapshot.val() } });
 	},
-	unsubscribeLeaderboard: () => {},
+	clearLeaderboard: () => dispatch({ type: CLEAR_LEADERBOARD }),
 });
 
 export default connect(selectors, actions)(Leaderboard);
