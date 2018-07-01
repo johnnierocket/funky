@@ -35,8 +35,7 @@ const initialState = reduce(
 export default function questionsReducer(state = initialState, action) {
 	switch (action.type) {
 		case REHYDRATE_QUESTIONS:
-			// return fromJS(action.payload.data);
-			return initialState;
+			return fromJS(action.payload);
 		case SUBMIT_CORRECT_RESPONSE:
 			return state
 				.updateIn([action.payload.moduleId, 'questionsCompleted'], questionsCompleted =>
