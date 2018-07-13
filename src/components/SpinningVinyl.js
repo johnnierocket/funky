@@ -1,9 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const getRecordPxFromSize = ({ size }) => {
+	switch (size) {
+		case 'small':
+			return '80px';
+		default:
+			return '250px';
+	}
+};
+
+const getLabelPxFromSize = ({ size }) => {
+	switch (size) {
+		case 'small':
+			return '40px';
+		default:
+			return '125px';
+	}
+};
+
 const VinylRecord = styled.div`
-	height: 250px;
-	width: 250px;
+	height: ${getRecordPxFromSize};
+	width: ${getRecordPxFromSize};
 	background-color: black;
 	border-radius: 50%;
 	display: flex;
@@ -11,7 +29,6 @@ const VinylRecord = styled.div`
 	justify-content: center;
 	animation: ${props => props.isSpinning} 2s infinite linear;
 	animation: ${props => props.isFlipping} 0.25s 2 linear alternate, ${props => props.isSpinning} 2s infinite linear;
-	zoom: ${props => (props.size === 'small' ? 0.2 : 1)};
 	margin: ${props => (props.size === 'small' ? '0.5em -0.5em' : 0)};
 	border: ${props => (props.size === 'small' ? '6px solid white' : 'none')};
 	box-shadow: ${props => (props.size === 'small' ? '-2px 18px 38px' : 'none')};
@@ -42,25 +59,33 @@ const VinylRecord = styled.div`
 const RecordLabel = styled.div`
 	display: flex;
 	position: relative;
-	height: 100px;
-	width: 100px;
+	height: ${getLabelPxFromSize};
+	width: ${getLabelPxFromSize};
 	background: linear-gradient(${props => props.labelColor}, ${props => props.gradColor});
 	border-radius: 50%;
 	color: ${props => props.textColor};
 	font-variant: bold;
 `;
 
-const CircleWrapper = styled.div`
-	margin: -2.2em -2.1em;
-	zoom: 1.5;
-`;
+const CircleWrapper = ({ size, children }) =>
+	size ? (
+		children
+	) : (
+		<CircleArc>
+			<CircleArc>
+				<CircleArc>
+					<CircleArc>{children}</CircleArc>
+				</CircleArc>
+			</CircleArc>
+		</CircleArc>
+	);
 
 const CircleArc = styled.div`
 	border: 1px solid #fff;
 	display: inline-block;
 	min-width: 4em;
 	min-height: 4em;
-	padding: 0.5em;
+	padding: 0.7em;
 	border-radius: 50%;
 	border-left-color: transparent;
 	border-right-color: transparent;
@@ -68,11 +93,11 @@ const CircleArc = styled.div`
 
 const RecordLabelChar = styled.div`
 	font: 26px Shrikhand;
-	height: 50px;
+	height: 55px;
 	position: absolute;
 	width: 10px;
-	left: 45px;
-	top: 0;
+	left: 60px;
+	top: 10px;
 	transform-origin: bottom center;
 `;
 
@@ -96,12 +121,23 @@ const LabelChar5 = styled(RecordLabelChar)`
 	transform: rotate(150deg);
 `;
 
+const RecordLabelText = () => (
+	<React.Fragment>
+		<LabelChar1>f</LabelChar1>
+		<LabelChar2>u</LabelChar2>
+		<LabelChar3>n</LabelChar3>
+		<LabelChar4>k</LabelChar4>
+		<LabelChar5>y</LabelChar5>
+	</React.Fragment>
+);
+
 const RecordHole = styled.div`
 	position: absolute;
-	top: 40px;
-	left: 40px;
-	height: 20px;
-	width: 20px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: ${props => (props.size === 'small' ? '8px' : '20px')};
+	width: ${props => (props.size === 'small' ? '8px' : '20px')};
 	border-radius: 50%;
 	background-color: black;
 `;
@@ -158,25 +194,17 @@ export default class SpinningVinyl extends React.Component {
 
 		return (
 			<VinylRecord size={size} isSpinning={startSpin} isFlipping={startFlipSlide}>
-				<RecordLabel labelColor={backgroundColor} textColor={textColor} gradColor={randGradient}>
-					{!size && (
-						<CircleWrapper>
-							<CircleArc>
-								<CircleArc>
-									<CircleArc>
-										<CircleArc />
-									</CircleArc>
-								</CircleArc>
-							</CircleArc>
-						</CircleWrapper>
-					)}
-					<LabelChar1>f</LabelChar1>
-					<LabelChar2>u</LabelChar2>
-					<LabelChar3>n</LabelChar3>
-					<LabelChar4>k</LabelChar4>
-					<LabelChar5>y</LabelChar5>
-					<RecordHole />
-				</RecordLabel>
+				<CircleWrapper size={size}>
+					<RecordLabel
+						labelColor={backgroundColor}
+						textColor={textColor}
+						gradColor={randGradient}
+						size={size}
+					>
+						{!size && <RecordLabelText />}
+						<RecordHole size={size} />
+					</RecordLabel>
+				</CircleWrapper>
 			</VinylRecord>
 		);
 	}

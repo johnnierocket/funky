@@ -5,15 +5,15 @@ const StyledInputWrapper = styled.div`
 	position: absolute;
 	width: 10px;
 	height: 118px;
-	background-color: #000;
 	left: 350px;
 	bottom: 100px;
 
 	input[type='range'] {
-		-webkit-appearance: slider-vertical; /* WebKit */
-		margin: 18px 0;
-		width: 10px;
-		height: 100px;
+		position: relative;
+		left: 0;
+		top: 100px;
+		transform: rotate(270deg);
+		transform-origin: left;
 	}
 	input[type='range']:focus {
 		outline: none;
