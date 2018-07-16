@@ -21,7 +21,7 @@ const Footer = ({
 	validateResponse,
 	nextQuestion,
 	previousQuestion,
-	failed3Times,
+	overFailLimit,
 }) => (
 	<StyledFooter>
 		<Buttons
@@ -32,7 +32,7 @@ const Footer = ({
 			validateResponse={validateResponse}
 			nextQuestion={nextQuestion}
 			previousQuestion={previousQuestion}
-			failed3Times={failed3Times}
+			overFailLimit={overFailLimit}
 		/>
 	</StyledFooter>
 );

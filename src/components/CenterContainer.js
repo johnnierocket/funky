@@ -8,7 +8,7 @@ import Instructions from './Instructions';
 import Leaderboard from './Leaderboard';
 import PlaySound from './PlaySound';
 
-import { getAvatarUrl, getLoggedIn, getQuestionId, getUserName, getFailed3Times } from '../selectors';
+import { getAvatarUrl, getLoggedIn, getQuestionId, getUserName, getOverFailLimit } from '../selectors';
 import { connect } from 'react-redux';
 
 import track1 from '../sounds/track1-downtown.mp3';
@@ -33,11 +33,19 @@ class CenterContainer extends Component {
 		userName: PropTypes.string.isRequired,
 		avatarUrl: PropTypes.string.isRequired,
 		questionId: PropTypes.number.isRequired,
-		failed3Times: PropTypes.bool.isRequired,
+		overFailLimit: PropTypes.bool.isRequired,
 	};
 
 	render() {
-		const { questionId, error, onInputChange, handleKeyPress, correctSubmission, failed3Times, input } = this.props;
+		const {
+			questionId,
+			error,
+			onInputChange,
+			handleKeyPress,
+			correctSubmission,
+			overFailLimit,
+			input,
+		} = this.props;
 		const exercise = getCurrentExercises()[questionId];
 		const vinylTrackArray = [track1, track2];
 		const randTrack = vinylTrackArray[Math.floor(Math.random() * vinylTrackArray.length)];
@@ -53,14 +61,14 @@ class CenterContainer extends Component {
 					showLineNumbers={true}
 				/>
 				{error &&
-					!failed3Times && (
+					!overFailLimit && (
 						<div>
 							<h1>Hmm... not quite.</h1>
 							<CodeBlock code={error} showLineNumbers={false} children={<span>Your</span>} />
 						</div>
 					)}
 				{!error && <PlaySound src={randTrack} />}
-				{failed3Times && (
+				{overFailLimit && (
 					<div>
 						<h1>Wipeout! We were looking for:</h1>
 						<CodeBlock code={exercise.answer} showLineNumbers={false} />
@@ -78,7 +86,7 @@ const selectors = createStructuredSelector({
 	userName: getUserName,
 	avatarUrl: getAvatarUrl,
 	questionId: getQuestionId,
-	failed3Times: getFailed3Times,
+	overFailLimit: getOverFailLimit,
 });
 
 export default connect(selectors)(CenterContainer);

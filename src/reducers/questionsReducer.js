@@ -52,7 +52,7 @@ export default function questionsReducer(state = initialState, action) {
 					Math.max(0, totalPoints - (action.payload.points || 0))
 				)
 				.updateIn([action.payload.moduleId, 'failedAttemptsCounter'], failedAttempts => failedAttempts + 1);
-			if (action.payload.failed3Times) {
+			if (action.payload.overFailLimit) {
 				return newState.updateIn([action.payload.moduleId, 'questionsCompleted'], questionsCompleted =>
 					questionsCompleted.push(action.payload.questionId)
 				);

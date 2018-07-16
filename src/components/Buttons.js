@@ -24,10 +24,10 @@ const Buttons = ({
 	validateResponse,
 	nextQuestion,
 	previousQuestion,
-	failed3Times,
+	overFailLimit,
 }) => {
 	const disableNext = !questionPreviouslyAnswered || questionIndex === getExercisesCount();
-	const disableSubmit = questionPreviouslyAnswered || failed3Times;
+	const disableSubmit = questionPreviouslyAnswered || overFailLimit;
 	return (
 		<ButtonsWrapper>
 			<StyledRaisedButton label="Previous" onClick={previousQuestion} disabled={!(questionIndex - 1)} />

@@ -45,7 +45,7 @@ export const getFailedAttempts = createSelector([getQuestionsState], questionsSt
 	questionsState.getIn([getModuleId(), 'failedAttemptsCounter'], 0)
 );
 
-export const getFailed3Times = createSelector([getFailedAttempts], failedAttempts => failedAttempts >= 3);
+export const getOverFailLimit = createSelector([getFailedAttempts], failedAttempts => failedAttempts >= 3);
 
 // LEADERBOARD STATE
 export const getLeaderboardUsers = createSelector([getLeaderboardState], leaderboardState => leaderboardState.users);

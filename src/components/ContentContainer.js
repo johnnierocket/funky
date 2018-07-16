@@ -4,7 +4,7 @@ import {
 	getQuestionId,
 	getQuestionsCompleted,
 	getQuestionsInputs,
-	getFailed3Times,
+	getOverFailLimit,
 	getFailedAttempts,
 } from '../selectors';
 import { getCurrentExercises } from '../helpers/LocationHelpers';
@@ -142,7 +142,7 @@ class ContentContainer extends Component {
 	handleKeyPress = event => {
 		const { correctSubmission } = this.state;
 		if (event.key === 'Enter') {
-			if (this.props.failed3Times) {
+			if (this.props.overFailLimit) {
 				this.nextQuestion();
 			} else {
 				correctSubmission ? this.nextQuestion() : this.validateResponse();
@@ -172,7 +172,7 @@ class ContentContainer extends Component {
 				submitCorrectResponse({ points, questionId });
 				this.playWinSound();
 			} catch (error) {
-				// this is a bandaid for now. At this point in the flow, the getFailed3Times
+				// this is a bandaid for now. At this point in the flow, the getOverFailLimit
 				// selector will return 2 since it hasn't been updated for this incorrect
 				// response.
 				const realFailed3Times = failedAttempts + 1 === 3;
@@ -182,7 +182,7 @@ class ContentContainer extends Component {
 					error: niceFormatJestError(error),
 					next: false,
 				});
-				submitIncorrectResponse({ questionId, points: pointsToDeduct, failed3Times: realFailed3Times });
+				submitIncorrectResponse({ questionId, points: pointsToDeduct, overFailLimit: realFailed3Times });
 				this.playLoseSound();
 			}
 		}
@@ -254,7 +254,7 @@ class ContentContainer extends Component {
 	};
 
 	render() {
-		const { questionId, questionsCompleted, failed3Times } = this.props;
+		const { questionId, questionsCompleted, overFailLimit } = this.props;
 		const { error, correctSubmission, next, input, gameOver } = this.state;
 		const exercise = getCurrentExercises()[questionId] || 0;
 		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
@@ -304,7 +304,7 @@ class ContentContainer extends Component {
 					validateResponse={this.validateResponse}
 					nextQuestion={this.nextQuestion}
 					previousQuestion={this.previousQuestion}
-					failed3Times={failed3Times}
+					overFailLimit={overFailLimit}
 				/>
 			</ContentWrapper>
 		);
@@ -315,7 +315,7 @@ const selectors = createStructuredSelector({
 	questionId: getQuestionId,
 	questionsInputs: getQuestionsInputs,
 	questionsCompleted: getQuestionsCompleted,
-	failed3Times: getFailed3Times,
+	overFailLimit: getOverFailLimit,
 	failedAttempts: getFailedAttempts,
 });
 
