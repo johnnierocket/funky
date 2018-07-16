@@ -52,7 +52,10 @@ export default function questionsReducer(state = initialState, action) {
 					Math.max(0, totalPoints - (action.payload.points || 0))
 				)
 				.updateIn([action.payload.moduleId, 'failedAttemptsCounter'], failedAttempts => failedAttempts + 1);
-			if (action.payload.overFailLimit) {
+			// this is a bandaid for now. At this point in the flow, the getOverFailLimit
+			// selector will return 2 since it hasn't been updated for this incorrect
+			// response.
+			if (action.payload.failedAttempts + 1 === 3) {
 				return newState.updateIn([action.payload.moduleId, 'questionsCompleted'], questionsCompleted =>
 					questionsCompleted.push(action.payload.questionId)
 				);

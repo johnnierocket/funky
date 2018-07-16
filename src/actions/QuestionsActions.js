@@ -16,9 +16,9 @@ export const submitCorrectResponse = ({ points, questionId }) => ({
 	payload: { moduleId: getModuleId(), points, questionId },
 });
 
-export const submitIncorrectResponse = ({ points, questionId, overFailLimit }) => ({
+export const submitIncorrectResponse = ({ points, questionId, failedAttempts }) => ({
 	type: SUBMIT_INCORRECT_RESPONSE,
-	payload: { moduleId: getModuleId(), points, overFailLimit, questionId },
+	payload: { moduleId: getModuleId(), points, failedAttempts, questionId },
 });
 
 export const clearFailedAttempts = () => ({

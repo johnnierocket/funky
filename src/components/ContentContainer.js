@@ -172,17 +172,13 @@ class ContentContainer extends Component {
 				submitCorrectResponse({ points, questionId });
 				this.playWinSound();
 			} catch (error) {
-				// this is a bandaid for now. At this point in the flow, the getOverFailLimit
-				// selector will return 2 since it hasn't been updated for this incorrect
-				// response.
-				const realFailed3Times = failedAttempts + 1 === 3;
 				const pointsToDeduct = failedAttempts === 0 ? 5 : 0;
 				this.setState({
 					correctSubmission: false,
 					error: niceFormatJestError(error),
 					next: false,
 				});
-				submitIncorrectResponse({ questionId, points: pointsToDeduct, overFailLimit: realFailed3Times });
+				submitIncorrectResponse({ questionId, points: pointsToDeduct, failedAttempts });
 				this.playLoseSound();
 			}
 		}
