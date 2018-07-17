@@ -73,12 +73,7 @@ class Leaderboard extends React.Component {
 	};
 
 	state = {
-		show: true,
-		entered: false
-	};
-
-	toggleEnterState = () => {
-		this.setState({ in: true });
+		show: true
 	};
 
 	componentDidMount() {
