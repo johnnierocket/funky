@@ -37,7 +37,9 @@ export const getTotalPoints = createSelector([getQuestionsState], questionsState
 	questionsState.getIn([getModuleId(), 'totalPoints'])
 );
 
-export const getStartTime = createSelector([getQuestionsState], questionsState => questionsState.getIn([getModuleId(), 'startTime']));
+export const getStartTime = createSelector([getQuestionsState], questionsState =>
+	questionsState.getIn([getModuleId(), 'startTime'])
+);
 
 // LEADERBOARD STATE
 export const getLeaderboardUsers = createSelector([getLeaderboardState], leaderboardState => leaderboardState.users);

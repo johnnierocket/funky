@@ -4,8 +4,9 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import { getLoggedIn } from '../selectors';
+import { getLoggedIn, getQuestionsState } from '../selectors';
 import Modules from '../Modules';
+import exercises from '../exercises';
 import funky from '../images/logos/funky.png';
 
 const StyledImg = styled.img`
@@ -19,30 +20,31 @@ const StyledImg = styled.img`
 
 const LeaderButton = styled.button`
 	padding: 10px 5px;
-	margin: auto 4px;
-	background-color: #fff;
-	border: 2px solid #b0a5a5;
-	border-radius: 3%;
+	font-family: 'Righteous', sans-serif;
+	border: none;
+	background: none;
 	outline: none;
-	flex-basis: 300px;
 	text-transform: uppercase;
-	flex: 2;
 	font-size: 16px;
-	color: #b0a5a5;
+	color: #6abcfb;
 	cursor: pointer;
 
 	&:hover {
-		border-color: #000;
 		color: #000;
 	}
 `;
 
+const AnsweredQuestions = styled.div`
+	margin-left: auto;
+	font-size: 20px;
+	color: #ff4081;
+	font-family: 'Shrikhand', sans-serif;
+	letter-spacing: 2px;
+`;
+
 const PlayButton = LeaderButton.extend`
-	flex-basis: 150px;
-	background-color: #69c94b;
-	border: 2px solid #69c94b;
-	color: #fff;
-	flex: 1;
+	color: #69c94b;
+	margin-right: auto;
 `;
 
 const LessonsContainer = styled.div`
@@ -56,12 +58,12 @@ const LessonBox = styled.div`
 	font-family: 'Righteous', cursive;
 	flex: 1;
 	width: 300px;
-	height: 400px;
 	margin: 5em 2em;
-	background-color: #fff;
-	box-shadow: 2px 4px 2px #b0a5a5;
+	background-color: #fafafa;
+	box-shadow: 0 0 20px #b0a5a5;
 	max-width: 300px;
 	padding: 1em;
+	border-radius: 10px;
 `;
 
 const ButtonGroup = styled.div`
@@ -78,17 +80,28 @@ const Title = styled.span`
 	width: 100%;
 `;
 
-const Module = ({ moduleId, moduleName, handlePlay, showLeaderboard, logoName }) => (
+const getObjectSize = obj => {
+	let size = 0;
+	for (let key in obj) {
+		if (obj.hasOwnProperty(key)) size++;
+	}
+	return size;
+};
+
+const Module = ({ moduleId, moduleName, handlePlay, showLeaderboard, logoName, totalQuestions, questionsAnswered }) => (
 	<LessonBox>
 		<ButtonGroup>
+			<AnsweredQuestions>
+				{questionsAnswered}/{totalQuestions}
+			</AnsweredQuestions>
 			<StyledImg src={funky} alt="record" />
 			<Title>{moduleName}</Title>
-			<LeaderButton onClick={showLeaderboard}>
-				<i className="fas fa-trophy" style={{ color: '##9B9B9B' }} /> Leaders
-			</LeaderButton>
 			<PlayButton onClick={handlePlay}>
 				<i className="fas fa-play-circle" /> Play
 			</PlayButton>
+			<LeaderButton onClick={showLeaderboard}>
+				<i className="fas fa-trophy" style={{ color: '##9B9B9B' }} /> Leaders
+			</LeaderButton>
 		</ButtonGroup>
 	</LessonBox>
 );
@@ -117,19 +130,25 @@ class Home extends Component {
 	};
 
 	render() {
+		const { questionsState } = this.props;
 		return (
 			<div>
 				<LessonsContainer>
-					{Object.keys(Modules).map(id => (
-						<Module
-							key={id}
-							moduleId={id}
-							moduleName={Modules[id].moduleName}
-							handlePlay={this.handlePlay.bind(this, id)}
-							showLeaderboard={this.showLeaderboard.bind(this, id)}
-							logoName={Modules[id].logoName}
-						/>
-					))}
+					{Object.keys(Modules).map(id => {
+						const questionsAnswered = questionsState.getIn([id, 'questionsCompleted']).size;
+						return (
+							<Module
+								key={id}
+								moduleId={id}
+								moduleName={Modules[id].moduleName}
+								handlePlay={this.handlePlay.bind(this, id)}
+								showLeaderboard={this.showLeaderboard.bind(this, id)}
+								logoName={Modules[id].logoName}
+								questionsAnswered={questionsAnswered}
+								totalQuestions={getObjectSize(exercises[id])}
+							/>
+						);
+					})}
 				</LessonsContainer>
 			</div>
 		);
@@ -138,6 +157,7 @@ class Home extends Component {
 
 const selectors = createStructuredSelector({
 	loggedIn: getLoggedIn,
+	questionsState: getQuestionsState,
 });
 
 const withRedux = connect(selectors);
