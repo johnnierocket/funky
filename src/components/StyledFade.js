@@ -1,11 +1,11 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from 'styled-components';
 
 export const fade = keyframes`
 	0% {
-		opacity: 0%;
+		opacity: 0;
 	}
   100% {
-		opacity: 100%;
+		opacity: 1;
 	}
 `;
 

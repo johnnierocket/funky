@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from 'styled-components';
 
 export const spin = keyframes`
 	0% {
@@ -10,9 +10,9 @@ export const spin = keyframes`
 `;
 
 export default styled.div`
-  padding: 20px;
-  margin: 10px auto;
-  text-align: center;
-  border-radius: 4px;
+	padding: 20px;
+	margin: 10px auto;
+	text-align: center;
+	border-radius: 4px;
 	animation: ${spin} 1200ms ease-in;
 `;

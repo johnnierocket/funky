@@ -9,8 +9,8 @@ import { getModuleId } from '../helpers/LocationHelpers';
 import firebase from 'firebase';
 import Transition from 'react-transition-group/Transition';
 import { UPDATE_LEADERBOARD, CLEAR_LEADERBOARD } from '../constants/actionTypes';
-import StyledSpin from "./StyledSpin";
-import StyledFade from "./StyledFade";
+import StyledSpin from './StyledSpin';
+import StyledFade from './StyledFade';
 
 const LeaderboardWrapper = styled.div`
 	font-family: Righteous;
@@ -33,10 +33,10 @@ const LeaderboardRow = styled.div`
 `;
 
 const BoomShakalaka = styled.span`
-font-family: 'Righteous', cursive;
-font-size: 32px;
-margin: 0 auto;
-color: #e2487e;
+	font-family: 'Righteous', cursive;
+	font-size: 32px;
+	margin: 0 auto;
+	color: #e2487e;
 `;
 
 const PersonalUserRow = styled.div`
@@ -69,17 +69,17 @@ class Leaderboard extends React.Component {
 		users: PropTypes.array.isRequired,
 		// actions
 		subscribeToLeaderboard: PropTypes.func,
-		clearLeaderboard: PropTypes.func,
+		clearLeaderboard: PropTypes.func
 	};
 
 	state = {
 		show: true,
-		entered: false,
-	}
+		entered: false
+	};
 
 	toggleEnterState = () => {
 		this.setState({ in: true });
-	}
+	};
 
 	componentDidMount() {
 		this.firebaseRef && this.firebaseRef.off('value');
@@ -91,11 +91,11 @@ class Leaderboard extends React.Component {
 			.limitToFirst(10)
 			.on('value', this.props.updateLeaderboard);
 
-			setTimeout(() => {
-				this.setState({
-					show: false
-				});
-			}, 3000);
+		setTimeout(() => {
+			this.setState({
+				show: false
+			});
+		}, 3000);
 	}
 
 	componentWillUnmount() {
@@ -114,39 +114,43 @@ class Leaderboard extends React.Component {
 		const sortedUsers = users.sort((a, b) => b.points - a.points);
 		return (
 			<LeaderboardWrapper>
-			<Transition
-				in={show}
-				timeout={3000}
-			>
-			{state => {
-				switch (state) {
-					case 'entering':
-					case 'entered':
-					return <div>
-					<BoomShakalaka>Boom Shakalaka!</BoomShakalaka>
-					<StyledSpin>
-						<PersonalUserRow>
-							<UserInfo rank="" avatarUrl={currentUser.photoURL} name={currentUser.displayName} />
-							<span>{totalPoints}</span>
-					</PersonalUserRow>
-					</StyledSpin>
-					</div>;
-					case 'exiting':
-					case 'exited':
-					return <StyledFade>
-						{sortedUsers.map((user, idx) => (
-								<LeaderboardRow key={user.id}>
-									<UserInfo rank={idx + 1} avatarUrl={user.avatarUrl} name={user.name} />
-									<span>{user.points}</span>
-								</LeaderboardRow>
-							))}
-					</StyledFade>
-						default:
-					return;
-				}
-			}}
-		</Transition>
-
+				<Transition in={show} timeout={3000}>
+					{state => {
+						switch (state) {
+							case 'entering':
+							case 'entered':
+								return (
+									<div>
+										<BoomShakalaka>Boom Shakalaka!</BoomShakalaka>
+										<StyledSpin>
+											<PersonalUserRow>
+												<UserInfo
+													rank=""
+													avatarUrl={currentUser.photoURL}
+													name={currentUser.displayName}
+												/>
+												<span>{totalPoints}</span>
+											</PersonalUserRow>
+										</StyledSpin>
+									</div>
+								);
+							case 'exiting':
+							case 'exited':
+								return (
+									<StyledFade>
+										{sortedUsers.map((user, idx) => (
+											<LeaderboardRow key={user.id}>
+												<UserInfo rank={idx + 1} avatarUrl={user.avatarUrl} name={user.name} />
+												<span>{user.points}</span>
+											</LeaderboardRow>
+										))}
+									</StyledFade>
+								);
+							default:
+								return;
+						}
+					}}
+				</Transition>
 			</LeaderboardWrapper>
 		);
 	}
@@ -155,14 +159,14 @@ class Leaderboard extends React.Component {
 const selectors = createStructuredSelector({
 	users: getLeaderboardUsers,
 	currentUser: getCurrentUser,
-	totalPoints: getTotalPoints,
+	totalPoints: getTotalPoints
 });
 
 const actions = dispatch => ({
 	updateLeaderboard: snapshot => {
 		snapshot && dispatch({ type: UPDATE_LEADERBOARD, payload: { moduleId: getModuleId(), score: snapshot.val() } });
 	},
-	clearLeaderboard: () => dispatch({ type: CLEAR_LEADERBOARD }),
+	clearLeaderboard: () => dispatch({ type: CLEAR_LEADERBOARD })
 });
 
 export default connect(selectors, actions)(Leaderboard);
