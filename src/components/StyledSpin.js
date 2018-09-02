@@ -14,5 +14,6 @@ export default styled.div`
 	margin: 10px auto;
 	text-align: center;
 	border-radius: 4px;
+	width: 800px;
 	animation: ${spin} 1200ms ease-in;
 `;

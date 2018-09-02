@@ -14,8 +14,10 @@ import StyledFade from './StyledFade';
 
 const LeaderboardWrapper = styled.div`
 	font-family: Righteous;
-	text-align: -webkit-center;
-	padding: 2em 4em;
+	display: flex;
+	padding: 2em;
+	flex-flow: column;
+	margin: 0 auto;
 `;
 
 const LeaderboardRow = styled.div`
@@ -23,12 +25,12 @@ const LeaderboardRow = styled.div`
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	padding: 0 4em;
+	padding: 0 2em;
 	border: 1px solid #979797;
 	-webkit-flex-shrink: 2;
 	-ms-flex-negative: 2;
 	flex-shrink: 2;
-	max-width: 600px;
+	width: 700px;
 	background: white;
 `;
 
@@ -36,6 +38,7 @@ const BoomShakalaka = styled.span`
 	font-family: 'Righteous', cursive;
 	font-size: 32px;
 	margin: 0 auto;
+	padding: 1em 0;
 	color: #e2487e;
 `;
 
@@ -47,7 +50,6 @@ const PersonalUserRow = styled.div`
 	background-color: rgba(106, 188, 251, 0.3);
 	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
 	border: solid 1.5px #e2487e;
-	width: 65%;
 	margin: auto;
 	margin-bottom: 2em;
 
@@ -109,25 +111,23 @@ class Leaderboard extends React.Component {
 		const sortedUsers = users.sort((a, b) => b.points - a.points);
 		return (
 			<LeaderboardWrapper>
+				<BoomShakalaka>Boom Shakalaka!</BoomShakalaka>
 				<Transition in={show} timeout={3000}>
 					{state => {
 						switch (state) {
 							case 'entering':
 							case 'entered':
 								return (
-									<div>
-										<BoomShakalaka>Boom Shakalaka!</BoomShakalaka>
-										<StyledSpin>
-											<PersonalUserRow>
-												<UserInfo
-													rank=""
-													avatarUrl={currentUser.photoURL}
-													name={currentUser.displayName}
-												/>
-												<span>{totalPoints}</span>
-											</PersonalUserRow>
-										</StyledSpin>
-									</div>
+									<StyledSpin>
+										<PersonalUserRow>
+											<UserInfo
+												rank=""
+												avatarUrl={currentUser.photoURL}
+												name={currentUser.displayName}
+											/>
+											<span>{totalPoints}</span>
+										</PersonalUserRow>
+									</StyledSpin>
 								);
 							case 'exiting':
 							case 'exited':
