@@ -14,15 +14,25 @@ const StyledFooter = styled.div`
 	bottom: 0;
 `;
 
-const Footer = ({ questionId, questionPreviouslyAnswered, validateResponse, nextQuestion, previousQuestion }) => (
+const Footer = ({
+	questionId,
+	questionPreviouslyAnswered,
+	disableSubmit,
+	validateResponse,
+	nextQuestion,
+	previousQuestion,
+	overFailLimit,
+}) => (
 	<StyledFooter>
 		<Buttons
 			questionIndex={getQuestionIndex(questionId)}
 			questionPreviouslyAnswered={questionPreviouslyAnswered}
+			disableSubmit={disableSubmit}
 			exercises={getCurrentExercises()}
 			validateResponse={validateResponse}
 			nextQuestion={nextQuestion}
 			previousQuestion={previousQuestion}
+			overFailLimit={overFailLimit}
 		/>
 	</StyledFooter>
 );

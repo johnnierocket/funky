@@ -24,23 +24,23 @@ const Buttons = ({
 	validateResponse,
 	nextQuestion,
 	previousQuestion,
-}) => (
-	<ButtonsWrapper>
-		<StyledRaisedButton label="Previous" onClick={previousQuestion} disabled={!(questionIndex - 1)} />
-		<StyledRaisedButton
-			label="Next"
-			secondary={true}
-			onClick={nextQuestion}
-			disabled={!questionPreviouslyAnswered || questionIndex === getExercisesCount()}
-		/>
-		<StyledSubmitButton
-			label="Submit"
-			backgroundColor="#ffa500"
-			labelColor="#ffffff"
-			onClick={validateResponse}
-			disabled={questionPreviouslyAnswered}
-		/>
-	</ButtonsWrapper>
-);
+	overFailLimit,
+}) => {
+	const disableNext = !questionPreviouslyAnswered || questionIndex === getExercisesCount();
+	const disableSubmit = questionPreviouslyAnswered || overFailLimit;
+	return (
+		<ButtonsWrapper>
+			<StyledRaisedButton label="Previous" onClick={previousQuestion} disabled={!(questionIndex - 1)} />
+			<StyledRaisedButton label="Next" secondary={true} onClick={nextQuestion} disabled={disableNext} />
+			<StyledSubmitButton
+				label="Submit"
+				backgroundColor="#ffa500"
+				labelColor="#ffffff"
+				onClick={validateResponse}
+				disabled={disableSubmit}
+			/>
+		</ButtonsWrapper>
+	);
+};
 
 export default Buttons;

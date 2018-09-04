@@ -41,5 +41,11 @@ export const getStartTime = createSelector([getQuestionsState], questionsState =
 	questionsState.getIn([getModuleId(), 'startTime'])
 );
 
+export const getFailedAttempts = createSelector([getQuestionsState], questionsState =>
+	questionsState.getIn([getModuleId(), 'failedAttemptsCounter'], 0)
+);
+
+export const getOverFailLimit = createSelector([getFailedAttempts], failedAttempts => failedAttempts >= 3);
+
 // LEADERBOARD STATE
 export const getLeaderboardUsers = createSelector([getLeaderboardState], leaderboardState => leaderboardState.users);

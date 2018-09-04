@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { createStructuredSelector } from 'reselect';
-import { getQuestionId, getQuestionsCompleted, getQuestionsInputs } from '../selectors';
+import {
+	getQuestionId,
+	getQuestionsCompleted,
+	getQuestionsInputs,
+	getOverFailLimit,
+	getFailedAttempts,
+} from '../selectors';
 import { getCurrentExercises } from '../helpers/LocationHelpers';
 import styled from 'styled-components';
 import CenterContainer from './CenterContainer';
@@ -107,6 +113,7 @@ class ContentContainer extends Component {
 
 	componentWillMount() {
 		if (+this.props.questionId > numExercises) {
+			this.props.clearFailedAttempts();
 			this.setState({
 				gameOver: true,
 			});
@@ -135,12 +142,22 @@ class ContentContainer extends Component {
 	handleKeyPress = event => {
 		const { correctSubmission } = this.state;
 		if (event.key === 'Enter') {
-			correctSubmission ? this.nextQuestion() : this.validateResponse();
+			if (this.props.overFailLimit) {
+				this.nextQuestion();
+			} else {
+				correctSubmission ? this.nextQuestion() : this.validateResponse();
+			}
 		}
 	};
 
 	validateResponse = () => {
-		const { questionId, questionsCompleted, submitCorrectResponse, submitIncorrectResponse } = this.props;
+		const {
+			questionId,
+			questionsCompleted,
+			submitCorrectResponse,
+			submitIncorrectResponse,
+			failedAttempts,
+		} = this.props;
 		const { input } = this.state;
 		const { assert, givens, points } = getCurrentExercises()[questionId];
 
@@ -155,12 +172,13 @@ class ContentContainer extends Component {
 				submitCorrectResponse({ points, questionId });
 				this.playWinSound();
 			} catch (error) {
+				const pointsToDeduct = failedAttempts === 0 ? 5 : 0;
 				this.setState({
 					correctSubmission: false,
 					error: niceFormatJestError(error),
 					next: false,
 				});
-				submitIncorrectResponse({ points: 5 });
+				submitIncorrectResponse({ questionId, points: pointsToDeduct, failedAttempts });
 				this.playLoseSound();
 			}
 		}
@@ -186,6 +204,7 @@ class ContentContainer extends Component {
 	};
 
 	previousQuestion = () => {
+		this.props.clearFailedAttempts();
 		this.setState({
 			input: '',
 			next: false,
@@ -194,6 +213,7 @@ class ContentContainer extends Component {
 	};
 
 	nextQuestion = () => {
+		this.props.clearFailedAttempts();
 		this.setState({
 			input: '',
 			next: true,
@@ -202,6 +222,7 @@ class ContentContainer extends Component {
 	};
 
 	startOver = () => {
+		this.props.clearFailedAttempts();
 		this.setState({
 			input: '',
 			error: '',
@@ -229,12 +250,11 @@ class ContentContainer extends Component {
 	};
 
 	render() {
-		const { questionId, questionsCompleted } = this.props;
+		const { questionId, questionsCompleted, overFailLimit } = this.props;
 		const { error, correctSubmission, next, input, gameOver } = this.state;
 		const exercise = getCurrentExercises()[questionId] || 0;
 		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
 		const rotateDeg = error && 30;
-
 		return gameOver ? (
 			<div>
 				<Leaderboard />
@@ -280,6 +300,7 @@ class ContentContainer extends Component {
 					validateResponse={this.validateResponse}
 					nextQuestion={this.nextQuestion}
 					previousQuestion={this.previousQuestion}
+					overFailLimit={overFailLimit}
 				/>
 			</ContentWrapper>
 		);
@@ -290,6 +311,8 @@ const selectors = createStructuredSelector({
 	questionId: getQuestionId,
 	questionsInputs: getQuestionsInputs,
 	questionsCompleted: getQuestionsCompleted,
+	overFailLimit: getOverFailLimit,
+	failedAttempts: getFailedAttempts,
 });
 
 const actions = {

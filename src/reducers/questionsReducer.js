@@ -8,6 +8,7 @@ import {
 	SET_START_TIME,
 	SET_END_TIME,
 	CLEAR_USER_DATA,
+	CLEAR_FAILED_ATTEMPTS,
 } from '../constants/actionTypes';
 import { Map, List, fromJS } from 'immutable';
 import reduce from 'lodash/fp/reduce';
@@ -46,9 +47,22 @@ export default function questionsReducer(state = initialState, action) {
 					totalPoints => totalPoints + (action.payload.points || 0)
 				);
 		case SUBMIT_INCORRECT_RESPONSE:
-			return state.updateIn([action.payload.moduleId, 'totalPoints'], totalPoints =>
-				Math.max(0, totalPoints - (action.payload.points || 0))
-			);
+			const newState = state
+				.updateIn([action.payload.moduleId, 'totalPoints'], totalPoints =>
+					Math.max(0, totalPoints - (action.payload.points || 0))
+				)
+				.updateIn([action.payload.moduleId, 'failedAttemptsCounter'], failedAttempts => failedAttempts + 1);
+			// this is a bandaid for now. At this point in the flow, the getOverFailLimit
+			// selector will return 2 since it hasn't been updated for this incorrect
+			// response.
+			if (action.payload.failedAttempts + 1 === 3) {
+				return newState.updateIn([action.payload.moduleId, 'questionsCompleted'], questionsCompleted =>
+					questionsCompleted.push(action.payload.questionId)
+				);
+			}
+			return newState;
+		case CLEAR_FAILED_ATTEMPTS:
+			return state.setIn([action.payload.moduleId, 'failedAttemptsCounter'], 0);
 		case NEXT_QUESTION:
 			const questionId = state.getIn([action.payload.moduleId, 'questionId']);
 			return state

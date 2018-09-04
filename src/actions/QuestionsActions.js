@@ -7,6 +7,7 @@ import {
 	SET_START_TIME,
 	SET_END_TIME,
 	CLEAR_USER_DATA,
+	CLEAR_FAILED_ATTEMPTS,
 } from '../constants/actionTypes';
 import { getModuleId } from '../helpers/LocationHelpers';
 
@@ -15,8 +16,13 @@ export const submitCorrectResponse = ({ points, questionId }) => ({
 	payload: { moduleId: getModuleId(), points, questionId },
 });
 
-export const submitIncorrectResponse = () => ({
+export const submitIncorrectResponse = ({ points, questionId, failedAttempts }) => ({
 	type: SUBMIT_INCORRECT_RESPONSE,
+	payload: { moduleId: getModuleId(), points, failedAttempts, questionId },
+});
+
+export const clearFailedAttempts = () => ({
+	type: CLEAR_FAILED_ATTEMPTS,
 	payload: { moduleId: getModuleId() },
 });
 

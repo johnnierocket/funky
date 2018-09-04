@@ -27,6 +27,7 @@ const hello = greet(__INPUT__)
 hello("Omar"); // "Hello Omar"`,
 		givens: { greet },
 		assert: ({ greet, input }) => expect(greet(eval(input))('Omar')).toEqual('Hello Omar'),
+		answer: '"Hello"',
 	},
 	'2': {
 		id: '2',
@@ -38,6 +39,7 @@ const add1 = __INPUT__;
 [1, 2, 3].map(add1) // [2, 3, 4]`,
 		givens: { add },
 		assert: ({ add, input }) => expect([1, 2, 3].map(eval(input))).toEqual([2, 3, 4]),
+		answer: 'add(1)',
 	},
 	'3': {
 		id: '3',
@@ -73,6 +75,7 @@ const add1 = __INPUT__;
 					},
 				].map(eval(input)('id'))
 			).toEqual([1, 2, 3]),
+		answer: 'id => item => item[id]',
 	},
 	'4': {
 		id: '4',
@@ -85,6 +88,7 @@ const h1 = __INPUT__
 div(h1('Big Text!')); // <div><h1>Big Text!</h1></div>`,
 		givens: { div },
 		assert: ({ div, input }) => expect(div(eval(input)('Big Text!'))).toEqual('<div><h1>Big Text!</h1></div>'),
+		answer: 'inner => `<h1>${inner}</h1>`', // eslint-disable-line no-template-curly-in-string
 	},
 	'5': {
 		id: '5',
@@ -102,6 +106,7 @@ const arrayToUpper = map(__INPUT__);
 arrayToUpper(['item1','item2','item3']); // ['ITEM1', 'ITEM2', 'ITEM3']`,
 		assert: ({ toUpper, map, input }) =>
 			expect(map(eval(input))(['item1', 'item2', 'item3'])).toEqual(['ITEM1', 'ITEM2', 'ITEM3']),
+		answer: 'toUpper',
 	},
 	'6': {
 		id: '6',
@@ -125,6 +130,7 @@ buildUl(['item1', 'item2', 'item3']) // <ul><li>item1</li><li>item2</li><li>item
 			expect(ul(join('', map(eval(input))(['item1', 'item2', 'item3'])))).toEqual(
 				'<ul><li>item1</li><li>item2</li><li>item3</li></ul>'
 			),
+		answer: 'li',
 	},
 	'7': {
 		id: '7',
@@ -152,6 +158,7 @@ buildList(['item1','item2','item3']); // '<li>item1</li><li>item2</li><li>item3<
 			expect(compose(join(''), eval(input))(['item1', 'item2', 'item3'])).toEqual(
 				'<li>item1</li><li>item2</li><li>item3</li>'
 			),
+		answer: 'map(li)',
 	},
 	'8': {
 		id: '8',
@@ -181,6 +188,7 @@ buildUl(['item1', 'item2', 'item3']) // <ul><li>item1</li><li>item2</li><li>item
 			expect(eval(`compose(${input})`)(['item1', 'item2', 'item3'])).toEqual(
 				'<ul><li>item1</li><li>item2</li><li>item3</li></ul>'
 			),
+		answer: "ul, join(''), map(li)",
 	},
 	'9': {
 		id: '9',
@@ -203,6 +211,7 @@ const reducer = (map, key) => set(map, key, true);
 items.reduce(__INPUT__); // Map({ admin: true, writer: true, approver: true })`,
 		assert: ({ reducer, items, input, Map }) =>
 			expect(eval(`items.reduce(${input})`)).toEqual(Map({ admin: true, writer: true, approver: true })),
+		answer: 'reducer, Map()',
 	},
 	'10': {
 		id: '10',
@@ -224,6 +233,7 @@ const match = __INPUT__;
 items.map(match('admin')); // List([ true, false, false ])
 `,
 		assert: ({ items, input }) => expect(items.map(eval(input)('admin'))).toEqual(List([true, false, false])),
+		answer: 'itemToMatch => item => itemToMatch === item',
 	},
 	'11': {
 		id: '11',
@@ -240,7 +250,7 @@ items.map(match('admin')); // List([ true, false, false ])
 
 const items = List(['admin', 'approver', 'writer']);
 const enabledItems = List(['admin', 'writer', 'manager']);
-const match = a => b => a === b;
+const match = itemToMatch => item => itemToMatch === item;
 
 // by binding match to the given key we can check if
 // some of the enabled items match that key
@@ -255,6 +265,7 @@ items.reduce(reducer, Map()); // Map({ admin: true, approver: false, writer: tru
 				Map({ admin: true, approver: false, writer: true })
 			);
 		},
+		answer: 'match(key)',
 	},
 	'12': {
 		id: '12',
@@ -287,6 +298,7 @@ at(['roles','teams'])(data); // List(['admin', 'writer', 'customer', 'internal']
 			const at = paths => obj => eval(`flatMap(${input})`);
 			expect(at(['roles', 'teams'])(data)).toEqual(List(['admin', 'writer', 'customer', 'internal']));
 		},
+		answer: 'paths, path => get(obj, path)',
 	},
 	'13': {
 		id: '13',
@@ -322,6 +334,7 @@ doFilter(data); // List(['admin'])`,
 		assert: ({ input, onlyAdmin, at, data, compose }) => {
 			expect(eval(`compose(${input})`)(data)).toEqual(List(['admin']));
 		},
+		answer: "onlyAdmin, at(['roles'])",
 	},
 };
 
