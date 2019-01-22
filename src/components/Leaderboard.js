@@ -18,6 +18,7 @@ const LeaderboardWrapper = styled.div`
 	padding: 2em;
 	flex-flow: column;
 	margin: 0 auto;
+	align-items: center;
 `;
 
 const LeaderboardRow = styled.div`
