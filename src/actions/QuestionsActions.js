@@ -10,6 +10,7 @@ import {
 	CLEAR_FAILED_ATTEMPTS,
 } from '../constants/actionTypes';
 import { getModuleId } from '../helpers/LocationHelpers';
+import { getLoggedIn } from '../selectors';
 
 export const submitCorrectResponse = ({ points, questionId }) => ({
 	type: SUBMIT_CORRECT_RESPONSE,
@@ -54,3 +55,9 @@ export const setEndTime = ({ time }) => ({
 export const clearUserData = () => ({
 	type: CLEAR_USER_DATA,
 });
+
+export const ensureUserLoggedIn = history => (dispatch, getState) => {
+	if (!getLoggedIn(getState())) {
+		history.push('/login');
+	}
+};

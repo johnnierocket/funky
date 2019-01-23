@@ -11,6 +11,7 @@ import Transition from 'react-transition-group/Transition';
 import { UPDATE_LEADERBOARD, CLEAR_LEADERBOARD } from '../constants/actionTypes';
 import StyledSpin from './StyledSpin';
 import StyledFade from './StyledFade';
+import { ensureUserLoggedIn } from '../actions/QuestionsActions';
 
 const LeaderboardWrapper = styled.div`
 	font-family: Righteous;
@@ -72,11 +73,11 @@ class Leaderboard extends React.Component {
 		users: PropTypes.array.isRequired,
 		// actions
 		subscribeToLeaderboard: PropTypes.func,
-		clearLeaderboard: PropTypes.func
+		clearLeaderboard: PropTypes.func,
 	};
 
 	state = {
-		show: true
+		show: true,
 	};
 
 	componentDidMount() {
@@ -91,9 +92,11 @@ class Leaderboard extends React.Component {
 
 		setTimeout(() => {
 			this.setState({
-				show: false
+				show: false,
 			});
 		}, 3000);
+
+		this.ensureLoggedIn();
 	}
 
 	componentWillUnmount() {
@@ -101,11 +104,20 @@ class Leaderboard extends React.Component {
 		this.props.clearLeaderboard();
 	}
 
+	componentDidUpdate() {
+		this.ensureLoggedIn();
+	}
+
+	ensureLoggedIn = () => {
+		const { ensureUserLoggedIn, history } = this.props;
+		ensureUserLoggedIn(history);
+	};
+
 	render() {
 		const { users, currentUser, totalPoints } = this.props;
 		const { show } = this.state;
 
-		if (!users) {
+		if (!users || !currentUser) {
 			return null;
 		}
 
@@ -155,14 +167,15 @@ class Leaderboard extends React.Component {
 const selectors = createStructuredSelector({
 	users: getLeaderboardUsers,
 	currentUser: getCurrentUser,
-	totalPoints: getTotalPoints
+	totalPoints: getTotalPoints,
 });
 
 const actions = dispatch => ({
 	updateLeaderboard: snapshot => {
 		snapshot && dispatch({ type: UPDATE_LEADERBOARD, payload: { moduleId: getModuleId(), score: snapshot.val() } });
 	},
-	clearLeaderboard: () => dispatch({ type: CLEAR_LEADERBOARD })
+	clearLeaderboard: () => dispatch({ type: CLEAR_LEADERBOARD }),
+	ensureUserLoggedIn: history => dispatch(ensureUserLoggedIn(history)),
 });
 
 export default connect(selectors, actions)(Leaderboard);

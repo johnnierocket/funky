@@ -8,6 +8,7 @@ import ContentContainer from './ContentContainer';
 import Progress from './Progress';
 import { getCurrentExercises } from '../helpers/LocationHelpers';
 import { getLoggedIn, getQuestionsCompleted } from '../selectors';
+import { ensureUserLoggedIn } from '../actions/QuestionsActions';
 
 class FunkyModule extends Component {
 	static propTypes = {
@@ -21,9 +22,17 @@ class FunkyModule extends Component {
 	};
 
 	componentDidMount() {
-		const { loggedIn, history } = this.props;
-		!loggedIn && history.push('/login');
+		this.ensureLoggedIn();
 	}
+
+	componentDidUpdate() {
+		this.ensureLoggedIn();
+	}
+
+	ensureLoggedIn = () => {
+		const { ensureUserLoggedIn, history } = this.props;
+		ensureUserLoggedIn(history);
+	};
 
 	render() {
 		const { questionsCompleted } = this.props;
@@ -41,6 +50,10 @@ const selectors = createStructuredSelector({
 	questionsCompleted: getQuestionsCompleted,
 });
 
-const withRedux = connect(selectors);
+const actions = {
+	ensureUserLoggedIn,
+};
+
+const withRedux = connect(selectors, actions);
 
 export default withRouter(withRedux(FunkyModule));

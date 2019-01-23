@@ -8,6 +8,7 @@ import { getLoggedIn, getQuestionsState } from '../selectors';
 import Modules from '../Modules';
 import exercises from '../exercises';
 import funky from '../images/logos/funky.png';
+import { ensureUserLoggedIn } from '../actions/QuestionsActions';
 
 const StyledImg = styled.img`
 	width: auto;
@@ -117,9 +118,17 @@ class Home extends Component {
 	};
 
 	componentDidMount() {
-		const { loggedIn, history } = this.props;
-		!loggedIn && history.push('/login');
+		this.ensureLoggedIn();
 	}
+
+	componentDidUpdate() {
+		this.ensureLoggedIn();
+	}
+
+	ensureLoggedIn = () => {
+		const { ensureUserLoggedIn, history } = this.props;
+		ensureUserLoggedIn(history);
+	};
 
 	handlePlay = id => {
 		this.props.history.push(`/module/${id}/gameplay`);
@@ -160,6 +169,10 @@ const selectors = createStructuredSelector({
 	questionsState: getQuestionsState,
 });
 
-const withRedux = connect(selectors);
+const actions = {
+	ensureUserLoggedIn,
+};
+
+const withRedux = connect(selectors, actions);
 
 export default withRouter(withRedux(Home));
