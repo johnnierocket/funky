@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import RaisedButton from 'material-ui/RaisedButton';
 import { getExercisesCount } from '../helpers/LocationHelpers';
+
 const ButtonsWrapper = styled.div`
 	display: flex;
 	flex: 1;
@@ -24,7 +25,7 @@ const Buttons = ({
 	validateResponse,
 	nextQuestion,
 	previousQuestion,
-	overFailLimit,
+	overFailLimit
 }) => {
 	const disableNext = !questionPreviouslyAnswered || questionIndex === getExercisesCount();
 	const disableSubmit = questionPreviouslyAnswered || overFailLimit;

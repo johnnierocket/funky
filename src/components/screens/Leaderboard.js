@@ -2,16 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import styled from 'styled-components';
-import UserInfo from '../UserInfo';
-import { getLeaderboardUsers, getCurrentUser, getTotalPoints } from '../../selectors';
-import { getModuleId } from '../../helpers/LocationHelpers';
-import firebase from 'firebase';
 import Transition from 'react-transition-group/Transition';
+import styled from 'styled-components';
+import firebase from 'firebase';
+
+import { ensureUserLoggedIn } from '../../actions/QuestionsActions';
 import { UPDATE_LEADERBOARD, CLEAR_LEADERBOARD } from '../../constants/actionTypes';
+import { getModuleId } from '../../helpers/LocationHelpers';
+import { getLeaderboardUsers, getCurrentUser, getTotalPoints } from '../../selectors';
+
+import UserInfo from '../UserInfo';
 import StyledSpin from '../StyledSpin';
 import StyledFade from '../StyledFade';
-import { ensureUserLoggedIn } from '../../actions/QuestionsActions';
 
 const LeaderboardWrapper = styled.div`
 	font-family: Righteous;
