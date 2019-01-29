@@ -6,6 +6,8 @@ import {
 	getQuestionsInputs,
 	getOverFailLimit,
 	getFailedAttempts,
+	getQuestionInput,
+	getQuestionError,
 } from '../../selectors';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -64,7 +66,9 @@ const SideContainer = styled.div`
 	flex-direction: column;
 `;
 
-const VinylControls = styled.div`position: relative;`;
+const VinylControls = styled.div`
+	position: relative;
+`;
 
 const StyledImg = styled.img`
 	width: 150px;
@@ -72,7 +76,7 @@ const StyledImg = styled.img`
 	z-index: 0;
 	left: 150px;
 	bottom: 0;
-	transform: rotate(${(props) => props.rotate}deg);
+	transform: rotate(${props => props.rotate}deg);
 	-webkit-transform-origin-x: right;
 	-webkit-transform-origin-y: bottom;
 	transition: transform 0.25s linear 0s;
@@ -86,7 +90,7 @@ const MusicDial = styled.div`
 	border: solid 0.5px #000;
 	border-radius: 100%;
 	left: 340px;
-	bottom: ${(props) => props.bottom};
+	bottom: ${props => props.bottom};
 `;
 
 const MusicSwitch = styled.div`
@@ -106,9 +110,7 @@ const StyledRaisedButton = styled(RaisedButton)`
 `;
 class ContentContainer extends Component {
 	state = {
-		error: '',
 		correctSubmission: false,
-		input: '',
 		next: false,
 		gameOver: false,
 	};
@@ -126,7 +128,6 @@ class ContentContainer extends Component {
 		if (this.props.questionId !== nextProps.questionId) {
 			this.setState({
 				correctSubmission: false,
-				input: nextProps.questionsInputs.get(nextProps.questionId, ''),
 				next: true,
 			});
 		}
@@ -137,11 +138,12 @@ class ContentContainer extends Component {
 		}
 	}
 
-	onInputChange = (e) => {
-		this.setState({ input: e.target.value });
+	onInputChange = e => {
+		const { error, setInputAndError } = this.props;
+		setInputAndError({ input: e.target.value, error });
 	};
 
-	handleKeyPress = (event) => {
+	handleKeyPress = event => {
 		const { correctSubmission } = this.state;
 		if (event.key === 'Enter') {
 			if (this.props.overFailLimit) {
@@ -159,8 +161,8 @@ class ContentContainer extends Component {
 			submitCorrectResponse,
 			submitIncorrectResponse,
 			failedAttempts,
+			input,
 		} = this.props;
-		const { input } = this.state;
 		const { assert, givens, points } = getCurrentExercises()[questionId];
 
 		if (!questionsCompleted.includes(questionId)) {
@@ -168,7 +170,6 @@ class ContentContainer extends Component {
 				assert({ ...givens, input });
 				this.setState({
 					correctSubmission: true,
-					error: '',
 					next: false,
 				});
 				submitCorrectResponse({ points, questionId });
@@ -177,10 +178,13 @@ class ContentContainer extends Component {
 				const pointsToDeduct = failedAttempts === 0 ? 5 : 0;
 				this.setState({
 					correctSubmission: false,
-					error: niceFormatJestError(error),
 					next: false,
 				});
 				submitIncorrectResponse({ questionId, points: pointsToDeduct, failedAttempts });
+				this.props.setInputAndError({
+					input,
+					error: niceFormatJestError(error),
+				});
 				this.playLoseSound();
 			}
 		}
@@ -191,7 +195,7 @@ class ContentContainer extends Component {
 		const w2 = new Audio(win2);
 		const w3 = new Audio(win3);
 		const w4 = new Audio(win4);
-		const winArray = [ w1, w2, w3, w4 ];
+		const winArray = [w1, w2, w3, w4];
 		const randWinSound = winArray[Math.floor(Math.random() * winArray.length)];
 		randWinSound.play();
 	};
@@ -200,37 +204,36 @@ class ContentContainer extends Component {
 		const l1 = new Audio(lose1);
 		const l2 = new Audio(lose2);
 		const l3 = new Audio(lose3);
-		const loseArray = [ l1, l2, l3 ];
+		const loseArray = [l1, l2, l3];
 		const randLoseSound = loseArray[Math.floor(Math.random() * loseArray.length)];
 		randLoseSound.play();
 	};
 
 	previousQuestion = () => {
+		const { input } = this.props;
 		this.props.clearFailedAttempts();
 		this.setState({
-			input: '',
 			next: false,
 		});
-		this.props.previousQuestion();
+		this.props.previousQuestion({ input });
 	};
 
 	nextQuestion = () => {
+		const { input } = this.props;
 		this.props.clearFailedAttempts();
 		this.setState({
-			input: '',
 			next: true,
 		});
-		this.props.nextQuestion();
+		this.props.nextQuestion({ input });
 	};
 
 	startOver = () => {
 		this.props.clearFailedAttempts();
 		this.setState({
-			input: '',
-			error: '',
 			next: true,
 			gameOver: false,
 		});
+		this.props.setInputAndError({ input: '', error: '' });
 		this.props.clearUserData();
 	};
 
@@ -246,14 +249,14 @@ class ContentContainer extends Component {
 		const sc1 = new Audio(scratch1);
 		const sc2 = new Audio(scratch2);
 		const sc3 = new Audio(scratch3);
-		const scArray = [ sc1, sc2, sc3 ];
+		const scArray = [sc1, sc2, sc3];
 		const randScratch = scArray[Math.floor(Math.random() * scArray.length)];
 		randScratch.play();
 	};
 
 	render() {
-		const { questionId, questionsCompleted, overFailLimit } = this.props;
-		const { error, correctSubmission, next, input, gameOver } = this.state;
+		const { questionId, questionsCompleted, overFailLimit, input, error } = this.props;
+		const { correctSubmission, next, gameOver } = this.state;
 		const exercise = getCurrentExercises()[questionId] || 0;
 		const questionPreviouslyAnswered = questionsCompleted.includes(questionId);
 		const rotateDeg = error && 30;
@@ -315,6 +318,8 @@ const selectors = createStructuredSelector({
 	questionsCompleted: getQuestionsCompleted,
 	overFailLimit: getOverFailLimit,
 	failedAttempts: getFailedAttempts,
+	input: getQuestionInput,
+	error: getQuestionError,
 });
 
 const actions = {

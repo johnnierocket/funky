@@ -9,6 +9,7 @@ import {
 	SET_END_TIME,
 	CLEAR_USER_DATA,
 	CLEAR_FAILED_ATTEMPTS,
+	SET_INPUT_AND_ERROR,
 } from '../constants/actionTypes';
 import { Map, List, fromJS } from 'immutable';
 import reduce from 'lodash/fp/reduce';
@@ -18,6 +19,7 @@ const emptyModule = {
 	questionId: 1,
 	questionsCompleted: List(),
 	questionsInputs: Map(),
+	questionsErrors: Map(),
 	failedAttemptsCounter: 0,
 	hintsUsedCounter: 0,
 	totalPoints: 0,
@@ -34,6 +36,8 @@ const initialState = reduce(
 );
 
 export default function questionsReducer(state = initialState, action) {
+	const questionId = action && action.payload && state.getIn([action.payload.moduleId, 'questionId']);
+
 	switch (action.type) {
 		case REHYDRATE_QUESTIONS:
 			return fromJS(action.payload);
@@ -64,9 +68,9 @@ export default function questionsReducer(state = initialState, action) {
 		case CLEAR_FAILED_ATTEMPTS:
 			return state.setIn([action.payload.moduleId, 'failedAttemptsCounter'], 0);
 		case NEXT_QUESTION:
-			const questionId = state.getIn([action.payload.moduleId, 'questionId']);
 			return state
 				.setIn([action.payload.moduleId, 'questionsInputs', questionId], action.payload.input)
+				.setIn([action.payload.moduleId, 'questionsErrors', questionId], action.payload.error)
 				.setIn([action.payload.moduleId, 'questionId'], questionId + 1);
 		case PREVIOUS_QUESTION:
 			return state.updateIn([action.payload.moduleId, 'questionId'], questionId => questionId - 1);
@@ -80,6 +84,10 @@ export default function questionsReducer(state = initialState, action) {
 			return state.setIn([action.payload.moduleId, 'endTime'], action.payload.time);
 		case CLEAR_USER_DATA:
 			return initialState;
+		case SET_INPUT_AND_ERROR:
+			return state
+				.setIn([action.payload.moduleId, 'questionsInputs', questionId], action.payload.input)
+				.setIn([action.payload.moduleId, 'questionsErrors', questionId], action.payload.error);
 		default:
 			return state;
 	}

@@ -8,6 +8,7 @@ import {
 	SET_END_TIME,
 	CLEAR_USER_DATA,
 	CLEAR_FAILED_ATTEMPTS,
+	SET_INPUT_AND_ERROR,
 } from '../constants/actionTypes';
 import { getModuleId } from '../helpers/LocationHelpers';
 import { getLoggedIn } from '../selectors';
@@ -27,14 +28,23 @@ export const clearFailedAttempts = () => ({
 	payload: { moduleId: getModuleId() },
 });
 
-export const nextQuestion = () => ({
-	type: NEXT_QUESTION,
-	payload: { moduleId: getModuleId() },
+export const setInputAndError = ({ input, error }) => ({
+	type: SET_INPUT_AND_ERROR,
+	payload: {
+		moduleId: getModuleId(),
+		input,
+		error,
+	},
 });
 
-export const previousQuestion = () => ({
+export const nextQuestion = ({ input }) => ({
+	type: NEXT_QUESTION,
+	payload: { moduleId: getModuleId(), input },
+});
+
+export const previousQuestion = ({ input }) => ({
 	type: PREVIOUS_QUESTION,
-	payload: { moduleId: getModuleId() },
+	payload: { moduleId: getModuleId(), input },
 });
 
 export const useHint = () => ({
