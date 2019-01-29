@@ -7,5 +7,5 @@ export const getCurrentExercises = () => exercises[getModuleId()];
 
 export const getExercisesCount = () => Object.keys(getCurrentExercises()).length;
 
-export const getQuestionIndex = (exerciseId) =>
-	Object.keys(getCurrentExercises()).findIndex((id) => id === exerciseId.toString());
+export const getQuestionIndex = exerciseId =>
+	Object.keys(getCurrentExercises()).findIndex(id => id === exerciseId.toString());
