@@ -5,9 +5,9 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
+import { initializeAndLogin } from '../../actions/FirebaseActions';
 import { setStartTime } from '../../actions/QuestionsActions';
 import { getLoggedIn } from '../../selectors';
-import { initializeAndLogin } from '../../actions/FirebaseActions';
 
 import StartingContainer from '../StartingContainer';
 

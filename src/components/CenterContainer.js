@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
+
 import { getCurrentExercises } from '../helpers/LocationHelpers';
+import { getAvatarUrl, getLoggedIn, getQuestionId, getUserName, getOverFailLimit } from '../selectors';
+
 import CodeBlock from './CodeBlock';
 import Instructions from './Instructions';
 import Leaderboard from './screens/Leaderboard';
 import PlaySound from './PlaySound';
-
-import { getAvatarUrl, getLoggedIn, getQuestionId, getUserName, getOverFailLimit } from '../selectors';
-import { connect } from 'react-redux';
 
 import track1 from '../sounds/track1-downtown.mp3';
 import track2 from '../sounds/track2-retrosoul.mp3';
