@@ -5,7 +5,7 @@ import {
 	getQuestionsCompleted,
 	getQuestionsInputs,
 	getOverFailLimit,
-	getFailedAttempts
+	getFailedAttempts,
 } from '../../selectors';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -110,14 +110,14 @@ class ContentContainer extends Component {
 		correctSubmission: false,
 		input: '',
 		next: false,
-		gameOver: false
+		gameOver: false,
 	};
 
 	componentWillMount() {
 		if (+this.props.questionId > numExercises) {
 			this.props.clearFailedAttempts();
 			this.setState({
-				gameOver: true
+				gameOver: true,
 			});
 		}
 	}
@@ -127,12 +127,12 @@ class ContentContainer extends Component {
 			this.setState({
 				correctSubmission: false,
 				input: nextProps.questionsInputs.get(nextProps.questionId, ''),
-				next: true
+				next: true,
 			});
 		}
 		if (nextProps.questionId > numExercises) {
 			this.setState({
-				gameOver: true
+				gameOver: true,
 			});
 		}
 	}
@@ -158,7 +158,7 @@ class ContentContainer extends Component {
 			questionsCompleted,
 			submitCorrectResponse,
 			submitIncorrectResponse,
-			failedAttempts
+			failedAttempts,
 		} = this.props;
 		const { input } = this.state;
 		const { assert, givens, points } = getCurrentExercises()[questionId];
@@ -169,7 +169,7 @@ class ContentContainer extends Component {
 				this.setState({
 					correctSubmission: true,
 					error: '',
-					next: false
+					next: false,
 				});
 				submitCorrectResponse({ points, questionId });
 				this.playWinSound();
@@ -178,7 +178,7 @@ class ContentContainer extends Component {
 				this.setState({
 					correctSubmission: false,
 					error: niceFormatJestError(error),
-					next: false
+					next: false,
 				});
 				submitIncorrectResponse({ questionId, points: pointsToDeduct, failedAttempts });
 				this.playLoseSound();
@@ -209,7 +209,7 @@ class ContentContainer extends Component {
 		this.props.clearFailedAttempts();
 		this.setState({
 			input: '',
-			next: false
+			next: false,
 		});
 		this.props.previousQuestion();
 	};
@@ -218,7 +218,7 @@ class ContentContainer extends Component {
 		this.props.clearFailedAttempts();
 		this.setState({
 			input: '',
-			next: true
+			next: true,
 		});
 		this.props.nextQuestion();
 	};
@@ -229,7 +229,7 @@ class ContentContainer extends Component {
 			input: '',
 			error: '',
 			next: true,
-			gameOver: false
+			gameOver: false,
 		});
 		this.props.clearUserData();
 	};
@@ -314,12 +314,12 @@ const selectors = createStructuredSelector({
 	questionsInputs: getQuestionsInputs,
 	questionsCompleted: getQuestionsCompleted,
 	overFailLimit: getOverFailLimit,
-	failedAttempts: getFailedAttempts
+	failedAttempts: getFailedAttempts,
 });
 
 const actions = {
 	...QuestionActions,
-	login: initializeAndLogin
+	login: initializeAndLogin,
 };
 
 export default connect(selectors, actions)(ContentContainer);
