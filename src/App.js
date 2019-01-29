@@ -51,7 +51,7 @@ class App extends Component {
 		userName: PropTypes.string.isRequired,
 		avatarUrl: PropTypes.string.isRequired,
 		// actions
-		login: PropTypes.func.isRequired
+		login: PropTypes.func.isRequired,
 	};
 
 	render() {
@@ -80,11 +80,11 @@ class App extends Component {
 const selectors = createStructuredSelector({
 	loggedIn: getLoggedIn,
 	userName: getUserName,
-	avatarUrl: getAvatarUrl
+	avatarUrl: getAvatarUrl,
 });
 
 const actions = {
-	login: initializeAndLogin
+	login: initializeAndLogin,
 };
 
 const withRedux = connect(selectors, actions);

@@ -21,7 +21,7 @@ class Login extends Component {
 		loggedIn: PropTypes.bool.isRequired,
 		// actions
 		login: PropTypes.func.isRequired,
-		setStartTime: PropTypes.func.isRequired
+		setStartTime: PropTypes.func.isRequired,
 	};
 
 	startGame = () => {
@@ -37,12 +37,12 @@ class Login extends Component {
 }
 
 const selectors = createStructuredSelector({
-	loggedIn: getLoggedIn
+	loggedIn: getLoggedIn,
 });
 
 const actions = {
 	login: initializeAndLogin,
-	setStartTime
+	setStartTime,
 };
 
 const withRedux = connect(selectors, actions);
