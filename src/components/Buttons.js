@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import RaisedButton from 'material-ui/RaisedButton';
 import { getExercisesCount } from '../helpers/LocationHelpers';
-
 const ButtonsWrapper = styled.div`
 	display: flex;
 	flex: 1;
@@ -31,7 +30,7 @@ const Buttons = ({
 	const disableSubmit = questionPreviouslyAnswered || overFailLimit;
 	return (
 		<ButtonsWrapper>
-			<StyledRaisedButton label="Previous" onClick={previousQuestion} disabled={!(questionIndex - 1)} />
+			<StyledRaisedButton label="Previous" onClick={previousQuestion} disabled={!questionIndex} />
 			<StyledRaisedButton label="Next" secondary={true} onClick={nextQuestion} disabled={disableNext} />
 			<StyledSubmitButton
 				label="Submit"
