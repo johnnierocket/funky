@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import UserInfo from './UserInfo';
-import { getLeaderboardUsers, getCurrentUser, getTotalPoints } from '../selectors';
-import { getModuleId } from '../helpers/LocationHelpers';
+import UserInfo from '../UserInfo';
+import { getLeaderboardUsers, getCurrentUser, getTotalPoints } from '../../selectors';
+import { getModuleId } from '../../helpers/LocationHelpers';
 import firebase from 'firebase';
 import Transition from 'react-transition-group/Transition';
-import { UPDATE_LEADERBOARD, CLEAR_LEADERBOARD } from '../constants/actionTypes';
-import StyledSpin from './StyledSpin';
-import StyledFade from './StyledFade';
-import { ensureUserLoggedIn } from '../actions/QuestionsActions';
+import { UPDATE_LEADERBOARD, CLEAR_LEADERBOARD } from '../../constants/actionTypes';
+import StyledSpin from '../StyledSpin';
+import StyledFade from '../StyledFade';
+import { ensureUserLoggedIn } from '../../actions/QuestionsActions';
 
 const LeaderboardWrapper = styled.div`
 	font-family: Righteous;
@@ -73,11 +73,11 @@ class Leaderboard extends React.Component {
 		users: PropTypes.array.isRequired,
 		// actions
 		subscribeToLeaderboard: PropTypes.func,
-		clearLeaderboard: PropTypes.func,
+		clearLeaderboard: PropTypes.func
 	};
 
 	state = {
-		show: true,
+		show: true
 	};
 
 	componentDidMount() {
@@ -85,14 +85,11 @@ class Leaderboard extends React.Component {
 
 		this.firebaseRef = firebase.database().ref(`/leaderboard/${getModuleId()}`);
 
-		this.firebaseRef
-			.orderByChild('points')
-			.limitToFirst(10)
-			.on('value', this.props.updateLeaderboard);
+		this.firebaseRef.orderByChild('points').limitToFirst(10).on('value', this.props.updateLeaderboard);
 
 		setTimeout(() => {
 			this.setState({
-				show: false,
+				show: false
 			});
 		}, 3000);
 
@@ -126,7 +123,7 @@ class Leaderboard extends React.Component {
 			<LeaderboardWrapper>
 				<BoomShakalaka>Boom Shakalaka!</BoomShakalaka>
 				<Transition in={show} timeout={3000}>
-					{state => {
+					{(state) => {
 						switch (state) {
 							case 'entering':
 							case 'entered':
@@ -167,15 +164,15 @@ class Leaderboard extends React.Component {
 const selectors = createStructuredSelector({
 	users: getLeaderboardUsers,
 	currentUser: getCurrentUser,
-	totalPoints: getTotalPoints,
+	totalPoints: getTotalPoints
 });
 
-const actions = dispatch => ({
-	updateLeaderboard: snapshot => {
+const actions = (dispatch) => ({
+	updateLeaderboard: (snapshot) => {
 		snapshot && dispatch({ type: UPDATE_LEADERBOARD, payload: { moduleId: getModuleId(), score: snapshot.val() } });
 	},
 	clearLeaderboard: () => dispatch({ type: CLEAR_LEADERBOARD }),
-	ensureUserLoggedIn: history => dispatch(ensureUserLoggedIn(history)),
+	ensureUserLoggedIn: (history) => dispatch(ensureUserLoggedIn(history))
 });
 
 export default connect(selectors, actions)(Leaderboard);

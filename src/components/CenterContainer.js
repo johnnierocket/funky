@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { getCurrentExercises } from '../helpers/LocationHelpers';
 import CodeBlock from './CodeBlock';
 import Instructions from './Instructions';
-import Leaderboard from './Leaderboard';
+import Leaderboard from './screens/Leaderboard';
 import PlaySound from './PlaySound';
 
 import { getAvatarUrl, getLoggedIn, getQuestionId, getUserName, getOverFailLimit } from '../selectors';
@@ -33,7 +33,7 @@ class CenterContainer extends Component {
 		userName: PropTypes.string.isRequired,
 		avatarUrl: PropTypes.string.isRequired,
 		questionId: PropTypes.number.isRequired,
-		overFailLimit: PropTypes.bool.isRequired,
+		overFailLimit: PropTypes.bool.isRequired
 	};
 
 	render() {
@@ -44,10 +44,10 @@ class CenterContainer extends Component {
 			handleKeyPress,
 			correctSubmission,
 			overFailLimit,
-			input,
+			input
 		} = this.props;
 		const exercise = getCurrentExercises()[questionId];
-		const vinylTrackArray = [track1, track2];
+		const vinylTrackArray = [ track1, track2 ];
 		const randTrack = vinylTrackArray[Math.floor(Math.random() * vinylTrackArray.length)];
 
 		return (
@@ -61,12 +61,12 @@ class CenterContainer extends Component {
 					showLineNumbers={true}
 				/>
 				{error &&
-					!overFailLimit && (
-						<div>
-							<h1>Hmm... not quite.</h1>
-							<CodeBlock code={error} showLineNumbers={false} children={<span>Your</span>} />
-						</div>
-					)}
+				!overFailLimit && (
+					<div>
+						<h1>Hmm... not quite.</h1>
+						<CodeBlock code={error} showLineNumbers={false} children={<span>Your</span>} />
+					</div>
+				)}
 				{!error && <PlaySound src={randTrack} />}
 				{overFailLimit && (
 					<div>
@@ -86,7 +86,7 @@ const selectors = createStructuredSelector({
 	userName: getUserName,
 	avatarUrl: getAvatarUrl,
 	questionId: getQuestionId,
-	overFailLimit: getOverFailLimit,
+	overFailLimit: getOverFailLimit
 });
 
 export default connect(selectors)(CenterContainer);

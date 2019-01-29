@@ -9,11 +9,12 @@ import { getLoggedIn, getUserName, getAvatarUrl } from './selectors';
 import { initializeAndLogin } from './actions/FirebaseActions';
 import bg from './images/bg.svg';
 
-import Home from './components/Home';
-import Login from './components/Login';
 import Header from './components/Header';
-import GamePlay from './components/Gameplay';
-import Leaderboard from './components/Leaderboard';
+
+import Home from './components/screens/Home';
+import Login from './components/screens/Login';
+import GamePlay from './components/screens/Gameplay';
+import Leaderboard from './components/screens/Leaderboard';
 
 injectGlobal`
 	html {
@@ -50,7 +51,7 @@ class App extends Component {
 		userName: PropTypes.string.isRequired,
 		avatarUrl: PropTypes.string.isRequired,
 		// actions
-		login: PropTypes.func.isRequired,
+		login: PropTypes.func.isRequired
 	};
 
 	render() {
@@ -79,11 +80,11 @@ class App extends Component {
 const selectors = createStructuredSelector({
 	loggedIn: getLoggedIn,
 	userName: getUserName,
-	avatarUrl: getAvatarUrl,
+	avatarUrl: getAvatarUrl
 });
 
 const actions = {
-	login: initializeAndLogin,
+	login: initializeAndLogin
 };
 
 const withRedux = connect(selectors, actions);

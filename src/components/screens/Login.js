@@ -5,11 +5,11 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { setStartTime } from '../actions/QuestionsActions';
-import { getLoggedIn } from '../selectors';
-import { initializeAndLogin } from '../actions/FirebaseActions';
+import { setStartTime } from '../../actions/QuestionsActions';
+import { getLoggedIn } from '../../selectors';
+import { initializeAndLogin } from '../../actions/FirebaseActions';
 
-import StartingContainer from './StartingContainer';
+import StartingContainer from '../StartingContainer';
 
 class Login extends Component {
 	static propTypes = {
@@ -21,7 +21,7 @@ class Login extends Component {
 		loggedIn: PropTypes.bool.isRequired,
 		// actions
 		login: PropTypes.func.isRequired,
-		setStartTime: PropTypes.func.isRequired,
+		setStartTime: PropTypes.func.isRequired
 	};
 
 	startGame = () => {
@@ -37,12 +37,12 @@ class Login extends Component {
 }
 
 const selectors = createStructuredSelector({
-	loggedIn: getLoggedIn,
+	loggedIn: getLoggedIn
 });
 
 const actions = {
 	login: initializeAndLogin,
-	setStartTime,
+	setStartTime
 };
 
 const withRedux = connect(selectors, actions);
