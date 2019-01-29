@@ -20,7 +20,7 @@ class FunkyModule extends Component {
 		match: PropTypes.object.isRequired,
 		// selectors
 		loggedIn: PropTypes.bool.isRequired,
-		questionsCompleted: listOf(PropTypes.number)
+		questionsCompleted: listOf(PropTypes.number),
 	};
 
 	componentDidMount() {
@@ -49,11 +49,11 @@ class FunkyModule extends Component {
 
 const selectors = createStructuredSelector({
 	loggedIn: getLoggedIn,
-	questionsCompleted: getQuestionsCompleted
+	questionsCompleted: getQuestionsCompleted,
 });
 
 const actions = {
-	ensureUserLoggedIn
+	ensureUserLoggedIn,
 };
 
 const withRedux = connect(selectors, actions);

@@ -114,7 +114,7 @@ class Home extends Component {
 		location: PropTypes.object.isRequired,
 		match: PropTypes.object.isRequired,
 		// selectors
-		loggedIn: PropTypes.bool.isRequired
+		loggedIn: PropTypes.bool.isRequired,
 	};
 
 	componentDidMount() {
@@ -166,11 +166,11 @@ class Home extends Component {
 
 const selectors = createStructuredSelector({
 	loggedIn: getLoggedIn,
-	questionsState: getQuestionsState
+	questionsState: getQuestionsState,
 });
 
 const actions = {
-	ensureUserLoggedIn
+	ensureUserLoggedIn,
 };
 
 const withRedux = connect(selectors, actions);

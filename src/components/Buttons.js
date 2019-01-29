@@ -25,7 +25,7 @@ const Buttons = ({
 	validateResponse,
 	nextQuestion,
 	previousQuestion,
-	overFailLimit
+	overFailLimit,
 }) => {
 	const disableNext = !questionPreviouslyAnswered || questionIndex === getExercisesCount();
 	const disableSubmit = questionPreviouslyAnswered || overFailLimit;

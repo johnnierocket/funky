@@ -34,7 +34,7 @@ class CenterContainer extends Component {
 		userName: PropTypes.string.isRequired,
 		avatarUrl: PropTypes.string.isRequired,
 		questionId: PropTypes.number.isRequired,
-		overFailLimit: PropTypes.bool.isRequired
+		overFailLimit: PropTypes.bool.isRequired,
 	};
 
 	render() {
@@ -45,7 +45,7 @@ class CenterContainer extends Component {
 			handleKeyPress,
 			correctSubmission,
 			overFailLimit,
-			input
+			input,
 		} = this.props;
 		const exercise = getCurrentExercises()[questionId];
 		const vinylTrackArray = [ track1, track2 ];
@@ -87,7 +87,7 @@ const selectors = createStructuredSelector({
 	userName: getUserName,
 	avatarUrl: getAvatarUrl,
 	questionId: getQuestionId,
-	overFailLimit: getOverFailLimit
+	overFailLimit: getOverFailLimit,
 });
 
 export default connect(selectors)(CenterContainer);

@@ -75,11 +75,11 @@ class Leaderboard extends React.Component {
 		users: PropTypes.array.isRequired,
 		// actions
 		subscribeToLeaderboard: PropTypes.func,
-		clearLeaderboard: PropTypes.func
+		clearLeaderboard: PropTypes.func,
 	};
 
 	state = {
-		show: true
+		show: true,
 	};
 
 	componentDidMount() {
@@ -91,7 +91,7 @@ class Leaderboard extends React.Component {
 
 		setTimeout(() => {
 			this.setState({
-				show: false
+				show: false,
 			});
 		}, 3000);
 
@@ -166,7 +166,7 @@ class Leaderboard extends React.Component {
 const selectors = createStructuredSelector({
 	users: getLeaderboardUsers,
 	currentUser: getCurrentUser,
-	totalPoints: getTotalPoints
+	totalPoints: getTotalPoints,
 });
 
 const actions = (dispatch) => ({
@@ -174,7 +174,7 @@ const actions = (dispatch) => ({
 		snapshot && dispatch({ type: UPDATE_LEADERBOARD, payload: { moduleId: getModuleId(), score: snapshot.val() } });
 	},
 	clearLeaderboard: () => dispatch({ type: CLEAR_LEADERBOARD }),
-	ensureUserLoggedIn: (history) => dispatch(ensureUserLoggedIn(history))
+	ensureUserLoggedIn: (history) => dispatch(ensureUserLoggedIn(history)),
 });
 
 export default connect(selectors, actions)(Leaderboard);
