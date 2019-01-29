@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { listOf } from 'react-immutable-proptypes';
+
+import { ensureUserLoggedIn } from '../../actions/QuestionsActions';
+import { getCurrentExercises } from '../../helpers/LocationHelpers';
+import { getLoggedIn, getQuestionsCompleted } from '../../selectors';
+
 import ContentContainer from './ContentContainer';
-import Progress from './Progress';
-import { getCurrentExercises } from '../helpers/LocationHelpers';
-import { getLoggedIn, getQuestionsCompleted } from '../selectors';
-import { ensureUserLoggedIn } from '../actions/QuestionsActions';
+import Progress from '../Progress';
 
 class FunkyModule extends Component {
 	static propTypes = {

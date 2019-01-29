@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
+
 import { getCurrentExercises } from '../helpers/LocationHelpers';
+import { getAvatarUrl, getLoggedIn, getQuestionId, getUserName, getOverFailLimit } from '../selectors';
+
 import CodeBlock from './CodeBlock';
 import Instructions from './Instructions';
-import Leaderboard from './Leaderboard';
+import Leaderboard from './screens/Leaderboard';
 import PlaySound from './PlaySound';
-
-import { getAvatarUrl, getLoggedIn, getQuestionId, getUserName, getOverFailLimit } from '../selectors';
-import { connect } from 'react-redux';
 
 import track1 from '../sounds/track1-downtown.mp3';
 import track2 from '../sounds/track2-retrosoul.mp3';
@@ -47,7 +48,7 @@ class CenterContainer extends Component {
 			input,
 		} = this.props;
 		const exercise = getCurrentExercises()[questionId];
-		const vinylTrackArray = [track1, track2];
+		const vinylTrackArray = [ track1, track2 ];
 		const randTrack = vinylTrackArray[Math.floor(Math.random() * vinylTrackArray.length)];
 
 		return (
@@ -61,12 +62,12 @@ class CenterContainer extends Component {
 					showLineNumbers={true}
 				/>
 				{error &&
-					!overFailLimit && (
-						<div>
-							<h1>Hmm... not quite.</h1>
-							<CodeBlock code={error} showLineNumbers={false} children={<span>Your</span>} />
-						</div>
-					)}
+				!overFailLimit && (
+					<div>
+						<h1>Hmm... not quite.</h1>
+						<CodeBlock code={error} showLineNumbers={false} children={<span>Your</span>} />
+					</div>
+				)}
 				{!error && <PlaySound src={randTrack} />}
 				{overFailLimit && (
 					<div>

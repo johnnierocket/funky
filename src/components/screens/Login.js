@@ -5,11 +5,11 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { setStartTime } from '../actions/QuestionsActions';
-import { getLoggedIn } from '../selectors';
-import { initializeAndLogin } from '../actions/FirebaseActions';
+import { initializeAndLogin } from '../../actions/FirebaseActions';
+import { setStartTime } from '../../actions/QuestionsActions';
+import { getLoggedIn } from '../../selectors';
 
-import StartingContainer from './StartingContainer';
+import AreYouReady from './AreYouReady';
 
 class Login extends Component {
 	static propTypes = {
@@ -32,7 +32,7 @@ class Login extends Component {
 
 	render() {
 		const { login, loggedIn } = this.props;
-		return <StartingContainer login={login} loggedIn={loggedIn} startGame={this.startGame} />;
+		return <AreYouReady login={login} loggedIn={loggedIn} startGame={this.startGame} />;
 	}
 }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import RaisedButton from 'material-ui/RaisedButton';
 import { getExercisesCount } from '../helpers/LocationHelpers';
+
 const ButtonsWrapper = styled.div`
 	display: flex;
 	flex: 1;

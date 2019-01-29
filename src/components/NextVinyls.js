@@ -13,7 +13,6 @@ const StyledVinyls = styled.div`
 export default class NextVinyls extends React.Component {
 	render() {
 		const { questionId } = this.props;
-		// const { next } = this.props;
 
 		return (
 			<StyledVinyls>
@@ -28,14 +27,6 @@ export default class NextVinyls extends React.Component {
 							size="small"
 						/>
 					))}
-				{/*next && (
-					<SpinningVinyl
-						isSpinning={false}
-						flipAndSlide={false}
-						points={exercises[questionId].points}
-						size="small"
-					/>
-				) */}
 			</StyledVinyls>
 		);
 	}

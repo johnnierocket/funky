@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import RaisedButton from 'material-ui/RaisedButton';
-import introRecord from '../images/introRecord.png';
+import introRecord from '../../images/introRecord.png';
 
 const ContentWrapper = styled.div`
 	position: absolute;
@@ -31,7 +31,7 @@ const StyledRaisedButton = styled(RaisedButton)`
 	font-family: 'Righteous', cursive;
 `;
 
-export default class StartingContainer extends Component {
+export default class AreYouReady extends Component {
 	render() {
 		return (
 			<ContentWrapper>

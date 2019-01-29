@@ -4,11 +4,11 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import { getLoggedIn, getQuestionsState } from '../selectors';
-import Modules from '../Modules';
-import exercises from '../exercises';
-import funky from '../images/logos/funky.png';
-import { ensureUserLoggedIn } from '../actions/QuestionsActions';
+import { ensureUserLoggedIn } from '../../actions/QuestionsActions';
+import { getLoggedIn, getQuestionsState } from '../../selectors';
+import Modules from '../../Modules';
+import exercises from '../../exercises';
+import funky from '../../images/logos/funky.png';
 
 const StyledImg = styled.img`
 	width: auto;
@@ -81,7 +81,7 @@ const Title = styled.span`
 	width: 100%;
 `;
 
-const getObjectSize = obj => {
+const getObjectSize = (obj) => {
 	let size = 0;
 	for (let key in obj) {
 		if (obj.hasOwnProperty(key)) size++;
@@ -130,11 +130,11 @@ class Home extends Component {
 		ensureUserLoggedIn(history);
 	};
 
-	handlePlay = id => {
+	handlePlay = (id) => {
 		this.props.history.push(`/module/${id}/gameplay`);
 	};
 
-	showLeaderboard = id => {
+	showLeaderboard = (id) => {
 		this.props.history.push(`/module/${id}/leaderboard`);
 	};
 
@@ -143,8 +143,8 @@ class Home extends Component {
 		return (
 			<div>
 				<LessonsContainer>
-					{Object.keys(Modules).map(id => {
-						const questionsAnswered = questionsState.getIn([id, 'questionsCompleted']).size;
+					{Object.keys(Modules).map((id) => {
+						const questionsAnswered = questionsState.getIn([ id, 'questionsCompleted' ]).size;
 						return (
 							<Module
 								key={id}

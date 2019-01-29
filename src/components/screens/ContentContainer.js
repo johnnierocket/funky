@@ -6,35 +6,39 @@ import {
 	getQuestionsInputs,
 	getOverFailLimit,
 	getFailedAttempts,
-} from '../selectors';
-import { getCurrentExercises } from '../helpers/LocationHelpers';
+} from '../../selectors';
 import styled from 'styled-components';
-import CenterContainer from './CenterContainer';
-import SpinningVinyl from './SpinningVinyl';
-import NextVinyls from './NextVinyls';
-import Footer from './Footer';
-import * as QuestionActions from '../actions/QuestionsActions';
-import { initializeAndLogin } from '../actions/FirebaseActions';
-import { niceFormatJestError } from '../helpers/JestHelpers';
 import { connect } from 'react-redux';
-import handle from '../images/handle.png';
-import StyledInputRange from './StyledInputRange';
-import CoolBeansCounter from './CoolBeansCounter';
-import Leaderboard from './Leaderboard';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import win1 from '../sounds/next1_50cent_2.mp3';
-import win2 from '../sounds/next2_jayz_woo.mp3';
-import win3 from '../sounds/next3_khaled-anotherone.mp3';
-import win4 from '../sounds/next4_liljon_2.mp3';
+import * as QuestionActions from '../../actions/QuestionsActions';
+import { initializeAndLogin } from '../../actions/FirebaseActions';
+import { getCurrentExercises } from '../../helpers/LocationHelpers';
+import { niceFormatJestError } from '../../helpers/JestHelpers';
 
-import lose1 from '../sounds/lose2.mp3';
-import lose2 from '../sounds/lose5.mp3';
-import lose3 from '../sounds/lose6.mp3';
+import Leaderboard from './Leaderboard';
 
-import scratch1 from '../sounds/scratch1.mp3';
-import scratch2 from '../sounds/scratch2.mp3';
-import scratch3 from '../sounds/scratch3.mp3';
+import Footer from '../Footer';
+import StyledInputRange from '../StyledInputRange';
+import CoolBeansCounter from '../CoolBeansCounter';
+import CenterContainer from '../CenterContainer';
+import SpinningVinyl from '../SpinningVinyl';
+import NextVinyls from '../NextVinyls';
+
+import handle from '../../images/handle.png';
+
+import win1 from '../../sounds/next1_50cent_2.mp3';
+import win2 from '../../sounds/next2_jayz_woo.mp3';
+import win3 from '../../sounds/next3_khaled-anotherone.mp3';
+import win4 from '../../sounds/next4_liljon_2.mp3';
+
+import lose1 from '../../sounds/lose2.mp3';
+import lose2 from '../../sounds/lose5.mp3';
+import lose3 from '../../sounds/lose6.mp3';
+
+import scratch1 from '../../sounds/scratch1.mp3';
+import scratch2 from '../../sounds/scratch2.mp3';
+import scratch3 from '../../sounds/scratch3.mp3';
 
 const numExercises = Object.keys(getCurrentExercises()).length;
 
@@ -60,9 +64,7 @@ const SideContainer = styled.div`
 	flex-direction: column;
 `;
 
-const VinylControls = styled.div`
-	position: relative;
-`;
+const VinylControls = styled.div`position: relative;`;
 
 const StyledImg = styled.img`
 	width: 150px;
@@ -70,7 +72,7 @@ const StyledImg = styled.img`
 	z-index: 0;
 	left: 150px;
 	bottom: 0;
-	transform: rotate(${props => props.rotate}deg);
+	transform: rotate(${(props) => props.rotate}deg);
 	-webkit-transform-origin-x: right;
 	-webkit-transform-origin-y: bottom;
 	transition: transform 0.25s linear 0s;
@@ -84,7 +86,7 @@ const MusicDial = styled.div`
 	border: solid 0.5px #000;
 	border-radius: 100%;
 	left: 340px;
-	bottom: ${props => props.bottom};
+	bottom: ${(props) => props.bottom};
 `;
 
 const MusicSwitch = styled.div`
@@ -135,11 +137,11 @@ class ContentContainer extends Component {
 		}
 	}
 
-	onInputChange = e => {
+	onInputChange = (e) => {
 		this.setState({ input: e.target.value });
 	};
 
-	handleKeyPress = event => {
+	handleKeyPress = (event) => {
 		const { correctSubmission } = this.state;
 		if (event.key === 'Enter') {
 			if (this.props.overFailLimit) {
@@ -189,7 +191,7 @@ class ContentContainer extends Component {
 		const w2 = new Audio(win2);
 		const w3 = new Audio(win3);
 		const w4 = new Audio(win4);
-		const winArray = [w1, w2, w3, w4];
+		const winArray = [ w1, w2, w3, w4 ];
 		const randWinSound = winArray[Math.floor(Math.random() * winArray.length)];
 		randWinSound.play();
 	};
@@ -198,7 +200,7 @@ class ContentContainer extends Component {
 		const l1 = new Audio(lose1);
 		const l2 = new Audio(lose2);
 		const l3 = new Audio(lose3);
-		const loseArray = [l1, l2, l3];
+		const loseArray = [ l1, l2, l3 ];
 		const randLoseSound = loseArray[Math.floor(Math.random() * loseArray.length)];
 		randLoseSound.play();
 	};
@@ -244,7 +246,7 @@ class ContentContainer extends Component {
 		const sc1 = new Audio(scratch1);
 		const sc2 = new Audio(scratch2);
 		const sc3 = new Audio(scratch3);
-		const scArray = [sc1, sc2, sc3];
+		const scArray = [ sc1, sc2, sc3 ];
 		const randScratch = scArray[Math.floor(Math.random() * scArray.length)];
 		randScratch.play();
 	};
