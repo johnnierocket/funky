@@ -29,8 +29,14 @@ export const getQuestionId = createSelector([getQuestionsState], questionsState 
 	questionsState.getIn([getModuleId(), 'questionId'])
 );
 
-export const getQuestionsInputs = createSelector([getQuestionsState], questionsState =>
-	questionsState.getIn([getModuleId(), 'questionsInputs'])
+export const getQuestionsInputs = createSelector(
+	[getQuestionsState],
+	questionsState => questionsState.getIn([getModuleId(), 'questionsInputs']) || Map()
+);
+
+export const getQuestionsErrors = createSelector(
+	[getQuestionsState],
+	questionsState => questionsState.getIn([getModuleId(), 'questionsErrors']) || Map()
 );
 
 export const getTotalPoints = createSelector([getQuestionsState], questionsState =>
@@ -46,6 +52,16 @@ export const getFailedAttempts = createSelector([getQuestionsState], questionsSt
 );
 
 export const getOverFailLimit = createSelector([getFailedAttempts], failedAttempts => failedAttempts >= 3);
+
+export const getQuestionInput = createSelector(
+	[getQuestionsInputs, getQuestionId],
+	(questionsInputs, questionId) => questionsInputs.get(questionId) || ''
+);
+
+export const getQuestionError = createSelector(
+	[getQuestionsErrors, getQuestionId],
+	(questionsErrors, questionId) => questionsErrors.get(questionId) || ''
+);
 
 // LEADERBOARD STATE
 export const getLeaderboardUsers = createSelector([getLeaderboardState], leaderboardState => leaderboardState.users);
